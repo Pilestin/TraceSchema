@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trace Schema Documentation</title>
+    <meta name="description"
+        content="Official documentation for the Python Trace Recorder XML Schema (XSD). Browse schema versions, view element references, and compare version diffs." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0d1117;
+            --bg2: #161b22;
+            --bg3: #21262d;
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #58a6ff;
+            --accent2: #79c0ff;
+            --green: #3fb950;
+            --purple: #bc8cff;
+            --orange: #e3b341;
+            --red: #f85149;
+            --text: #e6edf3;
+            --text2: #8b949e;
+            --text3: #6e7681;
+            --radius: 12px;
+            --radius-sm: 6px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --bg2: #f6f8fa;
+            --bg3: #eaeef2;
+            --border: rgba(0, 0, 0, 0.1);
+            --accent: #0969da;
+            --accent2: #218bff;
+            --green: #1a7f37;
+            --purple: #8250df;
+            --orange: #9a6700;
+            --red: #d1242f;
+            --text: #1f2328;
+            --text2: #656d76;
+            --text3: #8c959f;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(88, 166, 255, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(188, 140, 255, 0.05) 0%, transparent 60%);
+        }
+
+        [data-theme="light"] body::before {
+            opacity: 0.4;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 60px;
+            background: rgba(13, 17, 23, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.25s;
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: #fff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text);
+            background: var(--bg3);
+        }
+
+        .nav-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 999px;
+            background: var(--green);
+            color: #fff;
+        }
+
+        /* Theme toggle */
+        .theme-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-sm);
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .theme-btn:hover {
+            background: var(--bg2);
+            color: var(--text);
+        }
+
+        .theme-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 72px 2rem 52px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 16px;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        [data-theme="light"] .hero-badge {
+            background: rgba(9, 105, 218, 0.08);
+        }
+
+        .hero h1 {
+            font-size: clamp(1.9rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--text2);
+            line-height: 1.7;
+            max-width: 640px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg3);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg2);
+            transform: translateY(-1px);
+        }
+
+        /* STATS */
+        .stats-strip {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            padding: 0 2rem 56px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 28px;
+            text-align: center;
+            min-width: 130px;
+        }
+
+        .stat-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text2);
+            margin-top: 3px;
+        }
+
+        /* MAIN */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 2rem 80px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--accent), var(--purple));
+            border-radius: 2px;
+        }
+
+        /* VERSION TABLE */
+        .version-table-wrap {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            padding: 12px 18px;
+            text-align: left;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: var(--bg3);
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: rgba(88, 166, 255, 0.03);
+        }
+
+        tbody td {
+            padding: 14px 18px;
+            font-size: 0.875rem;
+            vertical-align: middle;
+        }
+
+        .version-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.83rem;
+            font-weight: 600;
+        }
+
+        .v-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .v-dot-green {
+            background: var(--green);
+            box-shadow: 0 0 5px var(--green);
+        }
+
+        .v-dot-blue {
+            background: var(--accent);
+            box-shadow: 0 0 5px var(--accent);
+        }
+
+        .latest-chip {
+            font-size: 0.68rem;
+            font-weight: 700;
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--green);
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-left: 4px;
+            border: 1px solid rgba(63, 185, 80, 0.25);
+        }
+
+        .date-cell {
+            color: var(--text2);
+            font-size: 0.83rem;
+            white-space: nowrap;
+        }
+
+        .comment-cell {
+            color: var(--text2);
+            font-size: 0.85rem;
+        }
+
+        .actions-cell {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 11px;
+            border-radius: 5px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-sm-blue {
+            background: rgba(88, 166, 255, 0.12);
+            color: var(--accent);
+            border-color: rgba(88, 166, 255, 0.25);
+        }
+
+        .btn-sm-blue:hover {
+            background: rgba(88, 166, 255, 0.22);
+        }
+
+        .btn-sm-purple {
+            background: rgba(188, 140, 255, 0.1);
+            color: var(--purple);
+            border-color: rgba(188, 140, 255, 0.22);
+        }
+
+        .btn-sm-purple:hover {
+            background: rgba(188, 140, 255, 0.2);
+        }
+
+        .btn-sm-green {
+            background: rgba(63, 185, 80, 0.1);
+            color: var(--green);
+            border-color: rgba(63, 185, 80, 0.22);
+        }
+
+        .btn-sm-green:hover {
+            background: rgba(63, 185, 80, 0.2);
+        }
+
+        .btn-sm-orange {
+            background: rgba(227, 179, 65, 0.1);
+            color: var(--orange);
+            border-color: rgba(227, 179, 65, 0.22);
+        }
+
+        .btn-sm-orange:hover {
+            background: rgba(227, 179, 65, 0.2);
+        }
+
+        /* FEATURE CARDS */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin-top: 44px;
+        }
+
+        .feature-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(88, 166, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .feature-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .feature-card p {
+            font-size: 0.83rem;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+
+        .feature-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-gap {
+            margin-top: 52px;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 24px 2rem;
+            text-align: center;
+            color: var(--text3);
+            font-size: 0.8rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width:768px) {
+            nav {
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 48px 1rem 36px;
+            }
+
+            .main-content {
+                padding: 0 1rem 60px;
+            }
+
+            thead th:nth-child(3),
+            tbody td:nth-child(3) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <div class="brand-icon"><svg viewBox="0 0 24 24">
+                    <path d="M13 3L4 14h8l-1 7 9-11h-8z" />
+                </svg></div>
+            TraceSchema
+        </a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="site/schema-v2.html">Schema Docs <span class="nav-badge">v2</span></a></li>
+                <li><a href="site/diff.html">Diff</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+            <button class="theme-btn" id="theme-toggle" title="Toggle light/dark theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none">
+                    <path
+                        d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1zm14.95 5.364a1 1 0 0 1-1.414 1.414l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707zm-12.9-12.9A1 1 0 0 1 7.464 5.878l-.707.707A1 1 0 1 1 5.343 5.17l.707-.707zm12.9 0a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM6.05 18.364a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 1.414l-.707.707z" />
+                </svg>
+                <svg id="icon-moon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">XML Schema Documentation</div>
+        <h1>Trace Schema<br />Documentation</h1>
+        <p>
+            <code
+                style="background:var(--bg3); padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.88em; color:var(--accent);">trace_recorder.py</code>
+            tarafından üretilen XML trace dosyalarının resmi XSD şema belgesidir.
+            Element referanslarını inceleyin, sürümler arası diff'e bakın ve belgeleri indirin.
+        </p>
+        <div class="hero-actions">
+            <a href="site/schema-v2.html" class="btn btn-primary">Schema Docs (v2)</a>
+            <a href="site/diff.html" class="btn btn-secondary">v1 &rarr; v2 Diff</a>
+        </div>
+    </section>
+
+    <div class="stats-strip">
+        <div class="stat-card"><span class="stat-num">2</span>
+            <div class="stat-label">Schema Versions</div>
+        </div>
+        <div class="stat-card"><span class="stat-num">14</span>
+            <div class="stat-label">Complex Types (v2)</div>
+        </div>
+        <div class="stat-card"><span class="stat-num">4</span>
+            <div class="stat-label">Event Types</div>
+        </div>
+        <div class="stat-card"><span class="stat-num">v2.0</span>
+            <div class="stat-label">Latest Version</div>
+        </div>
+    </div>
+
+    <main class="main-content">
+
+        <section id="versions">
+            <div class="section-header">
+                <h2 class="section-title">Version History</h2>
+            </div>
+            <div class="version-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Version</th>
+                            <th>Date</th>
+                            <th>Author</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="version-badge">
+                                    <span class="v-dot v-dot-green"></span>
+                                    v2.0 <span class="latest-chip">LATEST</span>
+                                </span>
+                            </td>
+                            <td class="date-cell">2026-03-04</td>
+                            <td>Yasin &Uuml;nal</td>
+                            <td class="comment-cell">Hierarchical scope / loop / thread structure, loop compaction,
+                                delta-only locals on line events</td>
+                            <td>
+                                <div class="actions-cell">
+                                    <a href="site/schema-v2.html" class="btn-sm btn-sm-blue">Schema Docs</a>
+                                    <a href="site/diff.html" class="btn-sm btn-sm-purple">v1&rarr;v2 Diff</a>
+                                    <a href="documents/Trace Schema Definitons-v2.docx" class="btn-sm btn-sm-green"
+                                        download>Download Report</a>
+                                    <a href="schema/trace_schema_v2.xsd" class="btn-sm btn-sm-orange" download>Download
+                                        XSD</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="version-badge">
+                                    <span class="v-dot v-dot-blue"></span>
+                                    v1.0
+                                </span>
+                            </td>
+                            <td class="date-cell">2025-01-01</td>
+                            <td>Yasin &Uuml;nal</td>
+                            <td class="comment-cell">Initial schema &mdash; flat event list with thread_id, call / line
+                                / return / exception types, delta tracking</td>
+                            <td>
+                                <div class="actions-cell">
+                                    <a href="site/schema-v1.html" class="btn-sm btn-sm-blue">Schema Docs</a>
+                                    <a href="schema/trace_schema_v1.xsd" class="btn-sm btn-sm-orange" download>Download
+                                        XSD</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-label">Reference</div>
+                <h3>XSD Element Reference</h3>
+                <p>Her element için tip, occurrence, attribute ve dokümantasyon bilgisi. Collapsible kart arayüzü.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-label">Version Diff</div>
+                <h3>Schema Diff Viewer</h3>
+                <p>GitHub-style unified / split diff görünümü ile v1 ve v2 arasındaki tüm farkları inceleyin.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-label">Source</div>
+                <h3>Syntax-Highlighted XSD</h3>
+                <p>Ham XSD dosyalarını Prism.js ile syntax-highlighted olarak görüntüleyin veya indirin.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-label">Downloads</div>
+                <h3>Document Downloads</h3>
+                <p>Her versiyona ait XSD dosyaları ve Word raporu tek tıkla indirilebilir.</p>
+            </div>
+        </div>
+
+        <section id="resources" class="section-gap">
+            <div class="section-header">
+                <h2 class="section-title">Resources &amp; Downloads</h2>
+            </div>
+            <div class="version-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Description</th>
+                            <th>Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema_v2.xsd</code>
+                            </td>
+                            <td class="comment-cell">v2.0 XML Schema Definition</td>
+                            <td><a href="schema/trace_schema_v2.xsd" class="btn-sm btn-sm-blue" download>Download
+                                    XSD</a></td>
+                        </tr>
+                        <tr>
+                            <td><code
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema_v1.xsd</code>
+                            </td>
+                            <td class="comment-cell">v1.0 XML Schema Definition</td>
+                            <td><a href="schema/trace_schema_v1.xsd" class="btn-sm btn-sm-blue" download>Download
+                                    XSD</a></td>
+                        </tr>
+                        <tr>
+                            <td><code
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">Trace Schema Definitons-v2.docx</code>
+                            </td>
+                            <td class="comment-cell">v2 Schema Definitions &mdash; Word Report</td>
+                            <td><a href="documents/Trace Schema Definitons-v2.docx" class="btn-sm btn-sm-green"
+                                    download>Download DOCX</a></td>
+                        </tr>
+                        <tr>
+                            <td><code
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema.json</code>
+                            </td>
+                            <td class="comment-cell">JSON Schema (alternative format)</td>
+                            <td><a href="schema/trace_schema.json" class="btn-sm btn-sm-orange" download>Download
+                                    JSON</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Trace Schema Documentation &mdash; Python Trace Recorder XSD Reference &nbsp;&nbsp;|&nbsp;&nbsp; <a
+                href="site/diff.html">v1 &rarr; v2 Changelog</a></p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
+            localStorage.setItem('ts-theme', isDark ? 'light' : 'dark');
+        }
+        (function () {
+            const saved = localStorage.getItem('ts-theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('icon-sun').style.display = 'block';
+                document.getElementById('icon-moon').style.display = 'none';
+            }
+        })();
+    </script>
+</body>
+</html>
