@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v1 → v2 Diff — TraceSchema Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/3.4.47/bundles/css/diff2html.min.css" />
+    <link rel="stylesheet" href="schema-shared.css" />
+    <style>
+        /* Override diff2html for dark theme */
+        .d2h-file-header,
+        .d2h-file-wrapper {
+            background: var(--bg2) !important;
+            border-color: var(--border) !important;
+        }
+
+        .d2h-code-linenumber,
+        .d2h-code-line,
+        .d2h-info,
+        .d2h-tag {
+            background: var(--bg2) !important;
+            color: var(--text2) !important;
+            border-color: var(--border) !important;
+        }
+
+        .d2h-ins {
+            background: rgba(63, 185, 80, 0.1) !important;
+        }
+
+        .d2h-del {
+            background: rgba(248, 81, 73, 0.1) !important;
+        }
+
+        .d2h-ins .d2h-code-line-ctn,
+        .d2h-ins .d2h-code-line-prefix {
+            color: #3fb950 !important;
+        }
+
+        .d2h-del .d2h-code-line-ctn,
+        .d2h-del .d2h-code-line-prefix {
+            color: #f85149 !important;
+        }
+
+        .d2h-ins mark {
+            background: rgba(63, 185, 80, 0.25) !important;
+            color: inherit !important;
+            border-radius: 2px;
+        }
+
+        .d2h-del mark {
+            background: rgba(248, 81, 73, 0.25) !important;
+            color: inherit !important;
+            border-radius: 2px;
+        }
+
+        .d2h-file-name {
+            color: var(--accent) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        .d2h-file-stats {
+            color: var(--text2) !important;
+        }
+
+        .d2h-code-line-ctn {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.78rem !important;
+        }
+
+        .d2h-wrapper {
+            padding: 0 !important;
+        }
+
+        #diff-output {
+            background: transparent;
+            border: none;
+        }
+
+        .diff-fullpage {
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 36px 2rem 80px;
+        }
+
+        .diff-page-header {
+            margin-bottom: 28px;
+        }
+
+        .diff-intro {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .schema-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .chip-v1 {
+            background: rgba(88, 166, 255, 0.12);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            color: var(--accent);
+        }
+
+        .chip-v2 {
+            background: rgba(63, 185, 80, 0.12);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            color: var(--green);
+        }
+
+        .chip-arrow {
+            color: var(--text3);
+            font-size: 1.1rem;
+        }
+
+        /* stats row */
+        .diff-stats {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .diff-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-added {
+            background: rgba(63, 185, 80, 0.1);
+            color: var(--green);
+            border: 1px solid rgba(63, 185, 80, 0.2);
+        }
+
+        .stat-changed {
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        .stat-removed {
+            background: rgba(248, 81, 73, 0.08);
+            color: var(--red);
+            border: 1px solid rgba(248, 81, 73, 0.15);
+        }
+
+        /* Controls */
+        .diff-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .diff-toggle {
+            display: flex;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .diff-toggle button {
+            padding: 7px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text2);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .diff-toggle button.active {
+            background: var(--accent);
+            color: #0d1117;
+        }
+
+        .loading-msg {
+            color: var(--text3);
+            font-size: 0.85rem;
+            padding: 24px;
+            text-align: center;
+        }
+
+        /* Changelog section */
+        .changelog-section {
+            margin-bottom: 36px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html" class="nav-brand">
+            <div class="brand-icon">⚡</div>TraceSchema
+        </a>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 <span>Home</span></a></li>
+            <li><a href="schema-v1.html">📄 <span>v1 Docs</span></a></li>
+            <li><a href="schema-v2.html">📄 <span>v2 Docs</span></a></li>
+            <li><a href="diff.html" class="active">⚡ <span>Diff</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="diff-fullpage">
+        <div class="diff-page-header">
+            <h1 class="page-title" style="font-size:1.8rem;font-weight:800;margin-bottom:12px;">Schema Diff</h1>
+            <div class="diff-intro">
+                <span class="schema-chip chip-v1">trace_schema_v1.xsd</span>
+                <span class="chip-arrow">→</span>
+                <span class="schema-chip chip-v2">trace_schema_v2.xsd</span>
+            </div>
+            <div class="diff-stats" id="diff-stats">
+                <span class="diff-stat stat-added">⬆ Loading…</span>
+            </div>
+        </div>
+
+        <!-- Changelog Summary -->
+        <div class="changelog-section">
+            <h2 class="section-title"
+                style="font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+                <span
+                    style="display:inline-block;width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--purple));border-radius:2px;"></span>
+                Changelog Summary
+            </h2>
+            <div class="changelog-grid">
+                <div class="cl-card">
+                    <div class="cl-icon cl-added">✨</div>
+                    <div>
+                        <h4>New: <code>&lt;loop&gt;</code></h4>
+                        <p>Loop compaction element. Groups loop iterations with per-iteration events, optional
+                            <code>truncated_iterations</code> and <code>&lt;summary&gt;</code> for skipped iterations.
+                        </p>
+                    </div>
+                </div>
+                <div class="cl-card">
+                    <div class="cl-icon cl-added">✨</div>
+                    <div>
+                        <h4>New: <code>&lt;scope&gt;</code></h4>
+                        <p>Hierarchical function scope grouping. Recursive structure — nested scopes supported. Child
+                            events inherit <code>file</code> and <code>function</code> from parent scope, reducing
+                            redundancy.</p>
+                    </div>
+                </div>
+                <div class="cl-card">
+                    <div class="cl-icon cl-added">✨</div>
+                    <div>
+                        <h4>New: <code>&lt;thread&gt;</code></h4>
+                        <p>Thread-based event grouping container. Groups <code>event | loop | scope</code> children
+                            under a named thread with an <code>id</code> attribute.</p>
+                    </div>
+                </div>
+                <div class="cl-card">
+                    <div class="cl-icon cl-added">✨</div>
+                    <div>
+                        <h4>New: <code>schema_version</code> attribute on <code>&lt;trace&gt;</code></h4>
+                        <p>Root element now carries a <code>schema_version</code> attribute (required, e.g.
+                            <code>"2.0"</code>). Also added as optional element inside <code>MetadataType</code>.</p>
+                    </div>
+                </div>
+                <div class="cl-card">
+                    <div class="cl-icon cl-changed">🔄</div>
+                    <div>
+                        <h4>Changed: <code>EventsType</code></h4>
+                        <p>v1 used a flat <code>&lt;event&gt;</code> sequence. v2 uses <code>xs:choice</code> allowing
+                            <code>event | loop | scope | thread</code> as siblings.</p>
+                    </div>
+                </div>
+                <div class="cl-card">
+                    <div class="cl-icon cl-changed">🔄</div>
+                    <div>
+                        <h4>Changed: <code>EventType</code> field cardinality</h4>
+                        <p><code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> changed
+                            from <code>minOccurs="1"</code> to <code>minOccurs="0"</code>. When inside a
+                            <code>&lt;scope&gt;</code> or <code>&lt;thread&gt;</code>, these are inferred from the
+                            parent.</p>
+                    </div>
+                </div>
+                <div class="cl-card">
+                    <div class="cl-icon cl-changed">🔄</div>
+                    <div>
+                        <h4>Changed: <code>&lt;locals&gt;</code> behavior</h4>
+                        <p>In v1, <code>&lt;locals&gt;</code> could appear in any event. In v2,
+                            <code>&lt;locals&gt;</code> is only written for <code>call</code> and <code>return</code>
+                            events. Line events use <code>&lt;delta&gt;</code> only.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diff View -->
+        <div>
+            <h2 class="section-title"
+                style="font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+                <span
+                    style="display:inline-block;width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--purple));border-radius:2px;"></span>
+                Line-by-Line Diff
+            </h2>
+            <div class="diff-controls">
+                <div class="diff-toggle">
+                    <button id="btn-unified" class="active" onclick="setMode('unified')">Unified</button>
+                    <button id="btn-split" onclick="setMode('split')">Split</button>
+                </div>
+                <span style="color:var(--text3);font-size:0.8rem;" id="diff-hint">Requires HTTP server — <a
+                        href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank"
+                        style="color:var(--accent);">Live Server</a> in VS Code or GitHub Pages</span>
+            </div>
+            <div id="diff-output">
+                <p class="loading-msg">⏳ Loading diff…</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>TraceSchema — <a href="../index.html">Home</a> | <a href="schema-v1.html">v1 Docs</a> | <a
+                href="schema-v2.html">v2 Docs</a></p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/3.4.47/bundles/js/diff2html-ui.min.js"></script>
+    <script>
+        let v1Text = '', v2Text = '', currentMode = 'unified';
+
+        function createUnifiedDiff(oldStr, newStr, oldName, newName) {
+            const oldLines = oldStr.split('\n');
+            const newLines = newStr.split('\n');
+
+            // Simple LCS-based diff
+            const m = oldLines.length, n = newLines.length;
+            const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+            for (let i = m - 1; i >= 0; i--)
+                for (let j = n - 1; j >= 0; j--)
+                    dp[i][j] = oldLines[i] === newLines[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+
+            const ops = [];
+            let i = 0, j = 0;
+            while (i < m || j < n) {
+                if (i < m && j < n && oldLines[i] === newLines[j]) { ops.push({ t: '=', v: oldLines[i] }); i++; j++; }
+                else if (j < n && (i >= m || dp[i][j + 1] >= dp[i + 1][j])) { ops.push({ t: '+', v: newLines[j] }); j++; }
+                else { ops.push({ t: '-', v: oldLines[i] }); i++; }
+            }
+
+            // Build unified diff
+            const CONTEXT = 3;
+            let diff = `--- a/${oldName}\n+++ b/${newName}\n`;
+            let k = 0;
+            while (k < ops.length) {
+                if (ops[k].t === '=') { k++; continue; }
+                const start = Math.max(0, k - CONTEXT);
+                let end = k;
+                while (end < ops.length && (ops[end].t !== '=' || end - k < CONTEXT * 2)) end++;
+                end = Math.min(ops.length, end + CONTEXT);
+                const chunk = ops.slice(start, end);
+                let oldStart = 1, newStart = 1, oldCount = 0, newCount = 0;
+                for (let x = 0; x < start; x++) {
+                    if (ops[x].t !== '+') oldStart++;
+                    if (ops[x].t !== '-') newStart++;
+                }
+                chunk.forEach(o => { if (o.t !== '+') oldCount++; if (o.t !== '-') newCount++; });
+                diff += `@@ -${oldStart},${oldCount} +${newStart},${newCount} @@\n`;
+                chunk.forEach(o => {
+                    if (o.t === '=') diff += ` ${o.v}\n`;
+                    else if (o.t === '+') diff += `+${o.v}\n`;
+                    else diff += `-${o.v}\n`;
+                });
+                k = end;
+            }
+            return diff;
+        }
+
+        function renderDiff() {
+            if (!v1Text || !v2Text) return;
+            const unified = createUnifiedDiff(v1Text, v2Text, 'trace_schema_v1.xsd', 'trace_schema_v2.xsd');
+            const container = document.getElementById('diff-output');
+            container.innerHTML = '';
+            const ui = new Diff2HtmlUI(container, unified, {
+                drawFileList: true,
+                fileListToggle: false,
+                fileContentToggle: false,
+                matching: 'lines',
+                outputFormat: currentMode,
+                highlight: true,
+                renderNothingWhenEmpty: false,
+            });
+            ui.draw();
+
+            // Stats
+            const additions = (unified.match(/^\+[^+]/gm) || []).length;
+            const deletions = (unified.match(/^-[^-]/gm) || []).length;
+            document.getElementById('diff-stats').innerHTML = `
+    <span class="diff-stat stat-added">+${additions} added</span>
+    <span class="diff-stat stat-removed">-${deletions} removed</span>
+    <span class="diff-stat stat-changed">⚡ v1 → v2</span>
+  `;
+            document.getElementById('diff-hint').style.display = 'none';
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('btn-unified').classList.toggle('active', mode === 'unified');
+            document.getElementById('btn-split').classList.toggle('active', mode === 'split');
+            renderDiff();
+        }
+
+        Promise.all([
+            fetch('../schema/trace_schema_v1.xsd').then(r => r.text()),
+            fetch('../schema/trace_schema_v2.xsd').then(r => r.text()),
+        ]).then(([t1, t2]) => {
+            v1Text = t1; v2Text = t2;
+            renderDiff();
+        }).catch(() => {
+            document.getElementById('diff-output').innerHTML =
+                '<p class="loading-msg">⚠️ Could not load XSD files. Open this page via an HTTP server (VS Code Live Server or GitHub Pages).</p>';
+            document.getElementById('diff-stats').innerHTML = '<span class="diff-stat stat-changed">⚠️ HTTP server required</span>';
+        });
+    </script>
+</body>
+</html>

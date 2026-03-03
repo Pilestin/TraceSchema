@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schema v2.0 — TraceSchema Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+    <link rel="stylesheet" href="schema-shared.css" />
+</head>
+<body>
+    <nav>
+        <a href="../index.html" class="nav-brand">
+            <div class="brand-icon">⚡</div>TraceSchema
+        </a>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 <span>Home</span></a></li>
+            <li><a href="schema-v1.html">📄 <span>v1 Docs</span></a></li>
+            <li><a href="schema-v2.html" class="active">📄 <span>v2 Docs</span></a></li>
+            <li><a href="diff.html">⚡ <span>Diff</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="page-wrap">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">Root</div>
+                <a href="#s-root" class="sidebar-link">🌳 trace</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">New in v2 ✨</div>
+                <a href="#s-new" class="sidebar-link" style="color:var(--green)">LoopType</a>
+                <a href="#s-new" class="sidebar-link" style="color:var(--green)">IterationType</a>
+                <a href="#s-new" class="sidebar-link" style="color:var(--green)">LoopSummaryType</a>
+                <a href="#s-new" class="sidebar-link" style="color:var(--green)">ScopeType</a>
+                <a href="#s-new" class="sidebar-link" style="color:var(--green)">ThreadType</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Shared Types</div>
+                <a href="#s-shared" class="sidebar-link">MetadataType</a>
+                <a href="#s-shared" class="sidebar-link">StatisticsType</a>
+                <a href="#s-shared" class="sidebar-link">EventsType</a>
+                <a href="#s-shared" class="sidebar-link">EventType</a>
+                <a href="#s-shared" class="sidebar-link">ValueType</a>
+                <a href="#s-shared" class="sidebar-link">DeltaType</a>
+                <a href="#s-shared" class="sidebar-link">DeltaChangeType</a>
+                <a href="#s-shared" class="sidebar-link">ExceptionType</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Enumerations</div>
+                <a href="#s-enums" class="sidebar-link">EventTypeEnum</a>
+                <a href="#s-enums" class="sidebar-link">DeltaActionEnum</a>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Source</div>
+                <a href="#s-rawxsd" class="sidebar-link">📋 Raw XSD</a>
+            </div>
+        </aside>
+
+        <main>
+            <div class="page-header">
+                <div class="version-tag green">v2.0 — Latest</div>
+                <h1 class="page-title">Schema v2 Documentation</h1>
+                <p class="page-desc">
+                    v2, trace verisini hiyerarşik yapıda organizes eder: <code>scope</code> (fonksiyon grubu),
+                    <code>loop</code> (döngü compaction) ve <code>thread</code> (thread grubu) elementleri eklendi.
+                    <code>locals</code> artık sadece call/return eventlerinde; line eventleri yalnızca
+                    <code>delta</code> kullanır.
+                </p>
+            </div>
+
+            <div class="actions-bar">
+                <a href="../schema/trace_schema_v2.xsd" class="btn btn-primary" download>⬇ Download XSD</a>
+                <a href="../documents/Trace%20Schema%20Definitons-v2.docx" class="btn btn-secondary" download>📄
+                    Download Report</a>
+                <a href="diff.html" class="btn btn-secondary">⚡ v1 → v2 Diff</a>
+            </div>
+
+            <!-- v2 Changelog Banner -->
+            <div
+                style="background:rgba(63,185,80,0.07); border:1px solid rgba(63,185,80,0.25); border-radius:var(--radius); padding:16px 20px; margin-bottom:32px;">
+                <p style="font-size:0.82rem; font-weight:700; color:var(--green); margin-bottom:8px;">✨ What's new in
+                    v2.0</p>
+                <ul style="font-size:0.83rem; color:var(--text2); line-height:1.7; padding-left:18px;">
+                    <li>Added <code>&lt;loop&gt;</code> element for loop compaction with per-iteration grouping</li>
+                    <li>Added <code>&lt;scope&gt;</code> element for hierarchical function grouping (recursive)</li>
+                    <li>Added <code>&lt;thread&gt;</code> element for thread-based event grouping</li>
+                    <li>Added <code>schema_version</code> attribute on root <code>&lt;trace&gt;</code></li>
+                    <li>Changed: <code>&lt;locals&gt;</code> no longer written for every line event (delta-only)</li>
+                    <li>Changed: EventsType supports <code>event | loop | scope | thread</code> as children</li>
+                    <li>Changed: EventType fields <code>thread_id</code>, <code>file</code>, <code>function</code>,
+                        <code>caller</code> are now <code>minOccurs="0"</code></li>
+                </ul>
+            </div>
+
+            <!-- Root -->
+            <div class="doc-section" id="s-root">
+                <h2 class="section-title">Root Element</h2>
+                <div class="type-card" id="c-trace">
+                    <div class="type-card-header" onclick="toggle('c-trace-body')">
+                        <span class="type-name">trace</span>
+                        <div class="header-right"><span class="type-kind kind-element">root element</span><span
+                                class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-trace-body" style="display:block">
+                        <div class="type-doc">Trace dosyasının kök elementi. v2'de <code>schema_version</code> attribute
+                            eklendi.</div>
+                        <p class="mini-label">Child Elements</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Type</th>
+                                    <th>Occurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>metadata</code></td>
+                                    <td><code>MetadataType</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>events</code></td>
+                                    <td><code>EventsType</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mini-label">Attributes</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Type</th>
+                                    <th>Use</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>schema_version</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                    <td>Şema versiyonu (örn: "2.0") <span class="type-kind kind-new">NEW</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New in v2 -->
+            <div class="doc-section" id="s-new">
+                <h2 class="section-title" style="color:var(--green)">✨ New in v2</h2>
+
+                <div class="type-card" id="c-loop">
+                    <div class="type-card-header" onclick="toggle('c-loop-body')">
+                        <span class="type-name">LoopType</span>
+                        <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span
+                                class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-loop-body">
+                        <div class="type-doc">Döngü event'lerini kompakt biçimde gruplar. Her iterasyon ayrı bir
+                            <code>&lt;iteration&gt;</code> elementi. <code>max_iterations</code> kullanıldığında atlanan
+                            iterasyonlar <code>truncated_iterations</code> ile belirtilir.</div>
+                        <p class="mini-label">Child Elements</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Type</th>
+                                    <th>Occurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>iteration</code></td>
+                                    <td><code>IterationType</code></td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                                <tr>
+                                    <td><code>summary</code></td>
+                                    <td><code>LoopSummaryType</code></td>
+                                    <td class="occur">0..1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mini-label">Attributes</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Type</th>
+                                    <th>Use</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>line</code></td>
+                                    <td><code>xs:nonNegativeInteger</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                    <td>Döngünün bulunduğu satır</td>
+                                </tr>
+                                <tr>
+                                    <td><code>source</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                    <td>Döngü kaynak kodu</td>
+                                </tr>
+                                <tr>
+                                    <td><code>iterations</code></td>
+                                    <td><code>xs:nonNegativeInteger</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                    <td>Toplam iterasyon sayısı</td>
+                                </tr>
+                                <tr>
+                                    <td><code>type</code></td>
+                                    <td><code>"for" | "while"</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                    <td>Döngü tipi</td>
+                                </tr>
+                                <tr>
+                                    <td><code>truncated_iterations</code></td>
+                                    <td><code>xs:nonNegativeInteger</code></td>
+                                    <td><span class="req-badge req-no">optional</span></td>
+                                    <td>Atlanan iterasyon sayısı</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="type-card" id="c-iter">
+                    <div class="type-card-header" onclick="toggle('c-iter-body')">
+                        <span class="type-name">IterationType</span>
+                        <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span
+                                class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-iter-body">
+                        <div class="type-doc">Döngünün tek bir iterasyonu. İçinde event listesi bulunur.</div>
+                        <p class="mini-label">Child Elements</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Type</th>
+                                    <th>Occurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>event</code></td>
+                                    <td><code>EventType</code></td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mini-label">Attributes</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Type</th>
+                                    <th>Use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>index</code></td>
+                                    <td><code>xs:nonNegativeInteger</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>iterator_value</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-no">optional</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="type-card" id="c-loopsum">
+                    <div class="type-card-header" onclick="toggle('c-loopsum-body')">
+                        <span class="type-name">LoopSummaryType</span>
+                        <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span
+                                class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-loopsum-body">
+                        <div class="type-doc">Döngü genelinde değişken değişim özeti (truncated_iterations varsa
+                            kullanılır).</div>
+                        <p class="mini-label">Child Elements</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Attribute</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="4"><code>variable_changes</code></td>
+                                    <td><code>name</code> (required)</td>
+                                    <td>Değişken adı</td>
+                                </tr>
+                                <tr>
+                                    <td><code>initial</code> (optional)</td>
+                                    <td>Başlangıç değeri</td>
+                                </tr>
+                                <tr>
+                                    <td><code>final</code> (optional)</td>
+                                    <td>Son değer</td>
+                                </tr>
+                                <tr>
+                                    <td><code>change_count</code> (optional)</td>
+                                    <td>Değişim sayısı</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="type-card" id="c-scope">
+                    <div class="type-card-header" onclick="toggle('c-scope-body')">
+                        <span class="type-name">ScopeType</span>
+                        <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span
+                                class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-scope-body">
+                        <div class="type-doc">Fonksiyon scope'unu hiyerarşik olarak gruplar. Recursive yapıyı destekler
+                            (iç içe scope'lar). Child event'lerde <code>file</code>, <code>function</code> tekrarlanmaz.
+                        </div>
+                        <p class="mini-label">Child Elements (xs:choice)</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Type</th>
+                                    <th>Occurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>arguments</code></td>
+                                    <td><code>ArgumentsType</code></td>
+                                    <td class="occur">0..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>event | loop | scope</code></td>
+                                    <td>(choice)</td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                                <tr>
+                                    <td><code>return_value</code></td>
+                                    <td><code>ValueType</code></td>
+                                    <td class="occur">0..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>exception</code></td>
+                                    <td><code>ExceptionType</code></td>
+                                    <td class="occur">0..1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mini-label">Attributes</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Type</th>
+                                    <th>Use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>function</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>file</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>call_line</code></td>
+                                    <td><code>xs:nonNegativeInteger</code></td>
+                                    <td><span class="req-badge req-no">optional</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>depth</code></td>
+                                    <td><code>xs:nonNegativeInteger</code></td>
+                                    <td><span class="req-badge req-no">optional</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="type-card" id="c-thread">
+                    <div class="type-card-header" onclick="toggle('c-thread-body')">
+                        <span class="type-name">ThreadType</span>
+                        <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span
+                                class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-thread-body">
+                        <div class="type-doc">Thread bazlı event gruplama. Children: event | loop | scope.</div>
+                        <p class="mini-label">Attributes</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Attribute</th>
+                                    <th>Type</th>
+                                    <th>Use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-yes">required</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>name</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td><span class="req-badge req-no">optional</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shared/Changed Types -->
+            <div class="doc-section" id="s-shared">
+                <h2 class="section-title">Shared / Modified Types</h2>
+
+                <div class="type-card" id="c-eventstype2">
+                    <div class="type-card-header" onclick="toggle('c-eventstype2-body')">
+                        <span class="type-name">EventsType</span>
+                        <div class="header-right"><span class="type-kind kind-complex">complexType (changed)</span><span
+                                class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-eventstype2-body">
+                        <div class="type-doc">v1'deki düz event listesi yerine artık <code>xs:choice</code> ile event,
+                            loop, scope veya thread içerebilir.</div>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Choice</th>
+                                    <th>Type</th>
+                                    <th>Occurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>event</code></td>
+                                    <td><code>EventType</code></td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                                <tr>
+                                    <td><code>loop</code></td>
+                                    <td><code>LoopType</code> <span class="type-kind kind-new">NEW</span></td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                                <tr>
+                                    <td><code>scope</code></td>
+                                    <td><code>ScopeType</code> <span class="type-kind kind-new">NEW</span></td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                                <tr>
+                                    <td><code>thread</code></td>
+                                    <td><code>ThreadType</code> <span class="type-kind kind-new">NEW</span></td>
+                                    <td class="occur">0..∞</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="type-card" id="c-eventtype2">
+                    <div class="type-card-header" onclick="toggle('c-eventtype2-body')">
+                        <span class="type-name">EventType</span>
+                        <div class="header-right"><span class="type-kind kind-complex">complexType (changed)</span><span
+                                class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-eventtype2-body">
+                        <div class="type-doc">v2'de <code>thread_id</code>, <code>file</code>, <code>function</code>,
+                            <code>caller</code> alanları <code>minOccurs="0"</code> — bunlar parent scope/thread'den
+                            okunabilir.</div>
+                        <p class="mini-label">Changed Fields</p>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>v1</th>
+                                    <th>v2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>thread_id</code></td>
+                                    <td class="occur">1..1</td>
+                                    <td class="occur" style="color:var(--orange)">0..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>file</code></td>
+                                    <td class="occur">1..1</td>
+                                    <td class="occur" style="color:var(--orange)">0..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>function</code></td>
+                                    <td class="occur">1..1</td>
+                                    <td class="occur" style="color:var(--orange)">0..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>caller</code></td>
+                                    <td class="occur">0..1</td>
+                                    <td class="occur">0..1 (same)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>locals</code></td>
+                                    <td class="occur">0..1 (any event)</td>
+                                    <td class="occur" style="color:var(--orange)">0..1 (call/return only)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- MetadataType -->
+                <div class="type-card" id="c-meta2">
+                    <div class="type-card-header" onclick="toggle('c-meta2-body')">
+                        <span class="type-name">MetadataType</span>
+                        <div class="header-right"><span class="type-kind kind-complex">complexType (changed)</span><span
+                                class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-meta2-body">
+                        <div class="type-doc">Aynı alanlar + v2'de <code>schema_version</code> (0..1) eklendi.</div>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Type</th>
+                                    <th>Occurs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>python_version</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>platform</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>start_time</code></td>
+                                    <td><code>xs:dateTime</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>end_time</code></td>
+                                    <td><code>xs:dateTime</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                                <tr>
+                                    <td><code>schema_version</code></td>
+                                    <td><code>xs:string</code></td>
+                                    <td class="occur">0..1 <span class="type-kind kind-new">NEW</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>statistics</code></td>
+                                    <td><code>StatisticsType</code></td>
+                                    <td class="occur">1..1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Enumerations -->
+            <div class="doc-section" id="s-enums">
+                <h2 class="section-title">Enumerations</h2>
+                <div class="type-card">
+                    <div class="type-card-header" onclick="toggle('c-evtenum2-body')">
+                        <span class="type-name">EventTypeEnum</span>
+                        <div class="header-right"><span class="type-kind kind-enum">enumeration</span><span
+                                class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-evtenum2-body">
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Value</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>call</code></td>
+                                    <td>Fonksiyon çağrısı</td>
+                                </tr>
+                                <tr>
+                                    <td><code>line</code></td>
+                                    <td>Satır çalıştırma</td>
+                                </tr>
+                                <tr>
+                                    <td><code>return</code></td>
+                                    <td>Fonksiyon return</td>
+                                </tr>
+                                <tr>
+                                    <td><code>exception</code></td>
+                                    <td>Exception</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="type-card">
+                    <div class="type-card-header" onclick="toggle('c-daenum2-body')">
+                        <span class="type-name">DeltaActionEnum</span>
+                        <div class="header-right"><span class="type-kind kind-enum">enumeration</span><span
+                                class="chevron">▶</span></div>
+                    </div>
+                    <div class="type-card-body" id="c-daenum2-body">
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>Value</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>added</code></td>
+                                    <td>Değişken oluşturuldu</td>
+                                </tr>
+                                <tr>
+                                    <td><code>changed</code></td>
+                                    <td>Değer değişti</td>
+                                </tr>
+                                <tr>
+                                    <td><code>removed</code></td>
+                                    <td>Scope dışı çıktı</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Raw XSD -->
+            <div class="doc-section" id="s-rawxsd">
+                <h2 class="section-title">Raw XSD Source</h2>
+                <div class="raw-header">
+                    <span class="raw-filename">trace_schema_v2.xsd</span>
+                    <button class="copy-btn" onclick="copyXSD()">📋 Copy</button>
+                </div>
+                <div class="code-wrap">
+                    <pre><code class="language-xml" id="xsd-source">Loading…</code></pre>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>TraceSchema — <a href="../index.html">Home</a> | <a href="schema-v1.html">v1 Docs</a> | <a
+                href="diff.html">Diff</a></p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        function toggle(bodyId) {
+            const body = document.getElementById(bodyId);
+            if (!body) return;
+            const isOpen = body.style.display !== 'none';
+            body.style.display = isOpen ? 'none' : 'block';
+            const card = body.closest('.type-card');
+            const chev = card ? card.querySelector('.chevron') : null;
+            if (chev) chev.style.transform = isOpen ? '' : 'rotate(90deg)';
+        }
+
+        fetch('../schema/trace_schema_v2.xsd')
+            .then(r => r.text())
+            .then(text => { const el = document.getElementById('xsd-source'); el.textContent = text; Prism.highlightElement(el); })
+            .catch(() => { document.getElementById('xsd-source').textContent = '// Serve via HTTP to load XSD'; });
+
+        function copyXSD() {
+            navigator.clipboard.writeText(document.getElementById('xsd-source').textContent).then(() => {
+                const b = document.querySelector('.copy-btn'); b.textContent = '✅ Copied!';
+                setTimeout(() => b.textContent = '📋 Copy', 2000);
+            });
+        }
+    </script>
+</body>
+</html>
