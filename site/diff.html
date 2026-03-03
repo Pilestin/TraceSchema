@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -216,14 +216,27 @@
 <body>
     <nav>
         <a href="../index.html" class="nav-brand">
-            <div class="brand-icon">⚡</div>TraceSchema
+            <div class="brand-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#fff">
+                    <path d="M13 3L4 14h8l-1 7 9-11h-8z" />
+                </svg></div>TraceSchema
         </a>
-        <ul class="nav-links">
-            <li><a href="../index.html">🏠 <span>Home</span></a></li>
-            <li><a href="schema-v1.html">📄 <span>v1 Docs</span></a></li>
-            <li><a href="schema-v2.html">📄 <span>v2 Docs</span></a></li>
-            <li><a href="diff.html" class="active">⚡ <span>Diff</span></a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="schema-v1.html">v1 Docs</a></li>
+                <li><a href="schema-v2.html">v2 Docs</a></li>
+                <li><a href="diff.html" class="active">Diff</a></li>
+            </ul>
+            <button class="theme-btn" title="Toggle light/dark theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none">
+                    <path
+                        d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1zm14.95 5.364a1 1 0 0 1-1.414 1.414l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707zm-12.9-12.9A1 1 0 0 1 7.464 5.878l-.707.707A1 1 0 1 1 5.343 5.17l.707-.707zm12.9 0a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM6.05 18.364a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 1.414l-.707.707z" />
+                </svg>
+                <svg id="icon-moon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
     <div class="diff-fullpage">
@@ -249,7 +262,7 @@
             </h2>
             <div class="changelog-grid">
                 <div class="cl-card">
-                    <div class="cl-icon cl-added">✨</div>
+                    <div class="cl-icon cl-added">NEW</div>
                     <div>
                         <h4>New: <code>&lt;loop&gt;</code></h4>
                         <p>Loop compaction element. Groups loop iterations with per-iteration events, optional
@@ -258,7 +271,7 @@
                     </div>
                 </div>
                 <div class="cl-card">
-                    <div class="cl-icon cl-added">✨</div>
+                    <div class="cl-icon cl-added">NEW</div>
                     <div>
                         <h4>New: <code>&lt;scope&gt;</code></h4>
                         <p>Hierarchical function scope grouping. Recursive structure — nested scopes supported. Child
@@ -267,7 +280,7 @@
                     </div>
                 </div>
                 <div class="cl-card">
-                    <div class="cl-icon cl-added">✨</div>
+                    <div class="cl-icon cl-added">NEW</div>
                     <div>
                         <h4>New: <code>&lt;thread&gt;</code></h4>
                         <p>Thread-based event grouping container. Groups <code>event | loop | scope</code> children
@@ -275,38 +288,42 @@
                     </div>
                 </div>
                 <div class="cl-card">
-                    <div class="cl-icon cl-added">✨</div>
+                    <div class="cl-icon cl-added">NEW</div>
                     <div>
                         <h4>New: <code>schema_version</code> attribute on <code>&lt;trace&gt;</code></h4>
                         <p>Root element now carries a <code>schema_version</code> attribute (required, e.g.
-                            <code>"2.0"</code>). Also added as optional element inside <code>MetadataType</code>.</p>
+                            <code>"2.0"</code>). Also added as optional element inside <code>MetadataType</code>.
+                        </p>
                     </div>
                 </div>
                 <div class="cl-card">
-                    <div class="cl-icon cl-changed">🔄</div>
+                    <div class="cl-icon cl-changed">CHG</div>
                     <div>
                         <h4>Changed: <code>EventsType</code></h4>
                         <p>v1 used a flat <code>&lt;event&gt;</code> sequence. v2 uses <code>xs:choice</code> allowing
-                            <code>event | loop | scope | thread</code> as siblings.</p>
+                            <code>event | loop | scope | thread</code> as siblings.
+                        </p>
                     </div>
                 </div>
                 <div class="cl-card">
-                    <div class="cl-icon cl-changed">🔄</div>
+                    <div class="cl-icon cl-changed">CHG</div>
                     <div>
                         <h4>Changed: <code>EventType</code> field cardinality</h4>
                         <p><code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> changed
                             from <code>minOccurs="1"</code> to <code>minOccurs="0"</code>. When inside a
                             <code>&lt;scope&gt;</code> or <code>&lt;thread&gt;</code>, these are inferred from the
-                            parent.</p>
+                            parent.
+                        </p>
                     </div>
                 </div>
                 <div class="cl-card">
-                    <div class="cl-icon cl-changed">🔄</div>
+                    <div class="cl-icon cl-changed">CHG</div>
                     <div>
                         <h4>Changed: <code>&lt;locals&gt;</code> behavior</h4>
                         <p>In v1, <code>&lt;locals&gt;</code> could appear in any event. In v2,
                             <code>&lt;locals&gt;</code> is only written for <code>call</code> and <code>return</code>
-                            events. Line events use <code>&lt;delta&gt;</code> only.</p>
+                            events. Line events use <code>&lt;delta&gt;</code> only.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -342,6 +359,23 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/3.4.47/bundles/js/diff2html-ui.min.js"></script>
     <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
+            localStorage.setItem('ts-theme', isDark ? 'light' : 'dark');
+        }
+        (function () {
+            const saved = localStorage.getItem('ts-theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('icon-sun').style.display = 'block';
+                document.getElementById('icon-moon').style.display = 'none';
+            }
+        })();
+
         let v1Text = '', v2Text = '', currentMode = 'unified';
 
         function createUnifiedDiff(oldStr, newStr, oldName, newName) {

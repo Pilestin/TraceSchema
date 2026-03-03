@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,14 +14,27 @@
 <body>
     <nav>
         <a href="../index.html" class="nav-brand">
-            <div class="brand-icon">⚡</div>TraceSchema
+            <div class="brand-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#fff">
+                    <path d="M13 3L4 14h8l-1 7 9-11h-8z" />
+                </svg></div>TraceSchema
         </a>
-        <ul class="nav-links">
-            <li><a href="../index.html">🏠 <span>Home</span></a></li>
-            <li><a href="schema-v1.html">📄 <span>v1 Docs</span></a></li>
-            <li><a href="schema-v2.html" class="active">📄 <span>v2 Docs</span></a></li>
-            <li><a href="diff.html">⚡ <span>Diff</span></a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="schema-v1.html">v1 Docs</a></li>
+                <li><a href="schema-v2.html" class="active">v2 Docs</a></li>
+                <li><a href="diff.html">Diff</a></li>
+            </ul>
+            <button class="theme-btn" title="Toggle light/dark theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none">
+                    <path
+                        d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1zm14.95 5.364a1 1 0 0 1-1.414 1.414l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707zm-12.9-12.9A1 1 0 0 1 7.464 5.878l-.707.707A1 1 0 1 1 5.343 5.17l.707-.707zm12.9 0a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM6.05 18.364a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 1.414l-.707.707z" />
+                </svg>
+                <svg id="icon-moon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
     <div class="page-wrap">
@@ -73,10 +86,10 @@
             </div>
 
             <div class="actions-bar">
-                <a href="../schema/trace_schema_v2.xsd" class="btn btn-primary" download>⬇ Download XSD</a>
-                <a href="../documents/Trace%20Schema%20Definitons-v2.docx" class="btn btn-secondary" download>📄
-                    Download Report</a>
-                <a href="diff.html" class="btn btn-secondary">⚡ v1 → v2 Diff</a>
+                <a href="../schema/trace_schema_v2.xsd" class="btn btn-primary" download>Download XSD</a>
+                <a href="../documents/Trace%20Schema%20Definitons-v2.docx" class="btn btn-secondary" download>Download
+                    Report (DOCX)</a>
+                <a href="diff.html" class="btn btn-secondary">v1 &rarr; v2 Diff</a>
             </div>
 
             <!-- v2 Changelog Banner -->
@@ -92,7 +105,8 @@
                     <li>Changed: <code>&lt;locals&gt;</code> no longer written for every line event (delta-only)</li>
                     <li>Changed: EventsType supports <code>event | loop | scope | thread</code> as children</li>
                     <li>Changed: EventType fields <code>thread_id</code>, <code>file</code>, <code>function</code>,
-                        <code>caller</code> are now <code>minOccurs="0"</code></li>
+                        <code>caller</code> are now <code>minOccurs="0"</code>
+                    </li>
                 </ul>
             </div>
 
@@ -166,7 +180,8 @@
                     <div class="type-card-body" id="c-loop-body">
                         <div class="type-doc">Döngü event'lerini kompakt biçimde gruplar. Her iterasyon ayrı bir
                             <code>&lt;iteration&gt;</code> elementi. <code>max_iterations</code> kullanıldığında atlanan
-                            iterasyonlar <code>truncated_iterations</code> ile belirtilir.</div>
+                            iterasyonlar <code>truncated_iterations</code> ile belirtilir.
+                        </div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -493,7 +508,8 @@
                     <div class="type-card-body" id="c-eventtype2-body">
                         <div class="type-doc">v2'de <code>thread_id</code>, <code>file</code>, <code>function</code>,
                             <code>caller</code> alanları <code>minOccurs="0"</code> — bunlar parent scope/thread'den
-                            okunabilir.</div>
+                            okunabilir.
+                        </div>
                         <p class="mini-label">Changed Fields</p>
                         <table class="mini-table">
                             <thead>
@@ -665,7 +681,7 @@
                 <h2 class="section-title">Raw XSD Source</h2>
                 <div class="raw-header">
                     <span class="raw-filename">trace_schema_v2.xsd</span>
-                    <button class="copy-btn" onclick="copyXSD()">📋 Copy</button>
+                    <button class="copy-btn" onclick="copyXSD()">Copy to Clipboard</button>
                 </div>
                 <div class="code-wrap">
                     <pre><code class="language-xml" id="xsd-source">Loading…</code></pre>
@@ -701,10 +717,27 @@
 
         function copyXSD() {
             navigator.clipboard.writeText(document.getElementById('xsd-source').textContent).then(() => {
-                const b = document.querySelector('.copy-btn'); b.textContent = '✅ Copied!';
-                setTimeout(() => b.textContent = '📋 Copy', 2000);
+                const b = document.querySelector('.copy-btn'); b.textContent = 'Copied!';
+                setTimeout(() => b.textContent = 'Copy to Clipboard', 2000);
             });
         }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
+            localStorage.setItem('ts-theme', isDark ? 'light' : 'dark');
+        }
+        (function () {
+            const saved = localStorage.getItem('ts-theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('icon-sun').style.display = 'block';
+                document.getElementById('icon-moon').style.display = 'none';
+            }
+        })();
     </script>
 </body>
 </html>

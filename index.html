@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,9 +21,9 @@
         }
 
         :root {
-            --bg: #b1bed4;
-            --bg2: #e1e6f0;
-            --bg3: #c2c9d6;
+            --bg: #0d1117;
+            --bg2: #161b22;
+            --bg3: #21262d;
             --border: rgba(255, 255, 255, 0.08);
             --accent: #58a6ff;
             --accent2: #79c0ff;
@@ -39,6 +39,23 @@
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --bg2: #f6f8fa;
+            --bg3: #eaeef2;
+            --border: rgba(0, 0, 0, 0.1);
+            --accent: #0969da;
+            --accent2: #218bff;
+            --green: #1a7f37;
+            --purple: #8250df;
+            --orange: #9a6700;
+            --red: #d1242f;
+            --text: #1f2328;
+            --text2: #656d76;
+            --text3: #8c959f;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -49,21 +66,24 @@
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background 0.25s, color 0.25s;
         }
 
-        /* ── ANIMATED BACKGROUND ── */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background:
-                radial-gradient(ellipse 80% 60% at 20% 10%, rgba(88, 166, 255, 0.07) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(188, 140, 255, 0.06) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
+            background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(88, 166, 255, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(188, 140, 255, 0.05) 0%, transparent 60%);
         }
 
-        /* ── NAV ── */
+        [data-theme="light"] body::before {
+            opacity: 0.4;
+        }
+
+        /* NAV */
         nav {
             position: sticky;
             top: 0;
@@ -73,9 +93,14 @@
             justify-content: space-between;
             padding: 0 2rem;
             height: 60px;
-            background: rgba(13, 17, 23, 0.85);
+            background: rgba(13, 17, 23, 0.88);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
+            transition: background 0.25s;
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .nav-brand {
@@ -88,15 +113,26 @@
             text-decoration: none;
         }
 
-        .nav-brand .brand-icon {
-            width: 28px;
-            height: 28px;
+        .brand-icon {
+            width: 26px;
+            height: 26px;
             background: linear-gradient(135deg, var(--accent), var(--purple));
-            border-radius: 8px;
+            border-radius: 7px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+        }
+
+        .brand-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: #fff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
         .nav-links {
@@ -131,16 +167,43 @@
             padding: 2px 6px;
             border-radius: 999px;
             background: var(--green);
-            color: #000;
+            color: #fff;
         }
 
-        /* ── HERO ── */
+        /* Theme toggle */
+        .theme-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-sm);
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .theme-btn:hover {
+            background: var(--bg2);
+            color: var(--text);
+        }
+
+        .theme-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* HERO */
         .hero {
             position: relative;
             z-index: 1;
-            max-width: 900px;
+            max-width: 860px;
             margin: 0 auto;
-            padding: 80px 2rem 60px;
+            padding: 72px 2rem 52px;
             text-align: center;
         }
 
@@ -148,34 +211,34 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 16px;
+            padding: 5px 16px;
             background: rgba(88, 166, 255, 0.1);
             border: 1px solid rgba(88, 166, 255, 0.3);
             border-radius: 999px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--accent);
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
+        }
+
+        [data-theme="light"] .hero-badge {
+            background: rgba(9, 105, 218, 0.08);
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-size: clamp(1.9rem, 5vw, 3rem);
             font-weight: 800;
             line-height: 1.15;
             letter-spacing: -0.02em;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #e6edf3 30%, #8b949e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 18px;
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text2);
             line-height: 1.7;
-            max-width: 680px;
-            margin: 0 auto 36px;
+            max-width: 640px;
+            margin: 0 auto 32px;
         }
 
         .hero-actions {
@@ -188,10 +251,10 @@
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 22px;
+            gap: 7px;
+            padding: 9px 20px;
             border-radius: var(--radius-sm);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
@@ -202,13 +265,13 @@
 
         .btn-primary {
             background: var(--accent);
-            color: #0d1117;
+            color: #fff;
         }
 
         .btn-primary:hover {
             background: var(--accent2);
             transform: translateY(-1px);
-            box-shadow: 0 4px 16px rgba(88, 166, 255, 0.35);
+            box-shadow: 0 4px 14px rgba(88, 166, 255, 0.3);
         }
 
         .btn-secondary {
@@ -218,47 +281,49 @@
         }
 
         .btn-secondary:hover {
-            background: #2d333b;
+            background: var(--bg2);
             transform: translateY(-1px);
         }
 
-        /* ── STATS STRIP ── */
+        /* STATS */
         .stats-strip {
             position: relative;
             z-index: 1;
             display: flex;
             justify-content: center;
             gap: 2px;
-            padding: 0 2rem 60px;
+            padding: 0 2rem 56px;
+            flex-wrap: wrap;
         }
 
         .stat-card {
             background: var(--bg2);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 20px 32px;
+            padding: 18px 28px;
             text-align: center;
-            min-width: 140px;
+            min-width: 130px;
         }
 
-        .stat-card .stat-num {
-            font-size: 1.8rem;
+        .stat-num {
+            font-size: 1.6rem;
             font-weight: 800;
             color: var(--accent);
             display: block;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .stat-card .stat-label {
-            font-size: 0.78rem;
+        .stat-label {
+            font-size: 0.75rem;
             color: var(--text2);
             margin-top: 3px;
         }
 
-        /* ── MAIN CONTENT ── */
+        /* MAIN */
         .main-content {
             position: relative;
             z-index: 1;
-            max-width: 1100px;
+            max-width: 1080px;
             margin: 0 auto;
             padding: 0 2rem 80px;
         }
@@ -267,11 +332,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -282,12 +347,12 @@
             content: '';
             display: inline-block;
             width: 4px;
-            height: 22px;
+            height: 20px;
             background: linear-gradient(180deg, var(--accent), var(--purple));
             border-radius: 2px;
         }
 
-        /* ── VERSION TABLE ── */
+        /* VERSION TABLE */
         .version-table-wrap {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -302,13 +367,13 @@
         }
 
         thead th {
-            padding: 14px 20px;
+            padding: 12px 18px;
             text-align: left;
-            font-size: 0.78rem;
-            font-weight: 600;
+            font-size: 0.74rem;
+            font-weight: 700;
             color: var(--text2);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             background: var(--bg3);
             border-bottom: 1px solid var(--border);
         }
@@ -323,21 +388,21 @@
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(88, 166, 255, 0.03);
         }
 
         tbody td {
-            padding: 16px 20px;
-            font-size: 0.9rem;
+            padding: 14px 18px;
+            font-size: 0.875rem;
             vertical-align: middle;
         }
 
         .version-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             font-weight: 600;
         }
 
@@ -350,32 +415,40 @@
 
         .v-dot-green {
             background: var(--green);
-            box-shadow: 0 0 6px var(--green);
+            box-shadow: 0 0 5px var(--green);
         }
 
         .v-dot-blue {
             background: var(--accent);
-            box-shadow: 0 0 6px var(--accent);
+            box-shadow: 0 0 5px var(--accent);
+        }
+
+        .latest-chip {
+            font-size: 0.68rem;
+            font-weight: 700;
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--green);
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-left: 4px;
+            border: 1px solid rgba(63, 185, 80, 0.25);
         }
 
         .date-cell {
             color: var(--text2);
-            font-size: 0.85rem;
-        }
-
-        .author-cell {
-            font-weight: 500;
-            color: var(--text);
+            font-size: 0.83rem;
+            white-space: nowrap;
         }
 
         .comment-cell {
             color: var(--text2);
+            font-size: 0.85rem;
         }
 
         .actions-cell {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             flex-wrap: wrap;
         }
 
@@ -383,74 +456,70 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
+            padding: 5px 11px;
+            border-radius: 5px;
+            font-size: 0.78rem;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.2s;
             white-space: nowrap;
             cursor: pointer;
-            border: none;
+            border: 1px solid transparent;
         }
 
         .btn-sm-blue {
-            background: rgba(88, 166, 255, 0.15);
+            background: rgba(88, 166, 255, 0.12);
             color: var(--accent);
-            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-color: rgba(88, 166, 255, 0.25);
         }
 
         .btn-sm-blue:hover {
-            background: rgba(88, 166, 255, 0.25);
-            transform: translateY(-1px);
+            background: rgba(88, 166, 255, 0.22);
         }
 
         .btn-sm-purple {
-            background: rgba(188, 140, 255, 0.12);
+            background: rgba(188, 140, 255, 0.1);
             color: var(--purple);
-            border: 1px solid rgba(188, 140, 255, 0.25);
+            border-color: rgba(188, 140, 255, 0.22);
         }
 
         .btn-sm-purple:hover {
-            background: rgba(188, 140, 255, 0.22);
-            transform: translateY(-1px);
+            background: rgba(188, 140, 255, 0.2);
         }
 
         .btn-sm-green {
-            background: rgba(63, 185, 80, 0.12);
+            background: rgba(63, 185, 80, 0.1);
             color: var(--green);
-            border: 1px solid rgba(63, 185, 80, 0.25);
+            border-color: rgba(63, 185, 80, 0.22);
         }
 
         .btn-sm-green:hover {
-            background: rgba(63, 185, 80, 0.22);
-            transform: translateY(-1px);
+            background: rgba(63, 185, 80, 0.2);
         }
 
         .btn-sm-orange {
-            background: rgba(227, 179, 65, 0.12);
+            background: rgba(227, 179, 65, 0.1);
             color: var(--orange);
-            border: 1px solid rgba(227, 179, 65, 0.25);
+            border-color: rgba(227, 179, 65, 0.22);
         }
 
         .btn-sm-orange:hover {
-            background: rgba(227, 179, 65, 0.22);
-            transform: translateY(-1px);
+            background: rgba(227, 179, 65, 0.2);
         }
 
-        /* ── FEATURE CARDS ── */
+        /* FEATURE CARDS */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin-top: 48px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin-top: 44px;
         }
 
         .feature-card {
             background: var(--bg2);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 22px;
             transition: border-color 0.2s, transform 0.2s;
         }
 
@@ -459,59 +528,40 @@
             transform: translateY(-2px);
         }
 
-        .feature-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 14px;
-        }
-
-        .fi-blue {
-            background: rgba(88, 166, 255, 0.15);
-        }
-
-        .fi-purple {
-            background: rgba(188, 140, 255, 0.15);
-        }
-
-        .fi-green {
-            background: rgba(63, 185, 80, 0.15);
-        }
-
-        .fi-orange {
-            background: rgba(227, 179, 65, 0.15);
-        }
-
         .feature-card h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 7px;
         }
 
         .feature-card p {
-            font-size: 0.875rem;
+            font-size: 0.83rem;
             color: var(--text2);
             line-height: 1.6;
         }
 
-        /* ── SECTION DIVIDER ── */
-        .section-gap {
-            margin-top: 56px;
+        .feature-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
         }
 
-        /* ── FOOTER ── */
+        .section-gap {
+            margin-top: 52px;
+        }
+
         footer {
             position: relative;
             z-index: 1;
             border-top: 1px solid var(--border);
-            padding: 28px 2rem;
+            padding: 24px 2rem;
             text-align: center;
             color: var(--text3);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
         }
 
         footer a {
@@ -523,105 +573,86 @@
             text-decoration: underline;
         }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
+        @media (max-width:768px) {
             nav {
                 padding: 0 1rem;
             }
 
-            .nav-links a span {
-                display: none;
-            }
-
             .hero {
-                padding: 48px 1rem 40px;
+                padding: 48px 1rem 36px;
             }
 
             .main-content {
                 padding: 0 1rem 60px;
             }
 
-            .stats-strip {
-                gap: 8px;
-                flex-wrap: wrap;
-            }
-
-            .stat-card {
-                min-width: 120px;
-                padding: 16px 20px;
-            }
-
             thead th:nth-child(3),
             tbody td:nth-child(3) {
                 display: none;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ── NAVIGATION ── -->
     <nav>
         <a href="index.html" class="nav-brand">
-            <div class="brand-icon">⚡</div>
+            <div class="brand-icon"><svg viewBox="0 0 24 24">
+                    <path d="M13 3L4 14h8l-1 7 9-11h-8z" />
+                </svg></div>
             TraceSchema
         </a>
-        <ul class="nav-links">
-            <li><a href="index.html" class="active"><span>🏠</span> <span>Home</span></a></li>
-            <li><a href="site/schema-v2.html"><span>📄</span> <span>Schema Docs</span><span
-                        class="nav-badge">v2</span></a></li>
-            <li><a href="site/diff.html"><span>⚡</span> <span>Diff</span></a></li>
-            <li><a href="#resources"><span>📦</span> <span>Resources</span></a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="site/schema-v2.html">Schema Docs <span class="nav-badge">v2</span></a></li>
+                <li><a href="site/diff.html">Diff</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+            <button class="theme-btn" id="theme-toggle" title="Toggle light/dark theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none">
+                    <path
+                        d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1zm14.95 5.364a1 1 0 0 1-1.414 1.414l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707zm-12.9-12.9A1 1 0 0 1 7.464 5.878l-.707.707A1 1 0 1 1 5.343 5.17l.707-.707zm12.9 0a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM6.05 18.364a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 1.414l-.707.707z" />
+                </svg>
+                <svg id="icon-moon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    <!-- ── HERO ── -->
     <section class="hero">
-        <div class="hero-badge">
-            <span>📘</span> XML Schema Documentation
-        </div>
+        <div class="hero-badge">XML Schema Documentation</div>
         <h1>Trace Schema<br />Documentation</h1>
         <p>
             <code
-                style="background: var(--bg3); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--accent);">trace_recorder.py</code>
+                style="background:var(--bg3); padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.88em; color:var(--accent);">trace_recorder.py</code>
             tarafından üretilen XML trace dosyalarının resmi XSD şema belgesidir.
-            Şema versiyonlarını inceleyin, element referanslarına bakın ve sürümler arasındaki farkları GitHub-style
-            diff ile görüntüleyin.
+            Element referanslarını inceleyin, sürümler arası diff'e bakın ve belgeleri indirin.
         </p>
         <div class="hero-actions">
-            <a href="site/schema-v2.html" class="btn btn-primary">📄 Schema Docs (v2)</a>
-            <a href="site/diff.html" class="btn btn-secondary">⚡ v1 → v2 Diff</a>
+            <a href="site/schema-v2.html" class="btn btn-primary">Schema Docs (v2)</a>
+            <a href="site/diff.html" class="btn btn-secondary">v1 &rarr; v2 Diff</a>
         </div>
     </section>
 
-    <!-- ── STATS ── -->
     <div class="stats-strip">
-        <div class="stat-card">
-            <span class="stat-num">2</span>
+        <div class="stat-card"><span class="stat-num">2</span>
             <div class="stat-label">Schema Versions</div>
         </div>
-        <div class="stat-card">
-            <span class="stat-num">14</span>
+        <div class="stat-card"><span class="stat-num">14</span>
             <div class="stat-label">Complex Types (v2)</div>
         </div>
-        <div class="stat-card">
-            <span class="stat-num">4</span>
+        <div class="stat-card"><span class="stat-num">4</span>
             <div class="stat-label">Event Types</div>
         </div>
-        <div class="stat-card">
-            <span class="stat-num">v2.0</span>
+        <div class="stat-card"><span class="stat-num">v2.0</span>
             <div class="stat-label">Latest Version</div>
         </div>
     </div>
 
-    <!-- ── MAIN ── -->
     <main class="main-content">
 
-        <!-- Version Table -->
         <section id="versions">
             <div class="section-header">
                 <h2 class="section-title">Version History</h2>
@@ -633,7 +664,7 @@
                             <th>Version</th>
                             <th>Date</th>
                             <th>Author</th>
-                            <th>Comment</th>
+                            <th>Notes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -642,20 +673,21 @@
                             <td>
                                 <span class="version-badge">
                                     <span class="v-dot v-dot-green"></span>
-                                    v2.0 <span
-                                        style="font-size:0.7rem; color:var(--green); font-family:Inter,sans-serif; font-weight:700; background:rgba(63,185,80,0.12); padding:2px 7px; border-radius:4px; margin-left:4px;">LATEST</span>
+                                    v2.0 <span class="latest-chip">LATEST</span>
                                 </span>
                             </td>
                             <td class="date-cell">2026-03-04</td>
-                            <td class="author-cell">Yasin Ünal</td>
-                            <td class="comment-cell">Hierarchical scope/loop/thread structure, loop compaction,
+                            <td>Yasin &Uuml;nal</td>
+                            <td class="comment-cell">Hierarchical scope / loop / thread structure, loop compaction,
                                 delta-only locals on line events</td>
                             <td>
                                 <div class="actions-cell">
-                                    <a href="site/schema-v2.html" class="btn-sm btn-sm-blue">📄 Schema Docs</a>
-                                    <a href="site/diff.html" class="btn-sm btn-sm-purple">⚡ Diff v1→v2</a>
+                                    <a href="site/schema-v2.html" class="btn-sm btn-sm-blue">Schema Docs</a>
+                                    <a href="site/diff.html" class="btn-sm btn-sm-purple">v1&rarr;v2 Diff</a>
                                     <a href="documents/Trace Schema Definitons-v2.docx" class="btn-sm btn-sm-green"
-                                        download>⬇ Report</a>
+                                        download>Download Report</a>
+                                    <a href="schema/trace_schema_v2.xsd" class="btn-sm btn-sm-orange" download>Download
+                                        XSD</a>
                                 </div>
                             </td>
                         </tr>
@@ -667,12 +699,14 @@
                                 </span>
                             </td>
                             <td class="date-cell">2025-01-01</td>
-                            <td class="author-cell">Yasin Ünal</td>
-                            <td class="comment-cell">Initial schema — flat event list with thread_id,
-                                call/line/return/exception types, delta tracking</td>
+                            <td>Yasin &Uuml;nal</td>
+                            <td class="comment-cell">Initial schema &mdash; flat event list with thread_id, call / line
+                                / return / exception types, delta tracking</td>
                             <td>
                                 <div class="actions-cell">
-                                    <a href="site/schema-v1.html" class="btn-sm btn-sm-blue">📄 Schema Docs</a>
+                                    <a href="site/schema-v1.html" class="btn-sm btn-sm-blue">Schema Docs</a>
+                                    <a href="schema/trace_schema_v1.xsd" class="btn-sm btn-sm-orange" download>Download
+                                        XSD</a>
                                 </div>
                             </td>
                         </tr>
@@ -681,74 +715,74 @@
             </div>
         </section>
 
-        <!-- Feature Cards -->
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon fi-blue">📄</div>
+                <div class="feature-label">Reference</div>
                 <h3>XSD Element Reference</h3>
-                <p>Her element için tip, occurrence, attribute ve açıklama bilgisini içeren interaktif kart görünümü.
-                </p>
+                <p>Her element için tip, occurrence, attribute ve dokümantasyon bilgisi. Collapsible kart arayüzü.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon fi-purple">⚡</div>
-                <h3>Version Diff</h3>
-                <p>GitHub-style unified/split diff görünümü ile v1 ve v2 arasındaki tüm farkları inceleyin.</p>
+                <div class="feature-label">Version Diff</div>
+                <h3>Schema Diff Viewer</h3>
+                <p>GitHub-style unified / split diff görünümü ile v1 ve v2 arasındaki tüm farkları inceleyin.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon fi-green">🔍</div>
-                <h3>Syntax Highlighted</h3>
-                <p>Ham XSD dosyalarını Prism.js ile syntax-highlighted olarak doğrudan tarayıcıdan okuyun.</p>
+                <div class="feature-label">Source</div>
+                <h3>Syntax-Highlighted XSD</h3>
+                <p>Ham XSD dosyalarını Prism.js ile syntax-highlighted olarak görüntüleyin veya indirin.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon fi-orange">⬇</div>
+                <div class="feature-label">Downloads</div>
                 <h3>Document Downloads</h3>
-                <p>Her versiyona ait Word dokümanını (rapor) tek tıkla indirin.</p>
+                <p>Her versiyona ait XSD dosyaları ve Word raporu tek tıkla indirilebilir.</p>
             </div>
         </div>
 
-        <!-- Resources -->
         <section id="resources" class="section-gap">
             <div class="section-header">
-                <h2 class="section-title">Resources</h2>
+                <h2 class="section-title">Resources &amp; Downloads</h2>
             </div>
             <div class="version-table-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th>Dosya</th>
-                            <th>Açıklama</th>
-                            <th>İndir</th>
+                            <th>File</th>
+                            <th>Description</th>
+                            <th>Download</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code
-                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.85rem;">trace_schema_v2.xsd</code>
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema_v2.xsd</code>
                             </td>
                             <td class="comment-cell">v2.0 XML Schema Definition</td>
-                            <td><a href="schema/trace_schema_v2.xsd" class="btn-sm btn-sm-blue" download>⬇ XSD</a></td>
+                            <td><a href="schema/trace_schema_v2.xsd" class="btn-sm btn-sm-blue" download>Download
+                                    XSD</a></td>
                         </tr>
                         <tr>
                             <td><code
-                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.85rem;">trace_schema_v1.xsd</code>
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema_v1.xsd</code>
                             </td>
                             <td class="comment-cell">v1.0 XML Schema Definition</td>
-                            <td><a href="schema/trace_schema_v1.xsd" class="btn-sm btn-sm-blue" download>⬇ XSD</a></td>
+                            <td><a href="schema/trace_schema_v1.xsd" class="btn-sm btn-sm-blue" download>Download
+                                    XSD</a></td>
                         </tr>
                         <tr>
                             <td><code
-                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.85rem;">Trace Schema Definitons-v2.docx</code>
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">Trace Schema Definitons-v2.docx</code>
                             </td>
-                            <td class="comment-cell">v2 Schema Definitions — Word belgesi</td>
+                            <td class="comment-cell">v2 Schema Definitions &mdash; Word Report</td>
                             <td><a href="documents/Trace Schema Definitons-v2.docx" class="btn-sm btn-sm-green"
-                                    download>⬇ DOCX</a></td>
+                                    download>Download DOCX</a></td>
                         </tr>
                         <tr>
                             <td><code
-                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.85rem;">trace_schema.json</code>
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema.json</code>
                             </td>
-                            <td class="comment-cell">JSON Schema (alternatif format)</td>
-                            <td><a href="schema/trace_schema.json" class="btn-sm btn-sm-orange" download>⬇ JSON</a></td>
+                            <td class="comment-cell">JSON Schema (alternative format)</td>
+                            <td><a href="schema/trace_schema.json" class="btn-sm btn-sm-orange" download>Download
+                                    JSON</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -757,12 +791,28 @@
 
     </main>
 
-    <!-- ── FOOTER ── -->
     <footer>
-        <p>Trace Schema Documentation &mdash; Python Trace Recorder XSD Reference &nbsp;|&nbsp; <a
-                href="site/diff.html">v1 → v2 Changelog</a> &nbsp;|&nbsp; <a href="https://github.com"
-                target="_blank">GitHub</a></p>
+        <p>Trace Schema Documentation &mdash; Python Trace Recorder XSD Reference &nbsp;&nbsp;|&nbsp;&nbsp; <a
+                href="site/diff.html">v1 &rarr; v2 Changelog</a></p>
     </footer>
 
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
+            localStorage.setItem('ts-theme', isDark ? 'light' : 'dark');
+        }
+        (function () {
+            const saved = localStorage.getItem('ts-theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('icon-sun').style.display = 'block';
+                document.getElementById('icon-moon').style.display = 'none';
+            }
+        })();
+    </script>
 </body>
 </html>
