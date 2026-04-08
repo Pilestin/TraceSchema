@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="2.2">
+  
+  <!-- 
+    XML Schema Definition (XSD) for Python Trace Output
+    ====================================================
+    Bu şema, trace_recorder.py tarafından üretilen XML dosyalarının yapısını tanımlar.
+    
+    Ana Elementler:
+    - trace: Kök element (schema_version attribute ile)
+    - metadata: Program ve trace hakkında meta bilgiler
+    - events: Tüm trace event'lerinin listesi (scope/loop/thread hiyerarşisi ile)
+
+    v2.0 Changelog:
+    - Added: <loop> element for loop compaction
+    - Added: <scope> element for hierarchical function grouping
+    - Added: <thread> element for thread-based event grouping
+    - Added: schema_version attribute on <trace> root element
+    - Changed: <locals> no longer written for every line event (delta-only)
+    - Changed: Events organized in hierarchical structure instead of flat list
+
+    v2.1 Changelog:
+    - Improved: <iteration> now supports nested <scope> and <loop> elements
+    - Fixed: Minor schema corrections
+
+    v2.2 Changelog:
+    - Added: <focus_spec> element in <metadata> for selective/focused trace info
+      Describes which focus mode was used (function, variable, thread, line_range,
+      module, or composite), enabling downstream tools to understand trace scope.
+    - Added: <sub_spec> element within <focus_spec> for composite focus mode
+    - Added: depth_limit and include_callers_depth attributes on <focus_spec>
+  -->
+  
+  <!-- Kök Element -->
+  <xs:element name="trace">
+    <xs:annotation>
+      <xs:documentation>
+        Trace dosyasının kök elementi. Tüm trace verilerini içerir.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metadata" type="MetadataType"/>
+        <xs:element name="events" type="EventsType"/>
+      </xs:sequence>
+      <xs:attribute name="schema_version" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Şema versiyonu (örn: 2.2)</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  
+  <!-- Metadata Type -->
+  <xs:complexType name="MetadataType">
+    <xs:annotation>
+      <xs:documentation>
+        Program ve trace çalıştırması hakkında meta bilgiler.
+        v2.2: focus_spec elementi eklendi.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="python_version" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Python versiyonu (örn: 3.11.0)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="platform" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>İşletim sistemi platformu (örn: win32, linux)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="start_time" type="xs:dateTime">
+        <xs:annotation>
+          <xs:documentation>Trace başlangıç zamanı (ISO 8601 format)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="end_time" type="xs:dateTime">
+        <xs:annotation>
+          <xs:documentation>Trace bitiş zamanı (ISO 8601 format)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="schema_version" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Şema versiyonu (örn: 2.2)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <!-- v2.2: Focused / Selective Trace Metadata -->
+      <xs:element name="focus_spec" type="FocusSpecType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Odaklanmış trace yapılandırması.
+            Sadece focus modu aktifse yazılır.
+            Hangi fonksiyon, değişken, satır aralığı veya modülün trace edildiğini belgeler.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="statistics" type="StatisticsType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Focus Spec Type (v2.2) -->
+  <xs:complexType name="FocusSpecType">
+    <xs:annotation>
+      <xs:documentation>
+        TraceRecorder focus yapılandırması.
+        
+        Modlar:
+        - function   : Belirtilen fonksiyon(lar) trace edildi
+        - variable   : Belirtilen değişken(ler) izlendi
+        - thread     : Belirtilen thread(ler) trace edildi
+        - line_range : Belirtilen satır aralığı trace edildi
+        - module     : Belirtilen modül/dosya(lar) trace edildi
+        - composite  : Birden fazla mod birleştirildi (sub_spec listesi ile)
+        
+        Hedefler (targets):
+        - function modu: ["factorial", "merge_sort"]
+        - variable modu: ["counter", "factorial:result"]  (opsiyonel scope:var formatı)
+        - thread modu:   ["Thread-1", "worker"]
+        - line_range:    ["10-30", "50-80"]
+        - module modu:   ["vrp_solver", "utils*"]        (glob desteklenir)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <!-- Tek hedef listesi (composite dışı modlar) -->
+      <xs:element name="target" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Tek bir odak hedefi (fonksiyon adı, değişken, satır aralığı, vb.)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <!-- Composite mod: alt spec'ler -->
+      <xs:element name="sub_spec" type="SubFocusSpecType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Composite fokus modunun alt spec'i</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="mode" type="FocusModeEnum" use="required">
+      <xs:annotation>
+        <xs:documentation>Odak modu</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="operator" use="optional" default="union">
+      <xs:annotation>
+        <xs:documentation>Composite mod için birleştirme operatörü: union | intersection</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="union"/>
+          <xs:enumeration value="intersection"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="include_callers_depth" type="xs:nonNegativeInteger" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          (function modu) Odak fonksiyonunu çağıran kaç seviye yukarısı da trace edildi.
+          0 = çağıranlar dahil edilmedi. 1 = anlık çağıran dahil edildi (varsayılan).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="depth_limit" type="xs:nonNegativeInteger" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Odak noktasından maksimum call stack derinliği.
+          Belirtilmemişse sınırsız.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <!-- Sub Focus Spec Type (composite mode children) -->
+  <xs:complexType name="SubFocusSpecType">
+    <xs:annotation>
+      <xs:documentation>Composite focus modunun alt spec elementi.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="target" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="mode" type="FocusModeEnum" use="required"/>
+  </xs:complexType>
+
+  <!-- Focus Mode Enum -->
+  <xs:simpleType name="FocusModeEnum">
+    <xs:annotation>
+      <xs:documentation>
+        Geçerli odak modları:
+        - function   : Fonksiyon bazlı odak
+        - variable   : Değişken bazlı odak
+        - thread     : Thread bazlı odak
+        - line_range : Satır aralığı bazlı odak
+        - module     : Modül/dosya bazlı odak
+        - composite  : Birden fazla mod birleşimi
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="function"/>
+      <xs:enumeration value="variable"/>
+      <xs:enumeration value="thread"/>
+      <xs:enumeration value="line_range"/>
+      <xs:enumeration value="module"/>
+      <xs:enumeration value="composite"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Statistics Type -->
+  <xs:complexType name="StatisticsType">
+    <xs:annotation>
+      <xs:documentation>
+        Trace istatistikleri - toplam event sayısı, süre, vb.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="total_events" type="xs:nonNegativeInteger">
+        <xs:annotation>
+          <xs:documentation>Toplam kaydedilen event sayısı</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="total_duration" type="xs:decimal">
+        <xs:annotation>
+          <xs:documentation>Trace süresi (saniye)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="call_count" type="xs:nonNegativeInteger" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Fonksiyon çağrı sayısı</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="line_count" type="xs:nonNegativeInteger" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Çalıştırılan satır sayısı</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="return_count" type="xs:nonNegativeInteger" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Return event sayısı</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      
+      <xs:element name="exception_count" type="xs:nonNegativeInteger" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Exception event sayısı</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!-- Events Container Type (v2: supports event, loop, scope, thread) -->
+  <xs:complexType name="EventsType">
+    <xs:annotation>
+      <xs:documentation>
+        Tüm trace event'lerini içeren container element.
+        v2: scope/loop/thread hiyerarşisini destekler.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="event" type="EventType"/>
+      <xs:element name="loop" type="LoopType"/>
+      <xs:element name="scope" type="ScopeType"/>
+      <xs:element name="thread" type="ThreadType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Loop Type (v2: döngü compaction) -->
+  <xs:complexType name="LoopType">
+    <xs:annotation>
+      <xs:documentation>
+        Döngü event'lerini kompakt biçimde gruplar.
+        Her iterasyon ayrı bir &lt;iteration&gt; elementi olarak kaydedilir.
+        max_iterations kullanıldığında bazı iterasyonlar atlanabilir;
+        bu durum truncated_iterations attribute'u ile belirtilir.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="iteration" type="IterationType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="summary" type="LoopSummaryType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="line" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="source" type="xs:string" use="required"/>
+    <xs:attribute name="iterations" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="for"/>
+          <xs:enumeration value="while"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="truncated_iterations" type="xs:nonNegativeInteger" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          max_iterations parametresi nedeniyle XML'e yazılmayan (atlanan) iterasyon sayısı.
+          Bu attribute varsa, &lt;summary&gt; elementinde tüm iterasyonların özeti bulunur.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <!-- Iteration Type -->
+  <xs:complexType name="IterationType">
+    <xs:annotation>
+      <xs:documentation>
+        Döngünün tek bir iterasyonu.
+        İçerik, fonksiyon çağrıları (scope) ve iç içe döngüler (loop) içerebilir.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="event" type="EventType"/>
+      <xs:element name="scope" type="ScopeType"/>
+      <xs:element name="loop" type="LoopType"/>
+    </xs:choice>
+    <xs:attribute name="index" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="iterator_value" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Loop Summary Type -->
+  <xs:complexType name="LoopSummaryType">
+    <xs:annotation>
+      <xs:documentation>Döngü genelinde değişken değişim özeti.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="variable_changes" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="name" type="xs:string" use="required"/>
+          <xs:attribute name="initial" type="xs:string" use="optional"/>
+          <xs:attribute name="final" type="xs:string" use="optional"/>
+          <xs:attribute name="change_count" type="xs:nonNegativeInteger" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Scope Type (v2: hierarchical function grouping) -->
+  <xs:complexType name="ScopeType">
+    <xs:annotation>
+      <xs:documentation>
+        Fonksiyon scope'unu hiyerarşik olarak gruplar.
+        Recursive yapıyı destekler (iç içe scope'lar).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="arguments" type="ArgumentsType" minOccurs="0"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="event" type="EventType"/>
+        <xs:element name="loop" type="LoopType"/>
+        <xs:element name="scope" type="ScopeType"/>
+      </xs:choice>
+      <xs:element name="return_value" type="ValueType" minOccurs="0"/>
+      <xs:element name="exception" type="ExceptionType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="function" type="xs:string" use="required"/>
+    <xs:attribute name="file" type="xs:string" use="required"/>
+    <xs:attribute name="call_line" type="xs:nonNegativeInteger" use="optional"/>
+    <xs:attribute name="depth" type="xs:nonNegativeInteger" use="optional"/>
+  </xs:complexType>
+
+  <!-- Thread Type (v2: thread-based grouping) -->
+  <xs:complexType name="ThreadType">
+    <xs:annotation>
+      <xs:documentation>Thread bazlı event gruplama.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="event" type="EventType"/>
+        <xs:element name="loop" type="LoopType"/>
+        <xs:element name="scope" type="ScopeType"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+  </xs:complexType>
+  
+  <!-- Event Type -->
+  <xs:complexType name="EventType">
+    <xs:annotation>
+      <xs:documentation>
+        Tek bir trace event'i. Fonksiyon çağrısı, satır çalıştırma, return, vb.
+        v2: line event'lerinde &lt;locals&gt; yerine sadece &lt;delta&gt; kullanılır.
+        v2: Event bir &lt;scope&gt; veya &lt;loop&gt; içindeyse thread_id, file,
+            function ve caller parent elementten bilindiği için yazılmaz (minOccurs=0).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="thread_id" type="xs:nonNegativeInteger" minOccurs="0"/>
+      <xs:element name="file" type="xs:string" minOccurs="0"/>
+      <xs:element name="function" type="xs:string" minOccurs="0"/>
+      <xs:element name="line" type="xs:nonNegativeInteger"/>
+      <xs:element name="source" type="xs:string" minOccurs="0"/>
+      <xs:element name="caller" type="xs:string" minOccurs="0"/>
+      <xs:element name="delta" type="DeltaType" minOccurs="0"/>
+      <xs:element name="arguments" type="ArgumentsType" minOccurs="0"/>
+      <xs:element name="locals" type="LocalsType" minOccurs="0"/>
+      <xs:element name="return_value" type="ValueType" minOccurs="0"/>
+      <xs:element name="exception" type="ExceptionType" minOccurs="0"/>
+    </xs:sequence>
+    
+    <xs:attribute name="id" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="type" type="EventTypeEnum" use="required"/>
+    <xs:attribute name="timestamp" type="xs:decimal" use="required"/>
+    <xs:attribute name="depth" type="xs:nonNegativeInteger" use="optional"/>
+  </xs:complexType>
+  
+  <!-- Event Type Enum -->
+  <xs:simpleType name="EventTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="call"/>
+      <xs:enumeration value="line"/>
+      <xs:enumeration value="return"/>
+      <xs:enumeration value="exception"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Arguments Type -->
+  <xs:complexType name="ArgumentsType">
+    <xs:sequence>
+      <xs:element name="arg" type="ValueType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!-- Locals Type -->
+  <xs:complexType name="LocalsType">
+    <xs:sequence>
+      <xs:element name="var" type="ValueType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!-- Value Type (Değişken/Argüman) -->
+  <xs:complexType name="ValueType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="type" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <!-- Exception Type -->
+  <xs:complexType name="ExceptionType">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!-- Delta Type -->
+  <xs:complexType name="DeltaType">
+    <xs:sequence>
+      <xs:element name="change" type="DeltaChangeType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!-- Delta Change Type -->
+  <xs:complexType name="DeltaChangeType">
+    <xs:sequence>
+      <xs:element name="old" type="xs:string" minOccurs="0"/>
+      <xs:element name="new" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="variable" type="xs:string" use="optional"/>
+    <xs:attribute name="action" type="DeltaActionEnum" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="optional"/>
+  </xs:complexType>
+  
+  <!-- Delta Action Enum -->
+  <xs:simpleType name="DeltaActionEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="added"/>
+      <xs:enumeration value="changed"/>
+      <xs:enumeration value="removed"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
