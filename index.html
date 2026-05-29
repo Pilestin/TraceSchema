@@ -605,7 +605,7 @@
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="site/schema-v2.1.html">Schema Docs <span class="nav-badge">v2.1</span></a></li>
+                <li><a href="site/schema-v2.2.html">Schema Docs <span class="nav-badge">v2.2</span></a></li>
                 <li><a href="site/diff.html">Diff</a></li>
                 <li><a href="#resources">Resources</a></li>
             </ul>
@@ -631,23 +631,23 @@
             Element referanslarını inceleyin, sürümler arası diff'e bakın ve belgeleri indirin.
         </p>
         <div class="hero-actions">
-            <a href="site/schema-v2.1.html" class="btn btn-primary">Schema Docs (v2.1)</a>
-            <a href="site/schema-v2.html" class="btn btn-secondary">Schema Docs (v2)</a>
+            <a href="site/schema-v2.2.html" class="btn btn-primary">Schema Docs (v2.2)</a>
+            <a href="site/schema-v2.1.html" class="btn btn-secondary">Schema Docs (v2.1)</a>
             <a href="site/diff.html" class="btn btn-secondary">Diff Viewer</a>
         </div>
     </section>
 
     <div class="stats-strip">
-        <div class="stat-card"><span class="stat-num">3</span>
+        <div class="stat-card"><span class="stat-num">4</span>
             <div class="stat-label">Schema Versions</div>
         </div>
-        <div class="stat-card"><span class="stat-num">14</span>
-            <div class="stat-label">Complex Types (v2.1)</div>
+        <div class="stat-card"><span class="stat-num">16</span>
+            <div class="stat-label">Complex Types (v2.2)</div>
         </div>
         <div class="stat-card"><span class="stat-num">4</span>
             <div class="stat-label">Event Types</div>
         </div>
-        <div class="stat-card"><span class="stat-num">v2.1</span>
+        <div class="stat-card"><span class="stat-num">v2.2</span>
             <div class="stat-label">Latest Version</div>
         </div>
     </div>
@@ -674,7 +674,29 @@
                             <td>
                                 <span class="version-badge">
                                     <span class="v-dot v-dot-green"></span>
-                                    v2.1 <span class="latest-chip">LATEST</span>
+                                    v2.2 <span class="latest-chip">LATEST</span>
+                                </span>
+                            </td>
+                            <td class="date-cell">2026-05-30</td>
+                            <td>Yasin &Uuml;nal</td>
+                            <td class="comment-cell">Function-level &amp; per-iteration timing on ScopeType/IterationType;
+                                <code style="font-size:0.78rem">&lt;traceback&gt;</code> in ExceptionType;
+                                <code style="font-size:0.78rem">&lt;targets&gt;</code> &amp;
+                                <code style="font-size:0.78rem">&lt;source_files&gt;</code> in MetadataType</td>
+                            <td>
+                                <div class="actions-cell">
+                                    <a href="site/schema-v2.2.html" class="btn-sm btn-sm-blue">Schema Docs</a>
+                                    <a href="site/diff.html?compare=v21v22" class="btn-sm btn-sm-purple">v2.1&rarr;v2.2 Diff</a>
+                                    <a href="schema/trace_schema_v2.2.xsd" class="btn-sm btn-sm-orange" download>Download
+                                        XSD</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="version-badge">
+                                    <span class="v-dot v-dot-blue"></span>
+                                    v2.1
                                 </span>
                             </td>
                             <td class="date-cell">2026-04-03</td>
@@ -775,9 +797,17 @@
                     <tbody>
                         <tr>
                             <td><code
+                                    style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema_v2.2.xsd</code>
+                            </td>
+                            <td class="comment-cell">v2.2 XML Schema Definition <span class="latest-chip">LATEST</span></td>
+                            <td><a href="schema/trace_schema_v2.2.xsd" class="btn-sm btn-sm-blue" download>Download
+                                    XSD</a></td>
+                        </tr>
+                        <tr>
+                            <td><code
                                     style="font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.83rem;">trace_schema_v2.1.xsd</code>
                             </td>
-                            <td class="comment-cell">v2.1 XML Schema Definition <span class="latest-chip">LATEST</span></td>
+                            <td class="comment-cell">v2.1 XML Schema Definition</td>
                             <td><a href="schema/trace_schema_v2.1.xsd" class="btn-sm btn-sm-blue" download>Download
                                     XSD</a></td>
                         </tr>
@@ -822,7 +852,7 @@
 
     <footer>
         <p>Trace Schema Documentation &mdash; Python Trace Recorder XSD Reference &nbsp;&nbsp;|&nbsp;&nbsp; <a
-                href="site/schema-v2.1.html">v2.1 Latest</a> &nbsp;|&nbsp; <a href="site/diff.html">Diff Viewer</a></p>
+                href="site/schema-v2.2.html">v2.2 Latest</a> &nbsp;|&nbsp; <a href="site/diff.html">Diff Viewer</a></p>
     </footer>
 
     <script>

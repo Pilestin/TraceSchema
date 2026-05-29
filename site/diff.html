@@ -24,7 +24,11 @@
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="index.html" class="active">Diff Index</a></li>
+                <li><a href="schema-v1.html">v1 Docs</a></li>
+                <li><a href="schema-v2.html">v2 Docs</a></li>
+                <li><a href="schema-v2.1.html">v2.1 Docs</a></li>
+                <li><a href="schema-v2.2.html">v2.2 Docs</a></li>
+                <li><a href="diff.html" class="active">Diff</a></li>
             </ul>
             <button class="theme-btn" title="Toggle theme" onclick="toggleTheme()">
                 <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1z"/></svg>
@@ -44,45 +48,35 @@
         <div class="doc-section">
             <h2 class="section-title">Pairwise Diff Reports</h2>
             <div class="changelog-grid">
-                    <div class="cl-card list-item">
-                        <div>
-                            <h4>v2.1 to v2.2</h4>
-                            <p><code>trace_schema_v2.1.xsd</code> to <code>trace_schema_v2.2.xsd</code></p>
-                        </div>
-                        <a href="../version_diff/diff-v2.1-to-v2.2.html" class="btn btn-primary">Open Diff</a>
+                <div class="cl-card list-item">
+                    <div>
+                        <h4>v2.1 to v2.2 <span style="font-size:0.72rem;background:rgba(63,185,80,0.15);color:#3fb950;border:1px solid rgba(63,185,80,0.25);padding:2px 7px;border-radius:4px;font-weight:700;margin-left:6px;">LATEST</span></h4>
+                        <p><code>trace_schema_v2.1.xsd</code> → <code>trace_schema_v2.2.xsd</code></p>
                     </div>
-            </div>
-        </div>
-
-        <div class="doc-section">
-            <h2 class="section-title">Pairwise Diff Reports</h2>
-            <div class="changelog-grid">
-                    <div class="cl-card list-item">
-                        <div>
-                            <h4>v2.0 to v2.1</h4>
-                            <p><code>trace_schema_v2.0.xsd</code> to <code>trace_schema_v2.1.xsd</code></p>
-                        </div>
-                        <a href="../version_diff/diff-v2.0-to-v2.1.html" class="btn btn-primary">Open Diff</a>
+                    <a href="../version_diff/diff-v2.1-to-v2.2.html" class="btn btn-primary">Open Diff</a>
+                </div>
+                <div class="cl-card list-item">
+                    <div>
+                        <h4>v2.0 to v2.1</h4>
+                        <p><code>trace_schema_v2.0.xsd</code> → <code>trace_schema_v2.1.xsd</code></p>
                     </div>
-            </div>
-        </div>
-
-        <div class="doc-section">
-            <h2 class="section-title">Pairwise Diff Reports</h2>
-            <div class="changelog-grid">
-                    <div class="cl-card list-item">
-                        <div>
-                            <h4>v1.0 to v2.0</h4>
-                            <p><code>trace_schema_v1.0.xsd</code> to <code>trace_schema_v2.0.xsd</code></p>
-                        </div>
-                        <a href="../version_diff/diff-v1.0-to-v2.0.html" class="btn btn-primary">Open Diff</a>
+                    <a href="../version_diff/diff-v2.0-to-v2.1.html" class="btn btn-primary">Open Diff</a>
+                </div>
+                <div class="cl-card list-item">
+                    <div>
+                        <h4>v1.0 to v2.0</h4>
+                        <p><code>trace_schema_v1.0.xsd</code> → <code>trace_schema_v2.0.xsd</code></p>
                     </div>
+                    <a href="../version_diff/diff-v1.0-to-v2.0.html" class="btn btn-primary">Open Diff</a>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <footer>Generated automatically from schema files.</footer>
+    <footer>
+        <p>TraceSchema — <a href="../index.html">Home</a> | <a href="schema-v1.html">v1 Docs</a> | <a href="schema-v2.html">v2 Docs</a> | <a href="schema-v2.1.html">v2.1 Docs</a> | <a href="schema-v2.2.html">v2.2 Docs</a></p>
+    </footer>
 
     <script>
         function toggleTheme() {
