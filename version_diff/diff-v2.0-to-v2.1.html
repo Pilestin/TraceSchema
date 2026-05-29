@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schema Diff v2 to v2.1 - TraceSchema Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../site/schema-shared.css" />
+    <style>
+        .diff-page { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 36px 2rem 80px; }
+        .diff-stats { display: flex; gap: 10px; margin: 10px 0 24px; flex-wrap: wrap; }
+        .diff-stat { display: inline-flex; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+        .stat-added { background: rgba(63,185,80,0.1); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
+        .stat-removed { background: rgba(248,81,73,0.1); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+        .stat-changed { background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.2); }
+        .list-wrap { display: grid; gap: 10px; margin-bottom: 22px; }
+        .chip { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+        .chip-added { background: rgba(63,185,80,0.12); color: var(--green); }
+        .chip-removed { background: rgba(248,81,73,0.12); color: var(--red); }
+        .chip-changed { background: rgba(88,166,255,0.12); color: var(--accent); }
+        .code-wrap pre { margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.55; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html" class="nav-brand">
+            <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M13 3L4 14h8l-1 7 9-11h-8z" /></svg></div>
+            TraceSchema
+        </a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" class="active">Diff Index</a></li>
+            </ul>
+            <button class="theme-btn" title="Toggle theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1z"/></svg>
+                <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+            </button>
+        </div>
+    </nav>
+
+    <div class="diff-page">
+        <div class="page-header">
+            <div class="version-tag green">Diff Report</div>
+            <h1 class="page-title">Schema v2 to v2.1</h1>
+            <p class="page-desc">Comparison between <code>trace_schema_v2.xsd</code> and <code>trace_schema_v2.1.xsd</code>.</p>
+        </div>
+
+        <div class="actions-bar">
+            <a href="index.html" class="btn btn-primary">Back to Diff Index</a>
+        </div>
+
+        <div class="diff-stats">
+            <span class="diff-stat stat-added">Added Types: 0</span>
+            <span class="diff-stat stat-removed">Removed Types: 0</span>
+            <span class="diff-stat stat-changed">Changed Types: 1</span>
+            <span class="diff-stat stat-changed">Common Types: 15</span>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="section-title">Added and Removed Types</h2>
+            <div class="list-wrap">
+                <div>
+                    <p class="mini-label">Added</p>
+                        <p class="page-desc">No new complex types.</p>
+                </div>
+                <div>
+                    <p class="mini-label">Removed</p>
+                        <p class="page-desc">No removed complex types.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="section-title">Changed Type Details</h2>
+                <div class="type-card">
+                    <div class="type-card-header" onclick="toggleCard(this)">
+                        <span class="type-name">IterationType</span>
+                        <div class="header-right">
+                            <span class="type-kind kind-new">CHANGED</span>
+                            <span class="chevron">▶</span>
+                        </div>
+                    </div>
+                    <div class="type-card-body">
+                        <p class="mini-label">Elements Added</p>
+                        <table class="mini-table">
+                            <thead><tr><th>Name</th><th>Type</th><th>Occurs</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>event</code></td><td><code>EventType</code></td><td class="occur">1..1</td></tr>
+                                <tr><td><code>loop</code></td><td><code>LoopType</code></td><td class="occur">1..1</td></tr>
+                                <tr><td><code>scope</code></td><td><code>ScopeType</code></td><td class="occur">1..1</td></tr>
+                            </tbody>
+                        </table>
+
+                        <p class="mini-label">Elements Removed</p>
+                        <table class="mini-table">
+                            <thead><tr><th>Name</th><th>Type</th><th>Occurs</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>event</code></td><td><code>EventType</code></td><td class="occur">0..unbounded</td></tr>
+                            </tbody>
+                        </table>
+
+                        <p class="mini-label">Attributes Added</p>
+<p class="page-desc">No added attributes.</p>
+                        <p class="mini-label">Attributes Removed</p>
+<p class="page-desc">No removed attributes.</p>                    </div>
+                </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="section-title">Unified Text Diff</h2>
+            <div class="code-wrap"><pre>--- trace_schema_v2.xsd
++++ trace_schema_v2.1.xsd
+@@ -2,7 +2,7 @@
+ &lt;xs:schema xmlns:xs=&#34;http://www.w3.org/2001/XMLSchema&#34; 
+            elementFormDefault=&#34;qualified&#34;
+            attributeFormDefault=&#34;unqualified&#34;
+-           version=&#34;2.0&#34;&gt;
++           version=&#34;2.1&#34;&gt;
+   
+   &lt;!-- 
+     XML Schema Definition (XSD) for Python Trace Output
+@@ -17,6 +17,12 @@
+     v2.0 Changelog:
+     - Added: &lt;loop&gt; element for loop compaction
+     - Added: &lt;scope&gt; element for hierarchical function grouping
++    - Added: &lt;thread&gt; element for thread-based event grouping
++    - Added: schema_version attribute on &lt;trace&gt; root element
++    - Changed: &lt;locals&gt; no longer written for every line event (delta-only)
++    - Changed: Events organized in hierarchical structure instead of flat list
++
++    v2.1 Changelog:
+     - Added: &lt;thread&gt; element for thread-based event grouping
+     - Added: schema_version attribute on &lt;trace&gt; root element
+     - Changed: &lt;locals&gt; no longer written for every line event (delta-only)
+@@ -185,11 +191,16 @@
+   &lt;!-- Iteration Type --&gt;
+   &lt;xs:complexType name=&#34;IterationType&#34;&gt;
+     &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;Döngünün tek bir iterasyonu.&lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+-    &lt;xs:sequence&gt;
+-      &lt;xs:element name=&#34;event&#34; type=&#34;EventType&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;/&gt;
+-    &lt;/xs:sequence&gt;
++      &lt;xs:documentation&gt;
++        Döngünün tek bir iterasyonu.
++        İçerik, fonksiyon çağrıları (scope) ve iç içe döngüler (loop) içerebilir.
++      &lt;/xs:documentation&gt;
++    &lt;/xs:annotation&gt;
++    &lt;xs:choice minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;&gt;
++      &lt;xs:element name=&#34;event&#34; type=&#34;EventType&#34;/&gt;
++      &lt;xs:element name=&#34;scope&#34; type=&#34;ScopeType&#34;/&gt;
++      &lt;xs:element name=&#34;loop&#34; type=&#34;LoopType&#34;/&gt;
++    &lt;/xs:choice&gt;
+     &lt;xs:attribute name=&#34;index&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;required&#34;/&gt;
+     &lt;xs:attribute name=&#34;iterator_value&#34; type=&#34;xs:string&#34; use=&#34;optional&#34;/&gt;
+   &lt;/xs:complexType&gt;
+</pre></div>
+        </div>
+    </div>
+
+    <footer>Generated automatically from schema files.</footer>
+
+    <script>
+        function toggleCard(header) {
+            const body = header.nextElementSibling;
+            const chevron = header.querySelector('.chevron');
+            const isOpen = body.style.display === 'block';
+            body.style.display = isOpen ? 'none' : 'block';
+            chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(90deg)';
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('schema-theme', isDark ? 'light' : 'dark');
+            refreshThemeIcons();
+        }
+
+        function refreshThemeIcons() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.getElementById('icon-moon').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-sun').style.display = isDark ? 'none' : 'block';
+        }
+
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('schema-theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+            refreshThemeIcons();
+        })();
+    </script>
+</body>
+</html>

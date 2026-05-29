@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schema Diff v2.1 to v2.2 - TraceSchema Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../site/schema-shared.css" />
+    <style>
+        .diff-page { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 36px 2rem 80px; }
+        .diff-stats { display: flex; gap: 10px; margin: 10px 0 24px; flex-wrap: wrap; }
+        .diff-stat { display: inline-flex; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+        .stat-added { background: rgba(63,185,80,0.1); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
+        .stat-removed { background: rgba(248,81,73,0.1); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+        .stat-changed { background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.2); }
+        .list-wrap { display: grid; gap: 10px; margin-bottom: 22px; }
+        .chip { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+        .chip-added { background: rgba(63,185,80,0.12); color: var(--green); }
+        .chip-removed { background: rgba(248,81,73,0.12); color: var(--red); }
+        .chip-changed { background: rgba(88,166,255,0.12); color: var(--accent); }
+        .code-wrap pre { margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.55; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html" class="nav-brand">
+            <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M13 3L4 14h8l-1 7 9-11h-8z" /></svg></div>
+            TraceSchema
+        </a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" class="active">Diff Index</a></li>
+            </ul>
+            <button class="theme-btn" title="Toggle theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1z"/></svg>
+                <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+            </button>
+        </div>
+    </nav>
+
+    <div class="diff-page">
+        <div class="page-header">
+            <div class="version-tag green">Diff Report</div>
+            <h1 class="page-title">Schema v2.1 to v2.2</h1>
+            <p class="page-desc">Comparison between <code>trace_schema_v2.1.xsd</code> and <code>trace_schema_v2.2.xsd</code>.</p>
+        </div>
+
+        <div class="actions-bar">
+            <a href="index.html" class="btn btn-primary">Back to Diff Index</a>
+        </div>
+
+        <div class="diff-stats">
+            <span class="diff-stat stat-added">Added Types: 2</span>
+            <span class="diff-stat stat-removed">Removed Types: 0</span>
+            <span class="diff-stat stat-changed">Changed Types: 1</span>
+            <span class="diff-stat stat-changed">Common Types: 15</span>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="section-title">Added and Removed Types</h2>
+            <div class="list-wrap">
+                <div>
+                    <p class="mini-label">Added</p>
+<span class="chip chip-added">FocusSpecType</span> <span class="chip chip-added">SubFocusSpecType</span>                 </div>
+                <div>
+                    <p class="mini-label">Removed</p>
+                        <p class="page-desc">No removed complex types.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="section-title">Changed Type Details</h2>
+                <div class="type-card">
+                    <div class="type-card-header" onclick="toggleCard(this)">
+                        <span class="type-name">MetadataType</span>
+                        <div class="header-right">
+                            <span class="type-kind kind-new">CHANGED</span>
+                            <span class="chevron">▶</span>
+                        </div>
+                    </div>
+                    <div class="type-card-body">
+                        <p class="mini-label">Elements Added</p>
+                        <table class="mini-table">
+                            <thead><tr><th>Name</th><th>Type</th><th>Occurs</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>focus_spec</code></td><td><code>FocusSpecType</code></td><td class="occur">0..1</td></tr>
+                            </tbody>
+                        </table>
+
+                        <p class="mini-label">Elements Removed</p>
+<p class="page-desc">No removed elements.</p>
+                        <p class="mini-label">Attributes Added</p>
+<p class="page-desc">No added attributes.</p>
+                        <p class="mini-label">Attributes Removed</p>
+<p class="page-desc">No removed attributes.</p>                    </div>
+                </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="section-title">Unified Text Diff</h2>
+            <div class="code-wrap"><pre>--- trace_schema_v2.1.xsd
++++ trace_schema_v2.2.xsd
+@@ -2,7 +2,7 @@
+ &lt;xs:schema xmlns:xs=&#34;http://www.w3.org/2001/XMLSchema&#34; 
+            elementFormDefault=&#34;qualified&#34;
+            attributeFormDefault=&#34;unqualified&#34;
+-           version=&#34;2.1&#34;&gt;
++           version=&#34;2.2&#34;&gt;
+   
+   &lt;!-- 
+     XML Schema Definition (XSD) for Python Trace Output
+@@ -23,10 +23,15 @@
+     - Changed: Events organized in hierarchical structure instead of flat list
+ 
+     v2.1 Changelog:
+-    - Added: &lt;thread&gt; element for thread-based event grouping
+-    - Added: schema_version attribute on &lt;trace&gt; root element
+-    - Changed: &lt;locals&gt; no longer written for every line event (delta-only)
+-    - Changed: Events organized in hierarchical structure instead of flat list
++    - Improved: &lt;iteration&gt; now supports nested &lt;scope&gt; and &lt;loop&gt; elements
++    - Fixed: Minor schema corrections
++
++    v2.2 Changelog:
++    - Added: &lt;focus_spec&gt; element in &lt;metadata&gt; for selective/focused trace info
++      Describes which focus mode was used (function, variable, thread, line_range,
++      module, or composite), enabling downstream tools to understand trace scope.
++    - Added: &lt;sub_spec&gt; element within &lt;focus_spec&gt; for composite focus mode
++    - Added: depth_limit and include_callers_depth attributes on &lt;focus_spec&gt;
+   --&gt;
+   
+   &lt;!-- Kök Element --&gt;
+@@ -43,7 +48,7 @@
+       &lt;/xs:sequence&gt;
+       &lt;xs:attribute name=&#34;schema_version&#34; type=&#34;xs:string&#34; use=&#34;required&#34;&gt;
+         &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Şema versiyonu (örn: 2.0)&lt;/xs:documentation&gt;
++          &lt;xs:documentation&gt;Şema versiyonu (örn: 2.2)&lt;/xs:documentation&gt;
+         &lt;/xs:annotation&gt;
+       &lt;/xs:attribute&gt;
+     &lt;/xs:complexType&gt;
+@@ -54,6 +59,7 @@
+     &lt;xs:annotation&gt;
+       &lt;xs:documentation&gt;
+         Program ve trace çalıştırması hakkında meta bilgiler.
++        v2.2: focus_spec elementi eklendi.
+       &lt;/xs:documentation&gt;
+     &lt;/xs:annotation&gt;
+     &lt;xs:sequence&gt;
+@@ -83,14 +89,129 @@
+       
+       &lt;xs:element name=&#34;schema_version&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+         &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Şema versiyonu (örn: 2.0)&lt;/xs:documentation&gt;
++          &lt;xs:documentation&gt;Şema versiyonu (örn: 2.2)&lt;/xs:documentation&gt;
++        &lt;/xs:annotation&gt;
++      &lt;/xs:element&gt;
++
++      &lt;!-- v2.2: Focused / Selective Trace Metadata --&gt;
++      &lt;xs:element name=&#34;focus_spec&#34; type=&#34;FocusSpecType&#34; minOccurs=&#34;0&#34;&gt;
++        &lt;xs:annotation&gt;
++          &lt;xs:documentation&gt;
++            Odaklanmış trace yapılandırması.
++            Sadece focus modu aktifse yazılır.
++            Hangi fonksiyon, değişken, satır aralığı veya modülün trace edildiğini belgeler.
++          &lt;/xs:documentation&gt;
+         &lt;/xs:annotation&gt;
+       &lt;/xs:element&gt;
+       
+       &lt;xs:element name=&#34;statistics&#34; type=&#34;StatisticsType&#34;/&gt;
+     &lt;/xs:sequence&gt;
+   &lt;/xs:complexType&gt;
+-  
++
++  &lt;!-- Focus Spec Type (v2.2) --&gt;
++  &lt;xs:complexType name=&#34;FocusSpecType&#34;&gt;
++    &lt;xs:annotation&gt;
++      &lt;xs:documentation&gt;
++        TraceRecorder focus yapılandırması.
++        
++        Modlar:
++        - function   : Belirtilen fonksiyon(lar) trace edildi
++        - variable   : Belirtilen değişken(ler) izlendi
++        - thread     : Belirtilen thread(ler) trace edildi
++        - line_range : Belirtilen satır aralığı trace edildi
++        - module     : Belirtilen modül/dosya(lar) trace edildi
++        - composite  : Birden fazla mod birleştirildi (sub_spec listesi ile)
++        
++        Hedefler (targets):
++        - function modu: [&#34;factorial&#34;, &#34;merge_sort&#34;]
++        - variable modu: [&#34;counter&#34;, &#34;factorial:result&#34;]  (opsiyonel scope:var formatı)
++        - thread modu:   [&#34;Thread-1&#34;, &#34;worker&#34;]
++        - line_range:    [&#34;10-30&#34;, &#34;50-80&#34;]
++        - module modu:   [&#34;vrp_solver&#34;, &#34;utils*&#34;]        (glob desteklenir)
++      &lt;/xs:documentation&gt;
++    &lt;/xs:annotation&gt;
++    &lt;xs:sequence&gt;
++      &lt;!-- Tek hedef listesi (composite dışı modlar) --&gt;
++      &lt;xs:element name=&#34;target&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;&gt;
++        &lt;xs:annotation&gt;
++          &lt;xs:documentation&gt;Tek bir odak hedefi (fonksiyon adı, değişken, satır aralığı, vb.)&lt;/xs:documentation&gt;
++        &lt;/xs:annotation&gt;
++      &lt;/xs:element&gt;
++      &lt;!-- Composite mod: alt spec&#39;ler --&gt;
++      &lt;xs:element name=&#34;sub_spec&#34; type=&#34;SubFocusSpecType&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;&gt;
++        &lt;xs:annotation&gt;
++          &lt;xs:documentation&gt;Composite fokus modunun alt spec&#39;i&lt;/xs:documentation&gt;
++        &lt;/xs:annotation&gt;
++      &lt;/xs:element&gt;
++    &lt;/xs:sequence&gt;
++    &lt;xs:attribute name=&#34;mode&#34; type=&#34;FocusModeEnum&#34; use=&#34;required&#34;&gt;
++      &lt;xs:annotation&gt;
++        &lt;xs:documentation&gt;Odak modu&lt;/xs:documentation&gt;
++      &lt;/xs:annotation&gt;
++    &lt;/xs:attribute&gt;
++    &lt;xs:attribute name=&#34;operator&#34; use=&#34;optional&#34; default=&#34;union&#34;&gt;
++      &lt;xs:annotation&gt;
++        &lt;xs:documentation&gt;Composite mod için birleştirme operatörü: union | intersection&lt;/xs:documentation&gt;
++      &lt;/xs:annotation&gt;
++      &lt;xs:simpleType&gt;
++        &lt;xs:restriction base=&#34;xs:string&#34;&gt;
++          &lt;xs:enumeration value=&#34;union&#34;/&gt;
++          &lt;xs:enumeration value=&#34;intersection&#34;/&gt;
++        &lt;/xs:restriction&gt;
++      &lt;/xs:simpleType&gt;
++    &lt;/xs:attribute&gt;
++    &lt;xs:attribute name=&#34;include_callers_depth&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;optional&#34;&gt;
++      &lt;xs:annotation&gt;
++        &lt;xs:documentation&gt;
++          (function modu) Odak fonksiyonunu çağıran kaç seviye yukarısı da trace edildi.
++          0 = çağıranlar dahil edilmedi. 1 = anlık çağıran dahil edildi (varsayılan).
++        &lt;/xs:documentation&gt;
++      &lt;/xs:annotation&gt;
++    &lt;/xs:attribute&gt;
++    &lt;xs:attribute name=&#34;depth_limit&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;optional&#34;&gt;
++      &lt;xs:annotation&gt;
++        &lt;xs:documentation&gt;
++          Odak noktasından maksimum call stack derinliği.
++          Belirtilmemişse sınırsız.
++        &lt;/xs:documentation&gt;
++      &lt;/xs:annotation&gt;
++    &lt;/xs:attribute&gt;
++  &lt;/xs:complexType&gt;
++
++  &lt;!-- Sub Focus Spec Type (composite mode children) --&gt;
++  &lt;xs:complexType name=&#34;SubFocusSpecType&#34;&gt;
++    &lt;xs:annotation&gt;
++      &lt;xs:documentation&gt;Composite focus modunun alt spec elementi.&lt;/xs:documentation&gt;
++    &lt;/xs:annotation&gt;
++    &lt;xs:sequence&gt;
++      &lt;xs:element name=&#34;target&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;/&gt;
++    &lt;/xs:sequence&gt;
++    &lt;xs:attribute name=&#34;mode&#34; type=&#34;FocusModeEnum&#34; use=&#34;required&#34;/&gt;
++  &lt;/xs:complexType&gt;
++
++  &lt;!-- Focus Mode Enum --&gt;
++  &lt;xs:simpleType name=&#34;FocusModeEnum&#34;&gt;
++    &lt;xs:annotation&gt;
++      &lt;xs:documentation&gt;
++        Geçerli odak modları:
++        - function   : Fonksiyon bazlı odak
++        - variable   : Değişken bazlı odak
++        - thread     : Thread bazlı odak
++        - line_range : Satır aralığı bazlı odak
++        - module     : Modül/dosya bazlı odak
++        - composite  : Birden fazla mod birleşimi
++      &lt;/xs:documentation&gt;
++    &lt;/xs:annotation&gt;
++    &lt;xs:restriction base=&#34;xs:string&#34;&gt;
++      &lt;xs:enumeration value=&#34;function&#34;/&gt;
++      &lt;xs:enumeration value=&#34;variable&#34;/&gt;
++      &lt;xs:enumeration value=&#34;thread&#34;/&gt;
++      &lt;xs:enumeration value=&#34;line_range&#34;/&gt;
++      &lt;xs:enumeration value=&#34;module&#34;/&gt;
++      &lt;xs:enumeration value=&#34;composite&#34;/&gt;
++    &lt;/xs:restriction&gt;
++  &lt;/xs:simpleType&gt;
++
+   &lt;!-- Statistics Type --&gt;
+   &lt;xs:complexType name=&#34;StatisticsType&#34;&gt;
+     &lt;xs:annotation&gt;
+@@ -273,123 +394,27 @@
+       &lt;/xs:documentation&gt;
+     &lt;/xs:annotation&gt;
+     &lt;xs:sequence&gt;
+-      &lt;xs:element name=&#34;thread_id&#34; type=&#34;xs:nonNegativeInteger&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;
+-            Event&#39;in oluştuğu thread ID.
+-            v2: Scope veya loop içindeki event&#39;lerde (threading kapalıysa) yazılmaz.
+-          &lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;file&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;
+-            Kaynak dosya yolu.
+-            v2: Parent &amp;lt;scope&amp;gt; veya &amp;lt;thread&amp;gt;&#39;in file attribute&#39;undan okunabilir.
+-          &lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;function&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;
+-            Fonksiyon adı.
+-            v2: Parent &amp;lt;scope&amp;gt;&#39;un function attribute&#39;undan okunabilir.
+-          &lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;line&#34; type=&#34;xs:nonNegativeInteger&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Satır numarası&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;source&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;O satırdaki kaynak kod (stripped)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;caller&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Bu event&#39;i tetikleyen üst fonksiyon adı&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;delta&#34; type=&#34;DeltaType&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Önceki event&#39;ten bu yana değişen değişkenler (added/changed/removed)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;!-- Event tipine göre opsiyonel elementler --&gt;
+-      &lt;xs:element name=&#34;arguments&#34; type=&#34;ArgumentsType&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Fonksiyon argümanları (call event için)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;locals&#34; type=&#34;LocalsType&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;
+-            Local değişkenler.
+-            v2: Sadece call ve return event&#39;lerinde yazılır; line event&#39;lerinde delta kullanılır.
+-          &lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;return_value&#34; type=&#34;ValueType&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Return değeri (return event için)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;exception&#34; type=&#34;ExceptionType&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Exception bilgisi (exception event için)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
++      &lt;xs:element name=&#34;thread_id&#34; type=&#34;xs:nonNegativeInteger&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;file&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;function&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;line&#34; type=&#34;xs:nonNegativeInteger&#34;/&gt;
++      &lt;xs:element name=&#34;source&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;caller&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;delta&#34; type=&#34;DeltaType&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;arguments&#34; type=&#34;ArgumentsType&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;locals&#34; type=&#34;LocalsType&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;return_value&#34; type=&#34;ValueType&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;exception&#34; type=&#34;ExceptionType&#34; minOccurs=&#34;0&#34;/&gt;
+     &lt;/xs:sequence&gt;
+     
+-    &lt;!-- Event attributes --&gt;
+-    &lt;xs:attribute name=&#34;id&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;required&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Event&#39;in benzersiz ID&#39;si&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
+-    
+-    &lt;xs:attribute name=&#34;type&#34; type=&#34;EventTypeEnum&#34; use=&#34;required&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Event tipi: call, line, return, exception&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
+-    
+-    &lt;xs:attribute name=&#34;timestamp&#34; type=&#34;xs:decimal&#34; use=&#34;required&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;UNIX timestamp (epoch&#39;tan bu yana geçen saniye)&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
+-    
+-    &lt;xs:attribute name=&#34;depth&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;optional&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Call stack derinliği (0 = en üst seviye)&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
++    &lt;xs:attribute name=&#34;id&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;required&#34;/&gt;
++    &lt;xs:attribute name=&#34;type&#34; type=&#34;EventTypeEnum&#34; use=&#34;required&#34;/&gt;
++    &lt;xs:attribute name=&#34;timestamp&#34; type=&#34;xs:decimal&#34; use=&#34;required&#34;/&gt;
++    &lt;xs:attribute name=&#34;depth&#34; type=&#34;xs:nonNegativeInteger&#34; use=&#34;optional&#34;/&gt;
+   &lt;/xs:complexType&gt;
+   
+   &lt;!-- Event Type Enum --&gt;
+   &lt;xs:simpleType name=&#34;EventTypeEnum&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Olası event tipleri:
+-        - call: Fonksiyon çağrısı başladı
+-        - line: Yeni satır çalıştırıldı
+-        - return: Fonksiyon return ediyor
+-        - exception: Exception fırlatıldı
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+     &lt;xs:restriction base=&#34;xs:string&#34;&gt;
+       &lt;xs:enumeration value=&#34;call&#34;/&gt;
+       &lt;xs:enumeration value=&#34;line&#34;/&gt;
+@@ -400,11 +425,6 @@
+   
+   &lt;!-- Arguments Type --&gt;
+   &lt;xs:complexType name=&#34;ArgumentsType&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Fonksiyon argümanlarının listesi.
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+     &lt;xs:sequence&gt;
+       &lt;xs:element name=&#34;arg&#34; type=&#34;ValueType&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;/&gt;
+     &lt;/xs:sequence&gt;
+@@ -412,11 +432,6 @@
+   
+   &lt;!-- Locals Type --&gt;
+   &lt;xs:complexType name=&#34;LocalsType&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Local değişkenlerin listesi.
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+     &lt;xs:sequence&gt;
+       &lt;xs:element name=&#34;var&#34; type=&#34;ValueType&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;/&gt;
+     &lt;/xs:sequence&gt;
+@@ -424,61 +439,24 @@
+   
+   &lt;!-- Value Type (Değişken/Argüman) --&gt;
+   &lt;xs:complexType name=&#34;ValueType&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Bir değişken veya argümanın değeri ve tipi.
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+     &lt;xs:simpleContent&gt;
+       &lt;xs:extension base=&#34;xs:string&#34;&gt;
+-        &lt;xs:attribute name=&#34;name&#34; type=&#34;xs:string&#34; use=&#34;required&#34;&gt;
+-          &lt;xs:annotation&gt;
+-            &lt;xs:documentation&gt;Değişken/argüman adı&lt;/xs:documentation&gt;
+-          &lt;/xs:annotation&gt;
+-        &lt;/xs:attribute&gt;
+-        
+-        &lt;xs:attribute name=&#34;type&#34; type=&#34;xs:string&#34; use=&#34;required&#34;&gt;
+-          &lt;xs:annotation&gt;
+-            &lt;xs:documentation&gt;Python tipi (int, str, list, vb.)&lt;/xs:documentation&gt;
+-          &lt;/xs:annotation&gt;
+-        &lt;/xs:attribute&gt;
++        &lt;xs:attribute name=&#34;name&#34; type=&#34;xs:string&#34; use=&#34;required&#34;/&gt;
++        &lt;xs:attribute name=&#34;type&#34; type=&#34;xs:string&#34; use=&#34;required&#34;/&gt;
+       &lt;/xs:extension&gt;
+     &lt;/xs:simpleContent&gt;
+   &lt;/xs:complexType&gt;
+   
+   &lt;!-- Exception Type --&gt;
+   &lt;xs:complexType name=&#34;ExceptionType&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Exception bilgisi.
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+-    &lt;xs:sequence&gt;
+-      &lt;xs:element name=&#34;type&#34; type=&#34;xs:string&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Exception tipi (ValueError, TypeError, vb.)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;value&#34; type=&#34;xs:string&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Exception mesajı&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
++    &lt;xs:sequence&gt;
++      &lt;xs:element name=&#34;type&#34; type=&#34;xs:string&#34;/&gt;
++      &lt;xs:element name=&#34;value&#34; type=&#34;xs:string&#34;/&gt;
+     &lt;/xs:sequence&gt;
+   &lt;/xs:complexType&gt;
+   
+   &lt;!-- Delta Type --&gt;
+   &lt;xs:complexType name=&#34;DeltaType&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Bir event ile önceki event arasında değişen değişkenlerin listesi.
+-        Her &#39;change&#39; elementi bir değişkenin nasıl değiştiğini gösterir:
+-        - added: Yeni eklenen değişken
+-        - changed: Değeri değişen değişken (old → new)
+-        - removed: Silinen/scope dışı kalan değişken
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+     &lt;xs:sequence&gt;
+       &lt;xs:element name=&#34;change&#34; type=&#34;DeltaChangeType&#34; minOccurs=&#34;0&#34; maxOccurs=&#34;unbounded&#34;/&gt;
+     &lt;/xs:sequence&gt;
+@@ -486,68 +464,23 @@
+   
+   &lt;!-- Delta Change Type --&gt;
+   &lt;xs:complexType name=&#34;DeltaChangeType&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Tek bir değişkenin delta bilgisi.
+-        action: added | changed | removed
+-        old: Önceki değer (sadece changed ve removed için)
+-        new: Yeni değer (sadece added ve changed için)
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+-    &lt;xs:sequence&gt;
+-      &lt;xs:element name=&#34;old&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Değişkenin önceki değeri (changed/removed action için)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-      
+-      &lt;xs:element name=&#34;new&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;&gt;
+-        &lt;xs:annotation&gt;
+-          &lt;xs:documentation&gt;Değişkenin yeni değeri (added/changed action için)&lt;/xs:documentation&gt;
+-        &lt;/xs:annotation&gt;
+-      &lt;/xs:element&gt;
+-    &lt;/xs:sequence&gt;
+-    
+-    &lt;xs:attribute name=&#34;name&#34; type=&#34;xs:string&#34; use=&#34;required&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Değişken adı&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
+-
+-    &lt;xs:attribute name=&#34;variable&#34; type=&#34;xs:string&#34; use=&#34;optional&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Değişken adı&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
+-    
+-    &lt;xs:attribute name=&#34;action&#34; type=&#34;DeltaActionEnum&#34; use=&#34;required&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Değişiklik türü: added, changed, removed&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
+-    
+-    &lt;xs:attribute name=&#34;type&#34; type=&#34;xs:string&#34; use=&#34;optional&#34;&gt;
+-      &lt;xs:annotation&gt;
+-        &lt;xs:documentation&gt;Değişkenin Python tipi (int, str, list, vb.)&lt;/xs:documentation&gt;
+-      &lt;/xs:annotation&gt;
+-    &lt;/xs:attribute&gt;
++    &lt;xs:sequence&gt;
++      &lt;xs:element name=&#34;old&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;/&gt;
++      &lt;xs:element name=&#34;new&#34; type=&#34;xs:string&#34; minOccurs=&#34;0&#34;/&gt;
++    &lt;/xs:sequence&gt;
++    &lt;xs:attribute name=&#34;name&#34; type=&#34;xs:string&#34; use=&#34;required&#34;/&gt;
++    &lt;xs:attribute name=&#34;variable&#34; type=&#34;xs:string&#34; use=&#34;optional&#34;/&gt;
++    &lt;xs:attribute name=&#34;action&#34; type=&#34;DeltaActionEnum&#34; use=&#34;required&#34;/&gt;
++    &lt;xs:attribute name=&#34;type&#34; type=&#34;xs:string&#34; use=&#34;optional&#34;/&gt;
+   &lt;/xs:complexType&gt;
+   
+   &lt;!-- Delta Action Enum --&gt;
+   &lt;xs:simpleType name=&#34;DeltaActionEnum&#34;&gt;
+-    &lt;xs:annotation&gt;
+-      &lt;xs:documentation&gt;
+-        Olası delta action tipleri:
+-        - added: Değişken yeni oluşturuldu
+-        - changed: Değişkenin değeri değişti
+-        - removed: Değişken scope&#39;tan çıktı veya silindi
+-      &lt;/xs:documentation&gt;
+-    &lt;/xs:annotation&gt;
+     &lt;xs:restriction base=&#34;xs:string&#34;&gt;
+       &lt;xs:enumeration value=&#34;added&#34;/&gt;
+       &lt;xs:enumeration value=&#34;changed&#34;/&gt;
+       &lt;xs:enumeration value=&#34;removed&#34;/&gt;
+     &lt;/xs:restriction&gt;
+   &lt;/xs:simpleType&gt;
+-  
++
+ &lt;/xs:schema&gt;
+</pre></div>
+        </div>
+    </div>
+
+    <footer>Generated automatically from schema files.</footer>
+
+    <script>
+        function toggleCard(header) {
+            const body = header.nextElementSibling;
+            const chevron = header.querySelector('.chevron');
+            const isOpen = body.style.display === 'block';
+            body.style.display = isOpen ? 'none' : 'block';
+            chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(90deg)';
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('schema-theme', isDark ? 'light' : 'dark');
+            refreshThemeIcons();
+        }
+
+        function refreshThemeIcons() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.getElementById('icon-moon').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-sun').style.display = isDark ? 'none' : 'block';
+        }
+
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('schema-theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+            refreshThemeIcons();
+        })();
+    </script>
+</body>
+</html>

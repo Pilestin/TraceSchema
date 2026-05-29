@@ -3,553 +3,109 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Schema Version Diff — TraceSchema Docs</title>
+    <title>Schema Diff Index - TraceSchema Docs</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/3.4.47/bundles/css/diff2html.min.css" />
-    <link rel="stylesheet" href="schema-shared.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../site/schema-shared.css" />
     <style>
-        /* Override diff2html for dark theme */
-        .d2h-file-header,
-        .d2h-file-wrapper {
-            background: var(--bg2) !important;
-            border-color: var(--border) !important;
-        }
-
-        .d2h-code-linenumber,
-        .d2h-code-line,
-        .d2h-info,
-        .d2h-tag {
-            background: var(--bg2) !important;
-            color: var(--text2) !important;
-            border-color: var(--border) !important;
-        }
-
-        .d2h-ins {
-            background: rgba(63, 185, 80, 0.1) !important;
-        }
-
-        .d2h-del {
-            background: rgba(248, 81, 73, 0.1) !important;
-        }
-
-        .d2h-ins .d2h-code-line-ctn,
-        .d2h-ins .d2h-code-line-prefix {
-            color: #3fb950 !important;
-        }
-
-        .d2h-del .d2h-code-line-ctn,
-        .d2h-del .d2h-code-line-prefix {
-            color: #f85149 !important;
-        }
-
-        .d2h-ins mark {
-            background: rgba(63, 185, 80, 0.25) !important;
-            color: inherit !important;
-            border-radius: 2px;
-        }
-
-        .d2h-del mark {
-            background: rgba(248, 81, 73, 0.25) !important;
-            color: inherit !important;
-            border-radius: 2px;
-        }
-
-        .d2h-file-name {
-            color: var(--accent) !important;
-            font-family: 'JetBrains Mono', monospace !important;
-        }
-
-        .d2h-file-stats {
-            color: var(--text2) !important;
-        }
-
-        .d2h-code-line-ctn {
-            font-family: 'JetBrains Mono', monospace !important;
-            font-size: 0.78rem !important;
-        }
-
-        .d2h-wrapper {
-            padding: 0 !important;
-        }
-
-        #diff-output {
-            background: transparent;
-            border: none;
-        }
-
-        .diff-fullpage {
-            position: relative;
-            z-index: 1;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 36px 2rem 80px;
-        }
-
-        .diff-page-header {
-            margin-bottom: 28px;
-        }
-
-        .diff-intro {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .schema-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 14px;
-            border-radius: 999px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.82rem;
-            font-weight: 700;
-        }
-
-        .chip-v1 {
-            background: rgba(88, 166, 255, 0.12);
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            color: var(--accent);
-        }
-
-        .chip-v2 {
-            background: rgba(63, 185, 80, 0.12);
-            border: 1px solid rgba(63, 185, 80, 0.3);
-            color: var(--green);
-        }
-
-        .chip-arrow {
-            color: var(--text3);
-            font-size: 1.1rem;
-        }
-
-        /* stats row */
-        .diff-stats {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .diff-stat {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .stat-added {
-            background: rgba(63, 185, 80, 0.1);
-            color: var(--green);
-            border: 1px solid rgba(63, 185, 80, 0.2);
-        }
-
-        .stat-changed {
-            background: rgba(88, 166, 255, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(88, 166, 255, 0.2);
-        }
-
-        .stat-removed {
-            background: rgba(248, 81, 73, 0.08);
-            color: var(--red);
-            border: 1px solid rgba(248, 81, 73, 0.15);
-        }
-
-        /* Controls */
-        .diff-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .diff-toggle {
-            display: flex;
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .diff-toggle button {
-            padding: 7px 16px;
-            background: transparent;
-            border: none;
-            color: var(--text2);
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .diff-toggle button.active {
-            background: var(--accent);
-            color: #0d1117;
-        }
-
-        .loading-msg {
-            color: var(--text3);
-            font-size: 0.85rem;
-            padding: 24px;
-            text-align: center;
-        }
-
-        /* Changelog section */
-        .changelog-section {
-            margin-bottom: 36px;
-        }
+        .index-wrap { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 36px 2rem 80px; }
+        .list-grid { display: grid; gap: 10px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .list-item a { text-decoration: none; }
     </style>
 </head>
 <body>
     <nav>
         <a href="../index.html" class="nav-brand">
-            <div class="brand-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#fff">
-                    <path d="M13 3L4 14h8l-1 7 9-11h-8z" />
-                </svg></div>TraceSchema
+            <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M13 3L4 14h8l-1 7 9-11h-8z" /></svg></div>
+            TraceSchema
         </a>
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="schema-v1.html">v1 Docs</a></li>
-                <li><a href="schema-v2.html">v2 Docs</a></li>
-                <li><a href="schema-v2.1.html">v2.1 Docs</a></li>
-                <li><a href="diff.html" class="active">Diff</a></li>
+                <li><a href="index.html" class="active">Diff Index</a></li>
             </ul>
-            <button class="theme-btn" title="Toggle light/dark theme" onclick="toggleTheme()">
-                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none">
-                    <path
-                        d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1zm14.95 5.364a1 1 0 0 1-1.414 1.414l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707zm-12.9-12.9A1 1 0 0 1 7.464 5.878l-.707.707A1 1 0 1 1 5.343 5.17l.707-.707zm12.9 0a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM6.05 18.364a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 1.414l-.707.707z" />
-                </svg>
-                <svg id="icon-moon" viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
+            <button class="theme-btn" title="Toggle theme" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1z"/></svg>
+                <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
             </button>
         </div>
     </nav>
 
-    <div class="diff-fullpage">
-        <div class="diff-page-header">
-            <h1 class="page-title" style="font-size:1.8rem;font-weight:800;margin-bottom:12px;">Schema Diff</h1>
-
-            <!-- Compare selector -->
-            <div class="diff-controls" style="margin-bottom:16px;">
-                <div class="diff-toggle">
-                    <button id="btn-v1v2" onclick="selectCompare('v1v2')">v1 → v2</button>
-                    <button id="btn-v2v21" onclick="selectCompare('v2v21')">v2 → v2.1</button>
-                </div>
-            </div>
-
-            <div class="diff-intro" id="diff-intro-chips">
-                <span class="schema-chip chip-v1" id="chip-left">trace_schema_v1.xsd</span>
-                <span class="chip-arrow">→</span>
-                <span class="schema-chip chip-v2" id="chip-right">trace_schema_v2.xsd</span>
-            </div>
-            <div class="diff-stats" id="diff-stats">
-                <span class="diff-stat stat-added">⬆ Loading…</span>
-            </div>
+    <div class="index-wrap">
+        <div class="page-header">
+            <div class="version-tag green">Auto Generated</div>
+            <h1 class="page-title">Schema Docs and Diff Index</h1>
+            <p class="page-desc">All pages generated from files in <code>schema/</code>.</p>
         </div>
 
-        <!-- Changelog Summary v1→v2 -->
-        <div class="changelog-section" id="changelog-v1v2">
-            <h2 class="section-title"
-                style="font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--border);">
-                <span
-                    style="display:inline-block;width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--purple));border-radius:2px;"></span>
-                v1 → v2 Changelog Summary
-            </h2>
+
+        <div class="doc-section">
+            <h2 class="section-title">Pairwise Diff Reports</h2>
             <div class="changelog-grid">
-                <div class="cl-card">
-                    <div class="cl-icon cl-added">NEW</div>
-                    <div>
-                        <h4>New: <code>&lt;loop&gt;</code></h4>
-                        <p>Loop compaction element. Groups loop iterations with per-iteration events, optional
-                            <code>truncated_iterations</code> and <code>&lt;summary&gt;</code> for skipped iterations.
-                        </p>
+                    <div class="cl-card list-item">
+                        <div>
+                            <h4>v2.1 to v2.2</h4>
+                            <p><code>trace_schema_v2.1.xsd</code> to <code>trace_schema_v2.2.xsd</code></p>
+                        </div>
+                        <a href="../version_diff/diff-v2.1-to-v2.2.html" class="btn btn-primary">Open Diff</a>
                     </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-added">NEW</div>
-                    <div>
-                        <h4>New: <code>&lt;scope&gt;</code></h4>
-                        <p>Hierarchical function scope grouping. Recursive structure — nested scopes supported. Child
-                            events inherit <code>file</code> and <code>function</code> from parent scope, reducing
-                            redundancy.</p>
-                    </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-added">NEW</div>
-                    <div>
-                        <h4>New: <code>&lt;thread&gt;</code></h4>
-                        <p>Thread-based event grouping container. Groups <code>event | loop | scope</code> children
-                            under a named thread with an <code>id</code> attribute.</p>
-                    </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-added">NEW</div>
-                    <div>
-                        <h4>New: <code>schema_version</code> attribute on <code>&lt;trace&gt;</code></h4>
-                        <p>Root element now carries a <code>schema_version</code> attribute (required, e.g.
-                            <code>"2.0"</code>). Also added as optional element inside <code>MetadataType</code>.
-                        </p>
-                    </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-changed">CHG</div>
-                    <div>
-                        <h4>Changed: <code>EventsType</code></h4>
-                        <p>v1 used a flat <code>&lt;event&gt;</code> sequence. v2 uses <code>xs:choice</code> allowing
-                            <code>event | loop | scope | thread</code> as siblings.
-                        </p>
-                    </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-changed">CHG</div>
-                    <div>
-                        <h4>Changed: <code>EventType</code> field cardinality</h4>
-                        <p><code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> changed
-                            from <code>minOccurs="1"</code> to <code>minOccurs="0"</code>. When inside a
-                            <code>&lt;scope&gt;</code> or <code>&lt;thread&gt;</code>, these are inferred from the
-                            parent.
-                        </p>
-                    </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-changed">CHG</div>
-                    <div>
-                        <h4>Changed: <code>&lt;locals&gt;</code> behavior</h4>
-                        <p>In v1, <code>&lt;locals&gt;</code> could appear in any event. In v2,
-                            <code>&lt;locals&gt;</code> is only written for <code>call</code> and <code>return</code>
-                            events. Line events use <code>&lt;delta&gt;</code> only.
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Changelog Summary v2→v2.1 -->
-        <div class="changelog-section" id="changelog-v2v21" style="display:none;">
-            <h2 class="section-title"
-                style="font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--border);">
-                <span
-                    style="display:inline-block;width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--purple));border-radius:2px;"></span>
-                v2 → v2.1 Changelog Summary
-            </h2>
+        <div class="doc-section">
+            <h2 class="section-title">Pairwise Diff Reports</h2>
             <div class="changelog-grid">
-                <div class="cl-card">
-                    <div class="cl-icon cl-changed">CHG</div>
-                    <div>
-                        <h4>Changed: <code>IterationType</code></h4>
-                        <p>v2.0'da <code>&lt;iteration&gt;</code> içinde sadece düz <code>&lt;event&gt;</code> listesi
-                            vardı. v2.1'de <code>xs:choice</code> ile <code>event | scope | loop</code> destekleniyor
-                            — iterasyon içinde iç içe fonksiyon çağrıları ve döngüler mümkün.</p>
+                    <div class="cl-card list-item">
+                        <div>
+                            <h4>v2.0 to v2.1</h4>
+                            <p><code>trace_schema_v2.0.xsd</code> to <code>trace_schema_v2.1.xsd</code></p>
+                        </div>
+                        <a href="../version_diff/diff-v2.0-to-v2.1.html" class="btn btn-primary">Open Diff</a>
                     </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-added">NEW</div>
-                    <div>
-                        <h4>New: <code>variable</code> attribute on <code>DeltaChangeType</code></h4>
-                        <p>Opsiyonel <code>variable</code> attribute eklendi. Mevcut <code>name</code> attribute ile
-                            aynı amaca hizmet eder; geriye dönük uyumluluk için korunmuştur.</p>
-                    </div>
-                </div>
-                <div class="cl-card">
-                    <div class="cl-icon cl-changed">CHG</div>
-                    <div>
-                        <h4>Changed: Schema <code>version</code></h4>
-                        <p><code>xs:schema version</code> attribute <code>"2.0"</code>'dan <code>"2.1"</code>'e
-                            güncellendi. <code>schema_version</code> değeri artık <code>"2.1"</code> olarak gönderilir.</p>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Diff View -->
-        <div>
-            <h2 class="section-title"
-                style="font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--border);">
-                <span
-                    style="display:inline-block;width:3px;height:16px;background:linear-gradient(180deg,var(--accent),var(--purple));border-radius:2px;"></span>
-                Line-by-Line Diff
-            </h2>
-            <div class="diff-controls">
-                <div class="diff-toggle">
-                    <button id="btn-unified" class="active" onclick="setMode('unified')">Unified</button>
-                    <button id="btn-split" onclick="setMode('split')">Split</button>
-                </div>
-                <span style="color:var(--text3);font-size:0.8rem;" id="diff-hint">Requires HTTP server — <a
-                        href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer" target="_blank"
-                        style="color:var(--accent);">Live Server</a> in VS Code or GitHub Pages</span>
-            </div>
-            <div id="diff-output">
-                <p class="loading-msg">⏳ Loading diff…</p>
+        <div class="doc-section">
+            <h2 class="section-title">Pairwise Diff Reports</h2>
+            <div class="changelog-grid">
+                    <div class="cl-card list-item">
+                        <div>
+                            <h4>v1.0 to v2.0</h4>
+                            <p><code>trace_schema_v1.0.xsd</code> to <code>trace_schema_v2.0.xsd</code></p>
+                        </div>
+                        <a href="../version_diff/diff-v1.0-to-v2.0.html" class="btn btn-primary">Open Diff</a>
+                    </div>
             </div>
         </div>
+
     </div>
 
-    <footer>
-        <p>TraceSchema — <a href="../index.html">Home</a> | <a href="schema-v1.html">v1 Docs</a> | <a
-                href="schema-v2.html">v2 Docs</a> | <a href="schema-v2.1.html">v2.1 Docs</a></p>
-    </footer>
+    <footer>Generated automatically from schema files.</footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/3.4.47/bundles/js/diff2html-ui.min.js"></script>
     <script>
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.getAttribute('data-theme') === 'dark';
             html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            document.getElementById('icon-sun').style.display = isDark ? 'block' : 'none';
-            document.getElementById('icon-moon').style.display = isDark ? 'none' : 'block';
-            localStorage.setItem('ts-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('schema-theme', isDark ? 'light' : 'dark');
+            refreshThemeIcons();
         }
-        (function () {
-            const saved = localStorage.getItem('ts-theme');
-            if (saved === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-                document.getElementById('icon-sun').style.display = 'block';
-                document.getElementById('icon-moon').style.display = 'none';
+
+        function refreshThemeIcons() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.getElementById('icon-moon').style.display = isDark ? 'block' : 'none';
+            document.getElementById('icon-sun').style.display = isDark ? 'none' : 'block';
+        }
+
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('schema-theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
             }
+            refreshThemeIcons();
         })();
-
-        // Schema texts
-        let schemas = { v1: '', v2: '', v21: '' };
-        let currentMode = 'unified';
-        let currentCompare = 'v1v2'; // default
-
-        function createUnifiedDiff(oldStr, newStr, oldName, newName) {
-            const oldLines = oldStr.split('\n');
-            const newLines = newStr.split('\n');
-            const m = oldLines.length, n = newLines.length;
-            const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
-            for (let i = m - 1; i >= 0; i--)
-                for (let j = n - 1; j >= 0; j--)
-                    dp[i][j] = oldLines[i] === newLines[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
-            const ops = [];
-            let i = 0, j = 0;
-            while (i < m || j < n) {
-                if (i < m && j < n && oldLines[i] === newLines[j]) { ops.push({ t: '=', v: oldLines[i] }); i++; j++; }
-                else if (j < n && (i >= m || dp[i][j + 1] >= dp[i + 1][j])) { ops.push({ t: '+', v: newLines[j] }); j++; }
-                else { ops.push({ t: '-', v: oldLines[i] }); i++; }
-            }
-            const CONTEXT = 3;
-            let diff = `--- a/${oldName}\n+++ b/${newName}\n`;
-            let k = 0;
-            while (k < ops.length) {
-                if (ops[k].t === '=') { k++; continue; }
-                const start = Math.max(0, k - CONTEXT);
-                let end = k;
-                while (end < ops.length && (ops[end].t !== '=' || end - k < CONTEXT * 2)) end++;
-                end = Math.min(ops.length, end + CONTEXT);
-                const chunk = ops.slice(start, end);
-                let oldStart = 1, newStart = 1, oldCount = 0, newCount = 0;
-                for (let x = 0; x < start; x++) {
-                    if (ops[x].t !== '+') oldStart++;
-                    if (ops[x].t !== '-') newStart++;
-                }
-                chunk.forEach(o => { if (o.t !== '+') oldCount++; if (o.t !== '-') newCount++; });
-                diff += `@@ -${oldStart},${oldCount} +${newStart},${newCount} @@\n`;
-                chunk.forEach(o => {
-                    if (o.t === '=') diff += ` ${o.v}\n`;
-                    else if (o.t === '+') diff += `+${o.v}\n`;
-                    else diff += `-${o.v}\n`;
-                });
-                k = end;
-            }
-            return diff;
-        }
-
-        function renderDiff() {
-            let oldText, newText, oldName, newName, label;
-            if (currentCompare === 'v2v21') {
-                if (!schemas.v2 || !schemas.v21) return;
-                oldText = schemas.v2; newText = schemas.v21;
-                oldName = 'trace_schema_v2.xsd'; newName = 'trace_schema_v2.1.xsd';
-                label = 'v2 → v2.1';
-            } else {
-                if (!schemas.v1 || !schemas.v2) return;
-                oldText = schemas.v1; newText = schemas.v2;
-                oldName = 'trace_schema_v1.xsd'; newName = 'trace_schema_v2.xsd';
-                label = 'v1 → v2';
-            }
-            const unified = createUnifiedDiff(oldText, newText, oldName, newName);
-            const container = document.getElementById('diff-output');
-            container.innerHTML = '';
-            const ui = new Diff2HtmlUI(container, unified, {
-                drawFileList: true,
-                fileListToggle: false,
-                fileContentToggle: false,
-                matching: 'lines',
-                outputFormat: currentMode,
-                highlight: true,
-                renderNothingWhenEmpty: false,
-            });
-            ui.draw();
-            const additions = (unified.match(/^\+[^+]/gm) || []).length;
-            const deletions = (unified.match(/^-[^-]/gm) || []).length;
-            document.getElementById('diff-stats').innerHTML = `
-                <span class="diff-stat stat-added">+${additions} added</span>
-                <span class="diff-stat stat-removed">-${deletions} removed</span>
-                <span class="diff-stat stat-changed">⚡ ${label}</span>`;
-            document.getElementById('diff-hint').style.display = 'none';
-        }
-
-        function selectCompare(mode) {
-            currentCompare = mode;
-            document.getElementById('btn-v1v2').classList.toggle('active', mode === 'v1v2');
-            document.getElementById('btn-v2v21').classList.toggle('active', mode === 'v2v21');
-            // Toggle changelogs
-            document.getElementById('changelog-v1v2').style.display = mode === 'v1v2' ? '' : 'none';
-            document.getElementById('changelog-v2v21').style.display = mode === 'v2v21' ? '' : 'none';
-            // Update chips
-            if (mode === 'v2v21') {
-                document.getElementById('chip-left').textContent = 'trace_schema_v2.xsd';
-                document.getElementById('chip-right').textContent = 'trace_schema_v2.1.xsd';
-            } else {
-                document.getElementById('chip-left').textContent = 'trace_schema_v1.xsd';
-                document.getElementById('chip-right').textContent = 'trace_schema_v2.xsd';
-            }
-            renderDiff();
-        }
-
-        function setMode(mode) {
-            currentMode = mode;
-            document.getElementById('btn-unified').classList.toggle('active', mode === 'unified');
-            document.getElementById('btn-split').classList.toggle('active', mode === 'split');
-            renderDiff();
-        }
-
-        // Detect URL param
-        const urlParams = new URLSearchParams(window.location.search);
-        const compareParam = urlParams.get('compare');
-
-        Promise.all([
-            fetch('../schema/trace_schema_v1.xsd').then(r => r.text()),
-            fetch('../schema/trace_schema_v2.xsd').then(r => r.text()),
-            fetch('../schema/trace_schema_v2.1.xsd').then(r => r.text()),
-        ]).then(([t1, t2, t21]) => {
-            schemas.v1 = t1; schemas.v2 = t2; schemas.v21 = t21;
-            if (compareParam === 'v2v21') {
-                selectCompare('v2v21');
-            } else {
-                selectCompare('v1v2');
-            }
-        }).catch(() => {
-            document.getElementById('diff-output').innerHTML =
-                '<p class="loading-msg">⚠️ Could not load XSD files. Open this page via an HTTP server (VS Code Live Server or GitHub Pages).</p>';
-            document.getElementById('diff-stats').innerHTML = '<span class="diff-stat stat-changed">⚠️ HTTP server required</span>';
-        });
     </script>
 </body>
 </html>
