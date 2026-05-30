@@ -10,6 +10,7 @@
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
     <link rel="stylesheet" href="schema-shared.css" />
+    <script>document.documentElement.setAttribute('data-lang', localStorage.getItem('ts-lang') || 'tr');</script>
 </head>
 <body>
     <nav>
@@ -23,6 +24,8 @@
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="schema-v1.html" class="active">v1 Docs</a></li>
                 <li><a href="schema-v2.html">v2 Docs</a></li>
+                <li><a href="schema-v2.1.html">v2.1 Docs</a></li>
+                <li><a href="schema-v2.2.html">v2.2 Docs</a></li>
                 <li><a href="diff.html">Diff</a></li>
             </ul>
             <button class="theme-btn" title="Toggle light/dark theme" onclick="toggleTheme()">
@@ -34,6 +37,10 @@
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
             </button>
+            <div class="lang-toggle">
+              <button class="lang-btn" data-lang="tr" onclick="setLang('tr')">TR</button>
+              <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
         </div>
     </nav>
 
@@ -71,8 +78,9 @@
             <div class="page-header">
                 <div class="version-tag">v1.0</div>
                 <h1 class="page-title">Schema v1 Documentation</h1>
-                <p class="page-desc">Flat event list yapısı. Her event <code>thread_id</code>, <code>file</code>,
-                    <code>function</code> ve diğer alanlarla tam olarak yazılır.
+                <p class="page-desc">
+                    <span class="i18n-tr">Flat event list yapısı. Her event <code>thread_id</code>, <code>file</code>, <code>function</code> ve diğer alanlarla tam olarak yazılır.</span>
+                    <span class="i18n-en">Flat event list structure. Each event is fully written with <code>thread_id</code>, <code>file</code>, <code>function</code>, and all other fields.</span>
                 </p>
             </div>
 
@@ -92,7 +100,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body">
-                        <div class="type-doc">Trace dosyasının kök elementi. Tüm trace verilerini içerir.</div>
+                        <div class="type-doc"><span class="i18n-tr">Trace dosyasının kök elementi. Tüm trace verilerini içerir.</span><span class="i18n-en">Root element of the trace file. Contains all trace data.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -130,7 +138,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body">
-                        <div class="type-doc">Program ve trace çalıştırması hakkında meta bilgiler.</div>
+                        <div class="type-doc"><span class="i18n-tr">Program ve trace çalıştırması hakkında meta bilgiler.</span><span class="i18n-en">Metadata about the program and trace run.</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -145,31 +153,31 @@
                                     <td><code>python_version</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Python versiyonu</td>
+                                    <td><span class="i18n-tr">Python versiyonu</span><span class="i18n-en">Python version</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>platform</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>İşletim sistemi (win32, linux)</td>
+                                    <td><span class="i18n-tr">İşletim sistemi (win32, linux)</span><span class="i18n-en">Operating system (win32, linux)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>start_time</code></td>
                                     <td><code>xs:dateTime</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Başlangıç zamanı (ISO 8601)</td>
+                                    <td><span class="i18n-tr">Başlangıç zamanı (ISO 8601)</span><span class="i18n-en">Start time (ISO 8601)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>end_time</code></td>
                                     <td><code>xs:dateTime</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Bitiş zamanı (ISO 8601)</td>
+                                    <td><span class="i18n-tr">Bitiş zamanı (ISO 8601)</span><span class="i18n-en">End time (ISO 8601)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>statistics</code></td>
                                     <td><code>StatisticsType</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Trace istatistikleri</td>
+                                    <td><span class="i18n-tr">Trace istatistikleri</span><span class="i18n-en">Trace statistics</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -183,7 +191,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body">
-                        <div class="type-doc">Trace istatistikleri — toplam event sayısı, süre vb.</div>
+                        <div class="type-doc"><span class="i18n-tr">Trace istatistikleri — toplam event sayısı, süre vb.</span><span class="i18n-en">Trace statistics — total event count, duration, etc.</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -198,37 +206,37 @@
                                     <td><code>total_events</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Toplam event sayısı</td>
+                                    <td><span class="i18n-tr">Toplam event sayısı</span><span class="i18n-en">Total event count</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>total_duration</code></td>
                                     <td><code>xs:decimal</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Süre (saniye)</td>
+                                    <td><span class="i18n-tr">Süre (saniye)</span><span class="i18n-en">Duration (seconds)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>call_count</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Fonksiyon çağrı sayısı</td>
+                                    <td><span class="i18n-tr">Fonksiyon çağrı sayısı</span><span class="i18n-en">Function call count</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>line_count</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Satır sayısı</td>
+                                    <td><span class="i18n-tr">Satır sayısı</span><span class="i18n-en">Line count</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>return_count</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Return event sayısı</td>
+                                    <td><span class="i18n-tr">Return event sayısı</span><span class="i18n-en">Return event count</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>exception_count</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Exception event sayısı</td>
+                                    <td><span class="i18n-tr">Exception event sayısı</span><span class="i18n-en">Exception event count</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -242,7 +250,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-eventstype" style="display:none">
-                        <div class="type-doc">Tüm trace event'lerini içeren container. v1'de düz liste yapısı.</div>
+                        <div class="type-doc"><span class="i18n-tr">Tüm trace event'lerini içeren container. v1'de düz liste yapısı.</span><span class="i18n-en">Container holding all trace events. In v1, a flat list structure.</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -269,7 +277,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-eventtype" style="display:none">
-                        <div class="type-doc">Tek bir trace event'i: call, line, return veya exception.</div>
+                        <div class="type-doc"><span class="i18n-tr">Tek bir trace event'i: call, line, return veya exception.</span><span class="i18n-en">A single trace event: call, line, return, or exception.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -291,61 +299,61 @@
                                     <td><code>file</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Kaynak dosya yolu</td>
+                                    <td><span class="i18n-tr">Kaynak dosya yolu</span><span class="i18n-en">Source file path</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>function</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Fonksiyon adı</td>
+                                    <td><span class="i18n-tr">Fonksiyon adı</span><span class="i18n-en">Function name</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>line</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td class="occur">1..1</td>
-                                    <td>Satır numarası</td>
+                                    <td><span class="i18n-tr">Satır numarası</span><span class="i18n-en">Line number</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>source</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Kaynak kod</td>
+                                    <td><span class="i18n-tr">Kaynak kod</span><span class="i18n-en">Source code</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>caller</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Çağıran fonksiyon</td>
+                                    <td><span class="i18n-tr">Çağıran fonksiyon</span><span class="i18n-en">Calling function</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>delta</code></td>
                                     <td><code>DeltaType</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Değişen değişkenler</td>
+                                    <td><span class="i18n-tr">Değişen değişkenler</span><span class="i18n-en">Changed variables</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>arguments</code></td>
                                     <td><code>ArgumentsType</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Argümanlar (call event)</td>
+                                    <td><span class="i18n-tr">Argümanlar (call event)</span><span class="i18n-en">Arguments (call event)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>locals</code></td>
                                     <td><code>LocalsType</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Local değişkenler</td>
+                                    <td><span class="i18n-tr">Local değişkenler</span><span class="i18n-en">Local variables</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>return_value</code></td>
                                     <td><code>ValueType</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Return değeri</td>
+                                    <td><span class="i18n-tr">Return değeri</span><span class="i18n-en">Return value</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>exception</code></td>
                                     <td><code>ExceptionType</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Exception bilgisi</td>
+                                    <td><span class="i18n-tr">Exception bilgisi</span><span class="i18n-en">Exception information</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -364,7 +372,7 @@
                                     <td><code>id</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Benzersiz event ID</td>
+                                    <td><span class="i18n-tr">Benzersiz event ID</span><span class="i18n-en">Unique event ID</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>type</code></td>
@@ -376,13 +384,13 @@
                                     <td><code>timestamp</code></td>
                                     <td><code>xs:decimal</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>UNIX timestamp (saniye)</td>
+                                    <td><span class="i18n-tr">UNIX timestamp (saniye)</span><span class="i18n-en">UNIX timestamp (seconds)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>depth</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
-                                    <td>Call stack derinliği</td>
+                                    <td><span class="i18n-tr">Call stack derinliği</span><span class="i18n-en">Call stack depth</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -396,7 +404,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-args" style="display:none">
-                        <div class="type-doc">Fonksiyon argümanlarının listesi.</div>
+                        <div class="type-doc"><span class="i18n-tr">Fonksiyon argümanlarının listesi.</span><span class="i18n-en">List of function arguments.</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -423,7 +431,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-locals" style="display:none">
-                        <div class="type-doc">Local değişkenlerin listesi. v1'de her event'te yazılabilir.</div>
+                        <div class="type-doc"><span class="i18n-tr">Local değişkenlerin listesi. v1'de her event'te yazılabilir.</span><span class="i18n-en">List of local variables. In v1, can be written at every event.</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -450,7 +458,7 @@
                                 (simpleContent)</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-value" style="display:none">
-                        <div class="type-doc">Değişken/argüman değeri ve tipi. İçerik = değer string'i.</div>
+                        <div class="type-doc"><span class="i18n-tr">Değişken/argüman değeri ve tipi. İçerik = değer string'i.</span><span class="i18n-en">Variable/argument value and type. Content = value string.</span></div>
                         <p class="mini-label">Attributes</p>
                         <table class="mini-table">
                             <thead>
@@ -483,7 +491,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-exc" style="display:none">
-                        <div class="type-doc">Exception bilgisi. exception event'lerinde kullanılır.</div>
+                        <div class="type-doc"><span class="i18n-tr">Exception bilgisi. exception event'lerinde kullanılır.</span><span class="i18n-en">Exception information. Used in exception events.</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -518,8 +526,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-delta" style="display:none">
-                        <div class="type-doc">Event ile önceki event arasında değişen değişkenler (added / changed /
-                            removed).</div>
+                        <div class="type-doc"><span class="i18n-tr">Event ile önceki event arasında değişen değişkenler (added / changed / removed).</span><span class="i18n-en">Variables changed between this event and the previous (added / changed / removed).</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -546,8 +553,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-dchange" style="display:none">
-                        <div class="type-doc">Tek bir değişkenin delta bilgisi: action = added | changed | removed.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Tek bir değişkenin delta bilgisi: action = added | changed | removed.</span><span class="i18n-en">Delta information for a single variable: action = added | changed | removed.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -563,13 +569,13 @@
                                     <td><code>old</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Önceki değer (changed/removed için)</td>
+                                    <td><span class="i18n-tr">Önceki değer (changed/removed için)</span><span class="i18n-en">Previous value (for changed/removed)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>new</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Yeni değer (added/changed için)</td>
+                                    <td><span class="i18n-tr">Yeni değer (added/changed için)</span><span class="i18n-en">New value (for added/changed)</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -630,19 +636,19 @@
                             <tbody>
                                 <tr>
                                     <td><code>call</code></td>
-                                    <td>Fonksiyon çağrısı başladı</td>
+                                    <td><span class="i18n-tr">Fonksiyon çağrısı başladı</span><span class="i18n-en">Function call started</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>line</code></td>
-                                    <td>Yeni satır çalıştırıldı</td>
+                                    <td><span class="i18n-tr">Yeni satır çalıştırıldı</span><span class="i18n-en">New line executed</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>return</code></td>
-                                    <td>Fonksiyon return ediyor</td>
+                                    <td><span class="i18n-tr">Fonksiyon return ediyor</span><span class="i18n-en">Function returning</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>exception</code></td>
-                                    <td>Exception fırlatıldı</td>
+                                    <td><span class="i18n-tr">Exception fırlatıldı</span><span class="i18n-en">Exception thrown</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -665,15 +671,15 @@
                             <tbody>
                                 <tr>
                                     <td><code>added</code></td>
-                                    <td>Değişken yeni oluşturuldu</td>
+                                    <td><span class="i18n-tr">Değişken yeni oluşturuldu</span><span class="i18n-en">Variable newly created</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>changed</code></td>
-                                    <td>Değer değişti</td>
+                                    <td><span class="i18n-tr">Değer değişti</span><span class="i18n-en">Value changed</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>removed</code></td>
-                                    <td>Scope dışı çıktı / silindi</td>
+                                    <td><span class="i18n-tr">Scope dışı çıktı / silindi</span><span class="i18n-en">Out of scope / deleted</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -701,6 +707,7 @@
                 href="diff.html">Diff</a></p>
     </footer>
 
+    <script src="lang.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>

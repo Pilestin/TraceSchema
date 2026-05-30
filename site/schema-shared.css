@@ -150,3 +150,32 @@ footer a:hover { text-decoration:underline; }
 
 @media (max-width:900px)  { .page-wrap { grid-template-columns:1fr; } .sidebar { position:static; } }
 @media (max-width:600px)  { nav { padding:0 1rem; } .nav-links a span { display:none; } .page-wrap { padding:24px 1rem 60px; } }
+
+/* ── i18n language toggle ── */
+html[data-lang="en"] .i18n-tr { display: none !important; }
+html[data-lang="tr"] .i18n-en { display: none !important; }
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-left: 8px;
+}
+.lang-btn {
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-size: 0.71rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+.lang-btn.active { background: var(--accent); color: #fff; }
+.lang-btn:hover:not(.active) { background: var(--bg2); color: var(--text); }

@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
     <link rel="stylesheet" href="schema-shared.css" />
+    <script>document.documentElement.setAttribute('data-lang', localStorage.getItem('ts-lang') || 'tr');</script>
 </head>
 <body>
     <nav>
@@ -34,6 +35,10 @@
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
             </button>
+            <div class="lang-toggle">
+              <button class="lang-btn" data-lang="tr" onclick="setLang('tr')">TR</button>
+              <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
         </div>
     </nav>
 
@@ -93,11 +98,7 @@
                 <div class="version-tag green">v2.2 — Latest</div>
                 <h1 class="page-title">Schema v2.2 Documentation</h1>
                 <p class="page-desc">
-                    v2.2, v2.1'in üzerine inşa edilmiş bir güncellemedir. <code>ScopeType</code> ve
-                    <code>IterationType</code>'a UNIX timestamp tabanlı zamanlama attribute'ları eklendi.
-                    <code>ExceptionType</code>'a tam stack trace için <code>&lt;traceback&gt;</code> elementi,
-                    <code>MetadataType</code>'a ise <code>&lt;targets&gt;</code> ve <code>&lt;source_files&gt;</code>
-                    elementleri eklendi. Tüm yeni alanlar opsiyoneldir — v2.1 dosyaları geçerliliğini korur.
+                    <span class="i18n-tr">v2.2, v2.1'in üzerine inşa edilmiş bir güncellemedir. <code>ScopeType</code> ve <code>IterationType</code>'a UNIX timestamp tabanlı zamanlama attribute'ları eklendi. <code>ExceptionType</code>'a tam stack trace için <code>&lt;traceback&gt;</code> elementi, <code>MetadataType</code>'a ise <code>&lt;targets&gt;</code> ve <code>&lt;source_files&gt;</code> elementleri eklendi. Tüm yeni alanlar opsiyoneldir — v2.1 dosyaları geçerliliğini korur.</span><span class="i18n-en">v2.2 builds on v2.1. UNIX-timestamp-based timing attributes were added to <code>ScopeType</code> and <code>IterationType</code>. A <code>&lt;traceback&gt;</code> element for full stack trace capture was added to <code>ExceptionType</code>, and <code>&lt;targets&gt;</code> and <code>&lt;source_files&gt;</code> elements were added to <code>MetadataType</code>. All new fields are optional — v2.1 files remain valid.</span>
                 </p>
             </div>
 
@@ -130,7 +131,7 @@
                         <div class="header-right"><span class="type-kind kind-element">root element</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-trace-body" style="display:block">
-                        <div class="type-doc">Trace dosyasının kök elementi. v2.2'de <code>schema_version</code> değeri <code>"2.2"</code> olarak üretilir.</div>
+                        <div class="type-doc"><span class="i18n-tr">Trace dosyasının kök elementi. v2.2'de <code>schema_version</code> değeri <code>"2.2"</code> olarak üretilir.</span><span class="i18n-en">Root element of the trace file. In v2.2, <code>schema_version</code> is produced as <code>"2.2"</code>.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
@@ -147,7 +148,7 @@
                                     <td><code>schema_version</code></td>
                                     <td><code>xs:string</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Şema versiyonu — v2.2'de değer <code>"2.2"</code></td>
+                                    <td><span class="i18n-tr">Şema versiyonu — v2.2'de değer <code>"2.2"</code></span><span class="i18n-en">Schema version — value is <code>"2.2"</code> in v2.2</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -170,11 +171,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-scope22-body" style="display:block">
-                        <div class="type-doc">
-                            Fonksiyon scope'unu hiyerarşik olarak gruplar. v2.2'de üç opsiyonel zamanlama attribute'u eklendi:
-                            <code>start_time</code> (call event UNIX timestamp), <code>end_time</code> (return/exception timestamp)
-                            ve <code>duration</code> (hesaplanmış süre, saniye). Bu alanlar post-mortem performans analizi için kullanılır.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Fonksiyon scope'unu hiyerarşik olarak gruplar. v2.2'de üç opsiyonel zamanlama attribute'u eklendi: <code>start_time</code> (call event UNIX timestamp), <code>end_time</code> (return/exception timestamp) ve <code>duration</code> (hesaplanmış süre, saniye). Bu alanlar post-mortem performans analizi için kullanılır.</span><span class="i18n-en">Groups function scope hierarchically. In v2.2, three optional timing attributes were added: <code>start_time</code> (call event UNIX timestamp), <code>end_time</code> (return/exception timestamp), and <code>duration</code> (computed duration in seconds). These fields are used for post-mortem performance analysis.</span></div>
                         <p class="mini-label">Child Elements (unchanged from v2)</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
@@ -193,46 +190,46 @@
                                     <td><code>function</code></td><td><code>xs:string</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Fonksiyon adı</td>
+                                    <td><span class="i18n-tr">Fonksiyon adı</span><span class="i18n-en">Function name</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>file</code></td><td><code>xs:string</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Kaynak dosya yolu</td>
+                                    <td><span class="i18n-tr">Kaynak dosya yolu</span><span class="i18n-en">Source file path</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>call_line</code></td><td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Fonksiyonun çağrıldığı satır</td>
+                                    <td><span class="i18n-tr">Fonksiyonun çağrıldığı satır</span><span class="i18n-en">Line where the function was called</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>depth</code></td><td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Call stack derinliği</td>
+                                    <td><span class="i18n-tr">Call stack derinliği</span><span class="i18n-en">Call stack depth</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>start_time</code></td><td><code>xs:decimal</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>Fonksiyon çağrısının UNIX timestamp'i <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">Fonksiyon çağrısının UNIX timestamp'i</span><span class="i18n-en">Function call UNIX timestamp</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>end_time</code></td><td><code>xs:decimal</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>Return/exception UNIX timestamp'i <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">Return/exception UNIX timestamp'i</span><span class="i18n-en">Return/exception UNIX timestamp</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>duration</code></td><td><code>xs:decimal</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>Fonksiyon süresi saniye cinsinden (<code>end_time - start_time</code>) <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">Fonksiyon süresi saniye cinsinden (<code>end_time - start_time</code>)</span><span class="i18n-en">Function duration in seconds (<code>end_time - start_time</code>)</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -250,11 +247,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-iter22-body" style="display:block">
-                        <div class="type-doc">
-                            Döngünün tek bir iterasyonu. v2.1'de <code>xs:choice</code> ile <code>event | scope | loop</code>
-                            desteklenmeye başlandı. v2.2'de buna ek olarak <code>start_time</code> ve <code>end_time</code>
-                            attribute'ları eklenerek iterasyon bazında zamanlama takibi mümkün hale geldi.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Döngünün tek bir iterasyonu. v2.1'de <code>xs:choice</code> ile <code>event | scope | loop</code> desteklenmeye başlandı. v2.2'de buna ek olarak <code>start_time</code> ve <code>end_time</code> attribute'ları eklenerek iterasyon bazında zamanlama takibi mümkün hale geldi.</span><span class="i18n-en">A single loop iteration. In v2.1, <code>xs:choice</code> support for <code>event | scope | loop</code> was added. In v2.2, <code>start_time</code> and <code>end_time</code> attributes were added to enable per-iteration timing.</span></div>
                         <p class="mini-label">Child Elements (xs:choice — inherited from v2.1)</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
@@ -272,27 +265,27 @@
                                     <td><code>index</code></td><td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Sıfır tabanlı iterasyon indeksi</td>
+                                    <td><span class="i18n-tr">Sıfır tabanlı iterasyon indeksi</span><span class="i18n-en">Zero-based iteration index</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>iterator_value</code></td><td><code>xs:string</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>For döngüsünde mevcut iterator değeri</td>
+                                    <td><span class="i18n-tr">For döngüsünde mevcut iterator değeri</span><span class="i18n-en">Current iterator value in a for loop</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>start_time</code></td><td><code>xs:decimal</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>İterasyonun başlangıç UNIX timestamp'i <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">İterasyonun başlangıç UNIX timestamp'i</span><span class="i18n-en">Iteration start UNIX timestamp</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>end_time</code></td><td><code>xs:decimal</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>İterasyonun bitiş UNIX timestamp'i <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">İterasyonun bitiş UNIX timestamp'i</span><span class="i18n-en">Iteration end UNIX timestamp</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -310,11 +303,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-exc22-body" style="display:block">
-                        <div class="type-doc">
-                            Exception bilgisi. v2.2'de <code>&lt;traceback&gt;</code> elementi eklendi —
-                            <code>traceback.format_tb()</code> çıktısını içeren tam stack trace metni.
-                            Post-mortem debugging için kullanışlıdır.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Exception bilgisi. v2.2'de <code>&lt;traceback&gt;</code> elementi eklendi — <code>traceback.format_tb()</code> çıktısını içeren tam stack trace metni. Post-mortem debugging için kullanışlıdır.</span><span class="i18n-en">Exception information. In v2.2, a <code>&lt;traceback&gt;</code> element was added — a full stack trace string containing <code>traceback.format_tb()</code> output. Useful for post-mortem debugging.</span></div>
                         <p class="mini-label">Child Elements — v2.1 vs v2.2</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th><th>v2.1</th><th>v2.2</th><th>Description</th></tr></thead>
@@ -322,18 +311,18 @@
                                 <tr>
                                     <td><code>type</code></td><td><code>xs:string</code></td><td class="occur">1..1</td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Exception tipi (ValueError, TypeError, vb.)</td>
+                                    <td><span class="i18n-tr">Exception tipi (ValueError, TypeError, vb.)</span><span class="i18n-en">Exception type (ValueError, TypeError, etc.)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>value</code></td><td><code>xs:string</code></td><td class="occur">1..1</td>
                                     <td class="occur">✔</td><td class="occur">✔</td>
-                                    <td>Exception mesajı</td>
+                                    <td><span class="i18n-tr">Exception mesajı</span><span class="i18n-en">Exception message</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>traceback</code></td><td><code>xs:string</code></td><td class="occur">0..1</td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>Tam stack trace metni (<code>traceback.format_tb()</code>) <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">Tam stack trace metni (<code>traceback.format_tb()</code>)</span><span class="i18n-en">Full stack trace string (<code>traceback.format_tb()</code>)</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -351,11 +340,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-meta22-body" style="display:block">
-                        <div class="type-doc">
-                            Program ve trace çalıştırması hakkında meta bilgiler. v2.2'de iki opsiyonel element eklendi:
-                            <code>&lt;targets&gt;</code> (TargetManifest'ten doldurulan hedef fonksiyon/dosya listesi) ve
-                            <code>&lt;source_files&gt;</code> (event kaydedilen kaynak dosya listesi).
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Program ve trace çalıştırması hakkında meta bilgiler. v2.2'de iki opsiyonel element eklendi: <code>&lt;targets&gt;</code> (TargetManifest'ten doldurulan hedef fonksiyon/dosya listesi) ve <code>&lt;source_files&gt;</code> (event kaydedilen kaynak dosya listesi).</span><span class="i18n-en">Metadata about the program and trace run. In v2.2, two optional elements were added: <code>&lt;targets&gt;</code> (list of instrumented functions/files from TargetManifest) and <code>&lt;source_files&gt;</code> (list of source files where events were recorded).</span></div>
                         <p class="mini-label">Child Elements — v2.1 vs v2.2</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th><th>v2.1</th><th>v2.2</th><th>Description</th></tr></thead>
@@ -370,13 +355,13 @@
                                     <td><code>targets</code></td><td><code>TargetsType</code></td><td class="occur">0..1</td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>Hedef fonksiyon/dosya listesi <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">Hedef fonksiyon/dosya listesi</span><span class="i18n-en">Target function/file list</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                                 <tr style="background:rgba(63,185,80,0.05)">
                                     <td><code>source_files</code></td><td><code>SourceFilesType</code></td><td class="occur">0..1</td>
                                     <td class="occur" style="color:var(--red)">✗</td>
                                     <td class="occur" style="color:var(--green)">✔ NEW</td>
-                                    <td>Event kaydedilen kaynak dosyalar <span class="type-kind kind-new">NEW v2.2</span></td>
+                                    <td><span class="i18n-tr">Event kaydedilen kaynak dosyalar</span><span class="i18n-en">Source files where events were recorded</span> <span class="type-kind kind-new">NEW v2.2</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -399,10 +384,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-targets-body" style="display:block">
-                        <div class="type-doc">
-                            Trace sırasında hedef alınan fonksiyon ve dosyaların listesi. TargetManifest'ten doldurulur.
-                            Her <code>&lt;target&gt;</code> elementi bir fonksiyon ya da dosyayı temsil eder.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Trace sırasında hedef alınan fonksiyon ve dosyaların listesi. TargetManifest'ten doldurulur. Her <code>&lt;target&gt;</code> elementi bir fonksiyon ya da dosyayı temsil eder.</span><span class="i18n-en">List of functions and files targeted during tracing. Populated from TargetManifest. Each <code>&lt;target&gt;</code> element represents a function or file.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Occurs</th><th>Attribute</th><th>Use</th><th>Values / Description</th></tr></thead>
@@ -417,7 +399,7 @@
                                 <tr>
                                     <td><code>name</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Fonksiyon veya dosya adı</td>
+                                    <td><span class="i18n-tr">Fonksiyon veya dosya adı</span><span class="i18n-en">Function or file name</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -440,10 +422,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-sourcefiles-body" style="display:block">
-                        <div class="type-doc">
-                            Trace sırasında event kaydedilen kaynak dosyaların listesi.
-                            Her <code>&lt;file&gt;</code> elementi bir kaynak dosyayı temsil eder.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Trace sırasında event kaydedilen kaynak dosyaların listesi. Her <code>&lt;file&gt;</code> elementi bir kaynak dosyayı temsil eder.</span><span class="i18n-en">List of source files where events were recorded during tracing. Each <code>&lt;file&gt;</code> element represents a source file.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Occurs</th><th>Attribute</th><th>Use</th><th>Description</th></tr></thead>
@@ -453,7 +432,7 @@
                                     <td class="occur">0..∞</td>
                                     <td><code>path</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Kaynak dosyanın tam yolu</td>
+                                    <td><span class="i18n-tr">Kaynak dosyanın tam yolu</span><span class="i18n-en">Full path of the source file</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -480,13 +459,7 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-iter21ref-body">
-                        <div class="type-doc">
-                            v2.1'de <code>IterationType</code> içindeki content model <code>xs:sequence</code>'den
-                            <code>xs:choice</code>'a dönüştürüldü. Böylece iterasyon içinde iç içe
-                            <code>scope</code> ve <code>loop</code> elementleri desteklenmeye başlandı.
-                            Ayrıca v2.2'de <code>start_time</code> ve <code>end_time</code> attribute'ları eklendi.
-                            Detaylar için <a href="#s-changed" style="color:var(--accent)">Changed in v2.2 → IterationType</a>'a bakın.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">v2.1'de <code>IterationType</code> içindeki content model <code>xs:sequence</code>'den <code>xs:choice</code>'a dönüştürüldü. Böylece iterasyon içinde iç içe <code>scope</code> ve <code>loop</code> elementleri desteklenmeye başlandı. Ayrıca v2.2'de <code>start_time</code> ve <code>end_time</code> attribute'ları eklendi. Detaylar için <a href="#s-changed" style="color:var(--accent)">Changed in v2.2 → IterationType</a>'a bakın.</span><span class="i18n-en">In v2.1, <code>IterationType</code>'s content model was changed from <code>xs:sequence</code> to <code>xs:choice</code>. This enabled nested <code>scope</code> and <code>loop</code> elements inside iterations. In v2.2, <code>start_time</code> and <code>end_time</code> attributes were also added. See <a href="#s-changed" style="color:var(--accent)">Changed in v2.2 → IterationType</a>.</span></div>
                     </div>
                 </div>
 
@@ -500,23 +473,23 @@
                         </div>
                     </div>
                     <div class="type-card-body" id="c-deltachange21ref-body">
-                        <div class="type-doc">Tek bir değişkenin delta bilgisi. v2.1'de opsiyonel <code>variable</code> attribute eklendi — mevcut <code>name</code> ile aynı anlama gelir; geriye dönük uyumluluk için korunmuştur.</div>
+                        <div class="type-doc"><span class="i18n-tr">Tek bir değişkenin delta bilgisi. v2.1'de opsiyonel <code>variable</code> attribute eklendi — mevcut <code>name</code> ile aynı anlama gelir; geriye dönük uyumluluk için korunmuştur.</span><span class="i18n-en">Delta information for a single variable. In v2.1, an optional <code>variable</code> attribute was added — it has the same meaning as <code>name</code> and is kept for backward compatibility.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th><th>Description</th></tr></thead>
                             <tbody>
-                                <tr><td><code>old</code></td><td><code>xs:string</code></td><td class="occur">0..1</td><td>Önceki değer (changed/removed için)</td></tr>
-                                <tr><td><code>new</code></td><td><code>xs:string</code></td><td class="occur">0..1</td><td>Yeni değer (added/changed için)</td></tr>
+                                <tr><td><code>old</code></td><td><code>xs:string</code></td><td class="occur">0..1</td><td><span class="i18n-tr">Önceki değer (changed/removed için)</span><span class="i18n-en">Previous value (for changed/removed)</span></td></tr>
+                                <tr><td><code>new</code></td><td><code>xs:string</code></td><td class="occur">0..1</td><td><span class="i18n-tr">Yeni değer (added/changed için)</span><span class="i18n-en">New value (for added/changed)</span></td></tr>
                             </tbody>
                         </table>
                         <p class="mini-label">Attributes</p>
                         <table class="mini-table">
                             <thead><tr><th>Attribute</th><th>Type</th><th>Use</th><th>Description</th></tr></thead>
                             <tbody>
-                                <tr><td><code>name</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td>Değişken adı</td></tr>
+                                <tr><td><code>name</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td><span class="i18n-tr">Değişken adı</span><span class="i18n-en">Variable name</span></td></tr>
                                 <tr><td><code>variable</code></td><td><code>xs:string</code></td><td><span class="req-badge req-no">optional</span></td><td>Değişken adı (alias for <code>name</code>) <span class="type-kind kind-new">CHG v2.1</span></td></tr>
                                 <tr><td><code>action</code></td><td><code>DeltaActionEnum</code></td><td><span class="req-badge req-yes">required</span></td><td>added | changed | removed</td></tr>
-                                <tr><td><code>type</code></td><td><code>xs:string</code></td><td><span class="req-badge req-no">optional</span></td><td>Python tipi (int, str, list, vb.)</td></tr>
+                                <tr><td><code>type</code></td><td><code>xs:string</code></td><td><span class="req-badge req-no">optional</span></td><td><span class="i18n-tr">Python tipi (int, str, list, vb.)</span><span class="i18n-en">Python type (int, str, list, etc.)</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -533,7 +506,7 @@
                         <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-loop-body">
-                        <div class="type-doc">Döngü event'lerini kompakt biçimde gruplar. Her iterasyon ayrı bir <code>&lt;iteration&gt;</code> elementi. <code>max_iterations</code> kullanıldığında atlanan iterasyonlar <code>truncated_iterations</code> ile belirtilir.</div>
+                        <div class="type-doc"><span class="i18n-tr">Döngü event'lerini kompakt biçimde gruplar. Her iterasyon ayrı bir <code>&lt;iteration&gt;</code> elementi. <code>max_iterations</code> kullanıldığında atlanan iterasyonlar <code>truncated_iterations</code> ile belirtilir.</span><span class="i18n-en">Groups loop events compactly. Each iteration is a separate <code>&lt;iteration&gt;</code> element. When <code>max_iterations</code> is used, skipped iterations are indicated by <code>truncated_iterations</code>.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
@@ -546,11 +519,11 @@
                         <table class="mini-table">
                             <thead><tr><th>Attribute</th><th>Type</th><th>Use</th><th>Description</th></tr></thead>
                             <tbody>
-                                <tr><td><code>line</code></td><td><code>xs:nonNegativeInteger</code></td><td><span class="req-badge req-yes">required</span></td><td>Döngünün bulunduğu satır</td></tr>
-                                <tr><td><code>source</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td>Döngü kaynak kodu</td></tr>
-                                <tr><td><code>iterations</code></td><td><code>xs:nonNegativeInteger</code></td><td><span class="req-badge req-yes">required</span></td><td>Toplam iterasyon sayısı</td></tr>
-                                <tr><td><code>type</code></td><td><code>"for" | "while"</code></td><td><span class="req-badge req-yes">required</span></td><td>Döngü tipi</td></tr>
-                                <tr><td><code>truncated_iterations</code></td><td><code>xs:nonNegativeInteger</code></td><td><span class="req-badge req-no">optional</span></td><td>Atlanan iterasyon sayısı</td></tr>
+                                <tr><td><code>line</code></td><td><code>xs:nonNegativeInteger</code></td><td><span class="req-badge req-yes">required</span></td><td><span class="i18n-tr">Döngünün bulunduğu satır</span><span class="i18n-en">Line where the loop is located</span></td></tr>
+                                <tr><td><code>source</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td><span class="i18n-tr">Döngü kaynak kodu</span><span class="i18n-en">Loop source code</span></td></tr>
+                                <tr><td><code>iterations</code></td><td><code>xs:nonNegativeInteger</code></td><td><span class="req-badge req-yes">required</span></td><td><span class="i18n-tr">Toplam iterasyon sayısı</span><span class="i18n-en">Total iteration count</span></td></tr>
+                                <tr><td><code>type</code></td><td><code>"for" | "while"</code></td><td><span class="req-badge req-yes">required</span></td><td><span class="i18n-tr">Döngü tipi</span><span class="i18n-en">Loop type</span></td></tr>
+                                <tr><td><code>truncated_iterations</code></td><td><code>xs:nonNegativeInteger</code></td><td><span class="req-badge req-no">optional</span></td><td><span class="i18n-tr">Atlanan iterasyon sayısı</span><span class="i18n-en">Number of skipped iterations</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -562,15 +535,15 @@
                         <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-loopsum-body">
-                        <div class="type-doc">Döngü genelinde değişken değişim özeti (truncated_iterations varsa kullanılır).</div>
+                        <div class="type-doc"><span class="i18n-tr">Döngü genelinde değişken değişim özeti (truncated_iterations varsa kullanılır).</span><span class="i18n-en">Variable change summary across the loop (used when truncated_iterations is present).</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Attribute</th><th>Description</th></tr></thead>
                             <tbody>
-                                <tr><td rowspan="4"><code>variable_changes</code></td><td><code>name</code> (required)</td><td>Değişken adı</td></tr>
-                                <tr><td><code>initial</code> (optional)</td><td>Başlangıç değeri</td></tr>
-                                <tr><td><code>final</code> (optional)</td><td>Son değer</td></tr>
-                                <tr><td><code>change_count</code> (optional)</td><td>Değişim sayısı</td></tr>
+                                <tr><td rowspan="4"><code>variable_changes</code></td><td><code>name</code> (required)</td><td><span class="i18n-tr">Değişken adı</span><span class="i18n-en">Variable name</span></td></tr>
+                                <tr><td><code>initial</code> (optional)</td><td><span class="i18n-tr">Başlangıç değeri</span><span class="i18n-en">Initial value</span></td></tr>
+                                <tr><td><code>final</code> (optional)</td><td><span class="i18n-tr">Son değer</span><span class="i18n-en">Final value</span></td></tr>
+                                <tr><td><code>change_count</code> (optional)</td><td><span class="i18n-tr">Değişim sayısı</span><span class="i18n-en">Change count</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -582,7 +555,7 @@
                         <div class="header-right"><span class="type-kind kind-new">NEW v2</span><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-thread-body">
-                        <div class="type-doc">Thread bazlı event gruplama. Children: <code>event | loop | scope</code>.</div>
+                        <div class="type-doc"><span class="i18n-tr">Thread bazlı event gruplama. Children: <code>event | loop | scope</code>.</span><span class="i18n-en">Thread-based event grouping. Children: <code>event | loop | scope</code>.</span></div>
                         <p class="mini-label">Attributes</p>
                         <table class="mini-table">
                             <thead><tr><th>Attribute</th><th>Type</th><th>Use</th></tr></thead>
@@ -605,7 +578,7 @@
                         <div class="header-right"><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-stats-body">
-                        <div class="type-doc">Trace istatistikleri — toplam event sayısı, süre, call/line/return/exception sayıları. Unchanged from v2.</div>
+                        <div class="type-doc"><span class="i18n-tr">Trace istatistikleri — toplam event sayısı, süre, call/line/return/exception sayıları. Unchanged from v2.</span><span class="i18n-en">Trace statistics — total event count, duration, call/line/return/exception counts. Unchanged from v2.</span></div>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
                             <tbody>
@@ -626,7 +599,7 @@
                         <div class="header-right"><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-eventstype-body">
-                        <div class="type-doc">Tüm trace event'lerini içeren container. <code>xs:choice</code> ile <code>event | loop | scope | thread</code> içerebilir. Unchanged from v2.</div>
+                        <div class="type-doc"><span class="i18n-tr">Tüm trace event'lerini içeren container. <code>xs:choice</code> ile <code>event | loop | scope | thread</code> içerebilir. Unchanged from v2.</span><span class="i18n-en">Container holding all trace events. Supports <code>xs:choice</code> of <code>event | loop | scope | thread</code>. Unchanged from v2.</span></div>
                         <table class="mini-table">
                             <thead><tr><th>Choice</th><th>Type</th><th>Occurs</th></tr></thead>
                             <tbody>
@@ -645,7 +618,7 @@
                         <div class="header-right"><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-eventtype-body">
-                        <div class="type-doc">Tek bir trace event'i. <code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> alanları <code>minOccurs="0"</code> — parent scope/thread'den okunabilir. Unchanged from v2.</div>
+                        <div class="type-doc"><span class="i18n-tr">Tek bir trace event'i. <code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> alanları <code>minOccurs="0"</code> — parent scope/thread'den okunabilir. Unchanged from v2.</span><span class="i18n-en">A single trace event. <code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> fields are <code>minOccurs="0"</code> — readable from parent scope/thread. Unchanged from v2.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
@@ -682,13 +655,13 @@
                         <div class="header-right"><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-valuetype-body">
-                        <div class="type-doc">Bir değişken veya argümanın değeri ve tipi. <code>xs:simpleContent</code> extension — içeriği string değer, attribute'ları <code>name</code> ve <code>type</code>.</div>
+                        <div class="type-doc"><span class="i18n-tr">Bir değişken veya argümanın değeri ve tipi. <code>xs:simpleContent</code> extension — içeriği string değer, attribute'ları <code>name</code> ve <code>type</code>.</span><span class="i18n-en">Value and type of a variable or argument. <code>xs:simpleContent</code> extension — content is the value string, attributes are <code>name</code> and <code>type</code>.</span></div>
                         <p class="mini-label">Attributes</p>
                         <table class="mini-table">
                             <thead><tr><th>Attribute</th><th>Type</th><th>Use</th><th>Description</th></tr></thead>
                             <tbody>
                                 <tr><td><code>name</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td>Değişken/argüman adı</td></tr>
-                                <tr><td><code>type</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td>Python tipi (int, str, list, vb.)</td></tr>
+                                <tr><td><code>type</code></td><td><code>xs:string</code></td><td><span class="req-badge req-yes">required</span></td><td><span class="i18n-tr">Python tipi (int, str, list, vb.)</span><span class="i18n-en">Python type (int, str, list, etc.)</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -700,7 +673,7 @@
                         <div class="header-right"><span class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-deltatype-body">
-                        <div class="type-doc">Bir event ile önceki event arasında değişen değişkenlerin listesi. Her <code>&lt;change&gt;</code> elementi bir değişkenin eklenmesini, değişmesini veya kaldırılmasını gösterir.</div>
+                        <div class="type-doc"><span class="i18n-tr">Bir event ile önceki event arasında değişen değişkenlerin listesi. Her <code>&lt;change&gt;</code> elementi bir değişkenin eklenmesini, değişmesini veya kaldırılmasını gösterir.</span><span class="i18n-en">List of variables changed between this event and the previous. Each <code>&lt;change&gt;</code> element shows a variable being added, changed, or removed.</span></div>
                         <table class="mini-table">
                             <thead><tr><th>Element</th><th>Type</th><th>Occurs</th></tr></thead>
                             <tbody>
@@ -723,10 +696,10 @@
                         <table class="mini-table">
                             <thead><tr><th>Value</th><th>Description</th></tr></thead>
                             <tbody>
-                                <tr><td><code>call</code></td><td>Fonksiyon çağrısı başladı</td></tr>
-                                <tr><td><code>line</code></td><td>Yeni satır çalıştırıldı</td></tr>
-                                <tr><td><code>return</code></td><td>Fonksiyon return ediyor</td></tr>
-                                <tr><td><code>exception</code></td><td>Exception fırlatıldı</td></tr>
+                                <tr><td><code>call</code></td><td><span class="i18n-tr">Fonksiyon çağrısı başladı</span><span class="i18n-en">Function call started</span></td></tr>
+                                <tr><td><code>line</code></td><td><span class="i18n-tr">Yeni satır çalıştırıldı</span><span class="i18n-en">New line executed</span></td></tr>
+                                <tr><td><code>return</code></td><td><span class="i18n-tr">Fonksiyon return ediyor</span><span class="i18n-en">Function returning</span></td></tr>
+                                <tr><td><code>exception</code></td><td><span class="i18n-tr">Exception fırlatıldı</span><span class="i18n-en">Exception thrown</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -740,9 +713,9 @@
                         <table class="mini-table">
                             <thead><tr><th>Value</th><th>Description</th></tr></thead>
                             <tbody>
-                                <tr><td><code>added</code></td><td>Değişken yeni oluşturuldu</td></tr>
-                                <tr><td><code>changed</code></td><td>Değişkenin değeri değişti</td></tr>
-                                <tr><td><code>removed</code></td><td>Değişken scope'tan çıktı veya silindi</td></tr>
+                                <tr><td><code>added</code></td><td><span class="i18n-tr">Değişken yeni oluşturuldu</span><span class="i18n-en">Variable newly created</span></td></tr>
+                                <tr><td><code>changed</code></td><td><span class="i18n-tr">Değişkenin değeri değişti</span><span class="i18n-en">Variable value changed</span></td></tr>
+                                <tr><td><code>removed</code></td><td><span class="i18n-tr">Değişken scope'tan çıktı veya silindi</span><span class="i18n-en">Variable went out of scope or was deleted</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -768,6 +741,7 @@
         <p>TraceSchema — <a href="../index.html">Home</a> | <a href="schema-v1.html">v1 Docs</a> | <a href="schema-v2.html">v2 Docs</a> | <a href="schema-v2.1.html">v2.1 Docs</a> | <a href="diff.html">Diff</a></p>
     </footer>
 
+    <script src="lang.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script>

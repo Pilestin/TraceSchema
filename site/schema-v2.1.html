@@ -11,6 +11,7 @@
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
     <link rel="stylesheet" href="schema-shared.css" />
+    <script>document.documentElement.setAttribute('data-lang', localStorage.getItem('ts-lang') || 'tr');</script>
 </head>
 <body>
     <nav>
@@ -37,6 +38,10 @@
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
             </button>
+            <div class="lang-toggle">
+              <button class="lang-btn" data-lang="tr" onclick="setLang('tr')">TR</button>
+              <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
         </div>
     </nav>
 
@@ -86,9 +91,7 @@
                 <div class="version-tag green">v2.1 — Latest</div>
                 <h1 class="page-title">Schema v2.1 Documentation</h1>
                 <p class="page-desc">
-                    v2.1, v2.0'un küçük ama anlamlı bir güncellemesidir. <code>IterationType</code> artık iterasyon
-                    içinde iç içe scope ve loop destekliyor (<code>xs:choice</code>). <code>DeltaChangeType</code>'a
-                    geriye dönük uyumluluk için opsiyonel <code>variable</code> attribute eklendi.
+                    <span class="i18n-tr">v2.1, v2.0'un küçük ama anlamlı bir güncellemesidir. <code>IterationType</code> artık iterasyon içinde iç içe scope ve loop destekliyor (<code>xs:choice</code>). <code>DeltaChangeType</code>'a geriye dönük uyumluluk için opsiyonel <code>variable</code> attribute eklendi.</span><span class="i18n-en">v2.1 is a minor but meaningful update on v2.0. <code>IterationType</code> now supports nested scope and loop inside iterations (<code>xs:choice</code>). An optional <code>variable</code> attribute was added to <code>DeltaChangeType</code> for backward compatibility.</span>
                 </p>
             </div>
 
@@ -124,8 +127,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-trace-body" style="display:block">
-                        <div class="type-doc">Trace dosyasının kök elementi. v2.1'de <code>schema_version</code>
-                            değeri artık <code>"2.1"</code> olarak üretilir.</div>
+                        <div class="type-doc"><span class="i18n-tr">Trace dosyasının kök elementi. v2.1'de <code>schema_version</code> değeri artık <code>"2.1"</code> olarak üretilir.</span><span class="i18n-en">Root element of the trace file. In v2.1, <code>schema_version</code> is produced as <code>"2.1"</code>.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -163,7 +165,7 @@
                                     <td><code>schema_version</code></td>
                                     <td><code>xs:string</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Şema versiyonu — v2.1'de değer <code>"2.1"</code></td>
+                                    <td><span class="i18n-tr">Şema versiyonu — v2.1'de değer <code>"2.1"</code></span><span class="i18n-en">Schema version — value is <code>"2.1"</code> in v2.1</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -183,10 +185,7 @@
                                 class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-iter21-body" style="display:block">
-                        <div class="type-doc">Döngünün tek bir iterasyonu. v2.1'de içerik <code>xs:choice</code> ile
-                            genişletildi: artık sadece düz <code>&lt;event&gt;</code> listesi değil, iç içe
-                            <code>scope</code> ve <code>loop</code> da destekleniyor.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Döngünün tek bir iterasyonu. v2.1'de içerik <code>xs:choice</code> ile genişletildi: artık sadece düz <code>&lt;event&gt;</code> listesi değil, iç içe <code>scope</code> ve <code>loop</code> da destekleniyor.</span><span class="i18n-en">A single loop iteration. In v2.1, the content model was extended with <code>xs:choice</code>: nested <code>scope</code> and <code>loop</code> elements are now supported, not just a flat <code>&lt;event&gt;</code> list.</span></div>
                         <p class="mini-label">Child Elements (xs:choice) — v2.0 vs v2.1</p>
                         <table class="mini-table">
                             <thead>
@@ -251,10 +250,7 @@
                                 class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-deltachange21-body" style="display:block">
-                        <div class="type-doc">Tek bir değişkenin delta bilgisi. v2.1'de opsiyonel
-                            <code>variable</code> attribute eklendi — mevcut <code>name</code> ile aynı anlama gelir;
-                            geriye dönük uyumluluk için korunmuştur.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Tek bir değişkenin delta bilgisi. v2.1'de opsiyonel <code>variable</code> attribute eklendi — mevcut <code>name</code> ile aynı anlama gelir; geriye dönük uyumluluk için korunmuştur.</span><span class="i18n-en">Delta information for a single variable. In v2.1, an optional <code>variable</code> attribute was added — it has the same meaning as <code>name</code> and is kept for backward compatibility.</span></div>
                         <p class="mini-label">Child Elements (unchanged)</p>
                         <table class="mini-table">
                             <thead>
@@ -270,13 +266,13 @@
                                     <td><code>old</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Önceki değer (changed/removed için)</td>
+                                    <td><span class="i18n-tr">Önceki değer (changed/removed için)</span><span class="i18n-en">Previous value (for changed/removed)</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>new</code></td>
                                     <td><code>xs:string</code></td>
                                     <td class="occur">0..1</td>
-                                    <td>Yeni değer (added/changed için)</td>
+                                    <td><span class="i18n-tr">Yeni değer (added/changed için)</span><span class="i18n-en">New value (for added/changed)</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -295,7 +291,7 @@
                                     <td><code>name</code></td>
                                     <td><code>xs:string</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Değişken adı</td>
+                                    <td><span class="i18n-tr">Değişken adı</span><span class="i18n-en">Variable name</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>variable</code></td>
@@ -307,13 +303,13 @@
                                     <td><code>action</code></td>
                                     <td><code>DeltaActionEnum</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Değişiklik türü: added | changed | removed</td>
+                                    <td><span class="i18n-tr">Değişiklik türü: added | changed | removed</span><span class="i18n-en">Change type: added | changed | removed</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>type</code></td>
                                     <td><code>xs:string</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
-                                    <td>Python tipi (int, str, list, vb.)</td>
+                                    <td><span class="i18n-tr">Python tipi (int, str, list, vb.)</span><span class="i18n-en">Python type (int, str, list, etc.)</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -332,10 +328,7 @@
                                 class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-loop-body">
-                        <div class="type-doc">Döngü event'lerini kompakt biçimde gruplar. Her iterasyon ayrı bir
-                            <code>&lt;iteration&gt;</code> elementi. <code>max_iterations</code> kullanıldığında atlanan
-                            iterasyonlar <code>truncated_iterations</code> ile belirtilir.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Döngü event'lerini kompakt biçimde gruplar. Her iterasyon ayrı bir <code>&lt;iteration&gt;</code> elementi. <code>max_iterations</code> kullanıldığında atlanan iterasyonlar <code>truncated_iterations</code> ile belirtilir.</span><span class="i18n-en">Groups loop events compactly. Each iteration is a separate <code>&lt;iteration&gt;</code> element. When <code>max_iterations</code> is used, skipped iterations are indicated by <code>truncated_iterations</code>.</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -373,31 +366,31 @@
                                     <td><code>line</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Döngünün bulunduğu satır</td>
+                                    <td><span class="i18n-tr">Döngünün bulunduğu satır</span><span class="i18n-en">Line where the loop is located</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>source</code></td>
                                     <td><code>xs:string</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Döngü kaynak kodu</td>
+                                    <td><span class="i18n-tr">Döngü kaynak kodu</span><span class="i18n-en">Loop source code</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>iterations</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Toplam iterasyon sayısı</td>
+                                    <td><span class="i18n-tr">Toplam iterasyon sayısı</span><span class="i18n-en">Total iteration count</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>type</code></td>
                                     <td><code>"for" | "while"</code></td>
                                     <td><span class="req-badge req-yes">required</span></td>
-                                    <td>Döngü tipi</td>
+                                    <td><span class="i18n-tr">Döngü tipi</span><span class="i18n-en">Loop type</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>truncated_iterations</code></td>
                                     <td><code>xs:nonNegativeInteger</code></td>
                                     <td><span class="req-badge req-no">optional</span></td>
-                                    <td>Atlanan iterasyon sayısı</td>
+                                    <td><span class="i18n-tr">Atlanan iterasyon sayısı</span><span class="i18n-en">Number of skipped iterations</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -411,8 +404,7 @@
                                 class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-loopsum-body">
-                        <div class="type-doc">Döngü genelinde değişken değişim özeti (truncated_iterations varsa
-                            kullanılır).</div>
+                        <div class="type-doc"><span class="i18n-tr">Döngü genelinde değişken değişim özeti (truncated_iterations varsa kullanılır).</span><span class="i18n-en">Variable change summary across the loop (used when truncated_iterations is present).</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -426,19 +418,19 @@
                                 <tr>
                                     <td rowspan="4"><code>variable_changes</code></td>
                                     <td><code>name</code> (required)</td>
-                                    <td>Değişken adı</td>
+                                    <td><span class="i18n-tr">Değişken adı</span><span class="i18n-en">Variable name</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>initial</code> (optional)</td>
-                                    <td>Başlangıç değeri</td>
+                                    <td><span class="i18n-tr">Başlangıç değeri</span><span class="i18n-en">Initial value</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>final</code> (optional)</td>
-                                    <td>Son değer</td>
+                                    <td><span class="i18n-tr">Son değer</span><span class="i18n-en">Final value</span></td>
                                 </tr>
                                 <tr>
                                     <td><code>change_count</code> (optional)</td>
-                                    <td>Değişim sayısı</td>
+                                    <td><span class="i18n-tr">Değişim sayısı</span><span class="i18n-en">Change count</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -452,9 +444,7 @@
                                 class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-scope-body">
-                        <div class="type-doc">Fonksiyon scope'unu hiyerarşik olarak gruplar. Recursive yapıyı destekler
-                            (iç içe scope'lar). Child event'lerde <code>file</code>, <code>function</code> tekrarlanmaz.
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Fonksiyon scope'unu hiyerarşik olarak gruplar. Recursive yapıyı destekler (iç içe scope'lar). Child event'lerde <code>file</code>, <code>function</code> tekrarlanmaz.</span><span class="i18n-en">Groups function scope hierarchically. Supports recursive structure (nested scopes). <code>file</code> and <code>function</code> are not repeated in child events.</span></div>
                         <p class="mini-label">Child Elements (xs:choice)</p>
                         <table class="mini-table">
                             <thead>
@@ -529,7 +519,7 @@
                                 class="type-kind kind-complex">complexType</span><span class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-thread-body">
-                        <div class="type-doc">Thread bazlı event gruplama. Children: event | loop | scope.</div>
+                        <div class="type-doc"><span class="i18n-tr">Thread bazlı event gruplama. Children: <code>event | loop | scope</code>.</span><span class="i18n-en">Thread-based event grouping. Children: <code>event | loop | scope</code>.</span></div>
                         <p class="mini-label">Attributes</p>
                         <table class="mini-table">
                             <thead>
@@ -567,8 +557,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-eventstype-body">
-                        <div class="type-doc">Tüm trace event'lerini içeren container. <code>xs:choice</code> ile
-                            <code>event | loop | scope | thread</code> içerebilir (unchanged from v2).</div>
+                        <div class="type-doc"><span class="i18n-tr">Tüm trace event'lerini içeren container. <code>xs:choice</code> ile <code>event | loop | scope | thread</code> içerebilir (unchanged from v2).</span><span class="i18n-en">Container holding all trace events. Supports <code>xs:choice</code> of <code>event | loop | scope | thread</code> (unchanged from v2).</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -610,10 +599,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-eventtype-body">
-                        <div class="type-doc">Tek bir trace event'i. <code>thread_id</code>, <code>file</code>,
-                            <code>function</code>, <code>caller</code> alanları <code>minOccurs="0"</code> — parent
-                            scope/thread'den okunabilir. (Unchanged from v2.)
-                        </div>
+                        <div class="type-doc"><span class="i18n-tr">Tek bir trace event'i. <code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> alanları <code>minOccurs="0"</code> — parent scope/thread'den okunabilir. (Unchanged from v2.)</span><span class="i18n-en">A single trace event. <code>thread_id</code>, <code>file</code>, <code>function</code>, <code>caller</code> fields are <code>minOccurs="0"</code> — readable from parent scope/thread. (Unchanged from v2.)</span></div>
                         <p class="mini-label">Child Elements</p>
                         <table class="mini-table">
                             <thead>
@@ -664,8 +650,7 @@
                                 class="chevron">▶</span></div>
                     </div>
                     <div class="type-card-body" id="c-meta-body">
-                        <div class="type-doc">Program ve trace çalıştırması hakkında meta bilgiler. <code>schema_version</code>
-                            artık <code>"2.1"</code> değerini taşır. (Structure unchanged from v2.)</div>
+                        <div class="type-doc"><span class="i18n-tr">Program ve trace çalıştırması hakkında meta bilgiler. <code>schema_version</code> artık <code>"2.1"</code> değerini taşır. (Structure unchanged from v2.)</span><span class="i18n-en">Metadata about the program and trace run. <code>schema_version</code> now holds <code>"2.1"</code>. (Structure unchanged from v2.)</span></div>
                         <table class="mini-table">
                             <thead>
                                 <tr>
@@ -706,9 +691,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td><code>call</code></td><td>Fonksiyon çağrısı</td></tr>
-                                <tr><td><code>line</code></td><td>Satır çalıştırma</td></tr>
-                                <tr><td><code>return</code></td><td>Fonksiyon return</td></tr>
+                                <tr><td><code>call</code></td><td><span class="i18n-tr">Fonksiyon çağrısı</span><span class="i18n-en">Function call</span></td></tr>
+                                <tr><td><code>line</code></td><td><span class="i18n-tr">Satır çalıştırma</span><span class="i18n-en">Line execution</span></td></tr>
+                                <tr><td><code>return</code></td><td><span class="i18n-tr">Fonksiyon return</span><span class="i18n-en">Function return</span></td></tr>
                                 <tr><td><code>exception</code></td><td>Exception</td></tr>
                             </tbody>
                         </table>
@@ -729,9 +714,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td><code>added</code></td><td>Değişken oluşturuldu</td></tr>
-                                <tr><td><code>changed</code></td><td>Değer değişti</td></tr>
-                                <tr><td><code>removed</code></td><td>Scope dışı çıktı</td></tr>
+                                <tr><td><code>added</code></td><td><span class="i18n-tr">Değişken oluşturuldu</span><span class="i18n-en">Variable created</span></td></tr>
+                                <tr><td><code>changed</code></td><td><span class="i18n-tr">Değer değişti</span><span class="i18n-en">Value changed</span></td></tr>
+                                <tr><td><code>removed</code></td><td><span class="i18n-tr">Scope dışı çıktı</span><span class="i18n-en">Out of scope</span></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -758,6 +743,7 @@
                 href="schema-v2.html">v2 Docs</a> | <a href="diff.html">Diff</a></p>
     </footer>
 
+    <script src="lang.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>

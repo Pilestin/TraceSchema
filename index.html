@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+    <script>document.documentElement.setAttribute('data-lang', localStorage.getItem('ts-lang') || 'tr');</script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trace Schema Documentation</title>
@@ -573,6 +574,24 @@
             text-decoration: underline;
         }
 
+        /* i18n */
+        html[data-lang="en"] .i18n-tr { display: none !important; }
+        html[data-lang="tr"] .i18n-en { display: none !important; }
+        .lang-toggle {
+            display: flex; align-items: center;
+            background: var(--bg3); border: 1px solid var(--border);
+            border-radius: var(--radius-sm); overflow: hidden; margin-left: 8px;
+        }
+        .lang-btn {
+            padding: 5px 10px; border: none; background: transparent;
+            color: var(--text2); font-size: 0.71rem; font-weight: 700;
+            cursor: pointer; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.06em; line-height: 1;
+            transition: background 0.15s, color 0.15s;
+        }
+        .lang-btn.active { background: var(--accent); color: #fff; }
+        .lang-btn:hover:not(.active) { background: var(--bg3); color: var(--text); }
+
         @media (max-width:768px) {
             nav {
                 padding: 0 1rem;
@@ -609,6 +628,10 @@
                 <li><a href="site/diff.html">Diff</a></li>
                 <li><a href="#resources">Resources</a></li>
             </ul>
+            <div class="lang-toggle">
+                <button class="lang-btn" data-lang="tr" onclick="setLang('tr')">TR</button>
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
             <button class="theme-btn" id="theme-toggle" title="Toggle light/dark theme" onclick="toggleTheme()">
                 <svg id="icon-sun" viewBox="0 0 24 24" style="display:none">
                     <path
@@ -625,10 +648,13 @@
         <div class="hero-badge">XML Schema Documentation</div>
         <h1>Trace Schema<br />Documentation</h1>
         <p>
-            <code
+            <span class="i18n-tr"><code
                 style="background:var(--bg3); padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.88em; color:var(--accent);">trace_recorder.py</code>
             tarafından üretilen XML trace dosyalarının resmi XSD şema belgesidir.
-            Element referanslarını inceleyin, sürümler arası diff'e bakın ve belgeleri indirin.
+            Element referanslarını inceleyin, sürümler arası diff'e bakın ve belgeleri indirin.</span>
+            <span class="i18n-en">The official XSD schema documentation for XML trace files produced by <code
+                style="background:var(--bg3); padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.88em; color:var(--accent);">trace_recorder.py</code>.
+            Browse element references, inspect version diffs, and download schemas.</span>
         </p>
         <div class="hero-actions">
             <a href="site/schema-v2.2.html" class="btn btn-primary">Schema Docs (v2.2)</a>
@@ -762,22 +788,22 @@
             <div class="feature-card">
                 <div class="feature-label">Reference</div>
                 <h3>XSD Element Reference</h3>
-                <p>Her element için tip, occurrence, attribute ve dokümantasyon bilgisi. Collapsible kart arayüzü.</p>
+                <p><span class="i18n-tr">Her element için tip, occurrence, attribute ve dokümantasyon bilgisi. Collapsible kart arayüzü.</span><span class="i18n-en">Type, occurrence, attribute, and documentation for every element. Collapsible card interface.</span></p>
             </div>
             <div class="feature-card">
                 <div class="feature-label">Version Diff</div>
                 <h3>Schema Diff Viewer</h3>
-                <p>GitHub-style unified / split diff görünümü ile v1 ve v2 arasındaki tüm farkları inceleyin.</p>
+                <p><span class="i18n-tr">GitHub-style unified / split diff görünümü ile sürümler arasındaki tüm farkları inceleyin.</span><span class="i18n-en">Review all differences between schema versions with a GitHub-style unified / split diff view.</span></p>
             </div>
             <div class="feature-card">
                 <div class="feature-label">Source</div>
                 <h3>Syntax-Highlighted XSD</h3>
-                <p>Ham XSD dosyalarını Prism.js ile syntax-highlighted olarak görüntüleyin veya indirin.</p>
+                <p><span class="i18n-tr">Ham XSD dosyalarını Prism.js ile syntax-highlighted olarak görüntüleyin veya indirin.</span><span class="i18n-en">View or download raw XSD files with Prism.js syntax highlighting.</span></p>
             </div>
             <div class="feature-card">
                 <div class="feature-label">Downloads</div>
                 <h3>Document Downloads</h3>
-                <p>Her versiyona ait XSD dosyaları ve Word raporu tek tıkla indirilebilir.</p>
+                <p><span class="i18n-tr">Her versiyona ait XSD dosyaları ve Word raporu tek tıkla indirilebilir.</span><span class="i18n-en">XSD files and Word reports for each version, downloadable with a single click.</span></p>
             </div>
         </div>
 
@@ -873,5 +899,6 @@
             }
         })();
     </script>
+    <script src="site/lang.js"></script>
 </body>
 </html>
