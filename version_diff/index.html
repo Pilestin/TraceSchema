@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../site/schema-shared.css" />
-    <script>document.documentElement.setAttribute('data-lang', localStorage.getItem('ts-lang') || 'tr');</script>
     <style>
         .index-wrap { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 36px 2rem 80px; }
         .list-grid { display: grid; gap: 10px; }
@@ -25,21 +24,12 @@
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="schema-v1.html">v1 Docs</a></li>
-                <li><a href="schema-v2.html">v2 Docs</a></li>
-                <li><a href="schema-v2.1.html">v2.1 Docs</a></li>
-                <li><a href="schema-v2.2.html">v2.2 Docs</a></li>
-                <li><a href="schema-v2.3.html">v2.3 Docs</a></li>
-                <li><a href="diff.html" class="active">Diff</a></li>
+                <li><a href="index.html" class="active">Diff Index</a></li>
             </ul>
             <button class="theme-btn" title="Toggle theme" onclick="toggleTheme()">
                 <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zm9 8a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 12a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1z"/></svg>
                 <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
             </button>
-            <div class="lang-toggle">
-              <button class="lang-btn" data-lang="tr" onclick="setLang('tr')">TR</button>
-              <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-            </div>
         </div>
     </nav>
 
@@ -54,44 +44,19 @@
         <div class="doc-section">
             <h2 class="section-title">Pairwise Diff Reports</h2>
             <div class="changelog-grid">
-                <div class="cl-card list-item">
-                    <div>
-                        <h4>v2.2 to v2.3 <span style="font-size:0.72rem;background:rgba(63,185,80,0.15);color:#3fb950;border:1px solid rgba(63,185,80,0.25);padding:2px 7px;border-radius:4px;font-weight:700;margin-left:6px;">LATEST</span></h4>
-                        <p><code>trace_schema_v2.2.xsd</code> → <code>trace_schema_v2.3.xsd</code></p>
+                    <div class="cl-card list-item">
+                        <div>
+                            <h4>v2.2 to v2.3</h4>
+                            <p><code>trace_schema_v2.2.xsd</code> to <code>trace_schema_v2.3.xsd</code></p>
+                        </div>
+                        <a href="diff-v2.2-to-v2.3.html" class="btn btn-primary">Open Diff</a>
                     </div>
-                    <a href="../version_diff/diff-v2.2-to-v2.3.html" class="btn btn-primary">Open Diff</a>
-                </div>
-                <div class="cl-card list-item">
-                    <div>
-                        <h4>v2.1 to v2.2</h4>
-                        <p><code>trace_schema_v2.1.xsd</code> → <code>trace_schema_v2.2.xsd</code></p>
-                    </div>
-                    <a href="../version_diff/diff-v2.1-to-v2.2.html" class="btn btn-primary">Open Diff</a>
-                </div>
-                <div class="cl-card list-item">
-                    <div>
-                        <h4>v2.0 to v2.1</h4>
-                        <p><code>trace_schema_v2.0.xsd</code> → <code>trace_schema_v2.1.xsd</code></p>
-                    </div>
-                    <a href="../version_diff/diff-v2.0-to-v2.1.html" class="btn btn-primary">Open Diff</a>
-                </div>
-                <div class="cl-card list-item">
-                    <div>
-                        <h4>v1.0 to v2.0</h4>
-                        <p><code>trace_schema_v1.0.xsd</code> → <code>trace_schema_v2.0.xsd</code></p>
-                    </div>
-                    <a href="../version_diff/diff-v1.0-to-v2.0.html" class="btn btn-primary">Open Diff</a>
-                </div>
             </div>
         </div>
-
     </div>
 
-    <footer>
-        <p>TraceSchema — <a href="../index.html">Home</a> | <a href="schema-v1.html">v1 Docs</a> | <a href="schema-v2.html">v2 Docs</a> | <a href="schema-v2.1.html">v2.1 Docs</a> | <a href="schema-v2.2.html">v2.2 Docs</a> | <a href="schema-v2.3.html">v2.3 Docs</a></p>
-    </footer>
+    <footer>Generated automatically from schema files.</footer>
 
-    <script src="lang.js"></script>
     <script>
         function toggleTheme() {
             const html = document.documentElement;

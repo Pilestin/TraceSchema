@@ -17,8 +17,8 @@ NS = {"xs": XSD_NS}
 SCHEMA_FILE_PATTERN = re.compile(r"^trace_schema_v(?P<version>\d+(?:\.\d+)*)\.xsd$")
 
 # Set only these two files to control which schema versions are compared.
-LEFT_SCHEMA_FILE = "trace_schema_v2.1.xsd"
-RIGHT_SCHEMA_FILE = "trace_schema_v2.2.xsd"
+LEFT_SCHEMA_FILE = "trace_schema_v2.2.xsd"
+RIGHT_SCHEMA_FILE = "trace_schema_v2.3.xsd"
 
 # If False, only diff and index pages are generated.
 GENERATE_SCHEMA_DOC_PAGES = False
